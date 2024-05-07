@@ -1,0 +1,36 @@
+<!-- <!DOCTYPE html> -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, 
+                   initial-scale=1.0">
+    <title>sign in</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css" media="all" />
+    <!-- <link rel="stylesheet" href="./normalize.css" /> -->
+</head>
+
+<body>
+    <div class="container">
+        <span class="logo">ghost</span>
+        <span class="signin-word">Sign in</span>
+        <p id="errMessage">
+            <% if(messages.success_msg) { %>
+            <p><%= messages.success_msg %></p>
+            <% } %>
+        </p>
+            
+        <p id="errMessage">
+            <% if(messages.error) { %>
+            <p><%= messages.error %></p>
+            <% } %>
+        </p>
+        <form action="/login" method="POST">
+            <label>Username or Email Address</label>
+            <input type="text" name="email" placeholder="username" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="password" required>
+            <button type="submit" class="login-button">sign in</button>
+        </form>
+        <a href="/signup">Don't have an account<br>Sign up</a>
+    </div>
+</body>

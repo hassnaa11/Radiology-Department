@@ -1,0 +1,114 @@
+
+html {
+    min-height: 100%;
+}
+
+body {
+    margin-top: 0;
+    background-image: url("/images/backw.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'arial';
+    transition: 0.3s;
+}
+
+p{
+    color:  red ;
+    font-size: 13px;
+    margin-top: 130px;
+}
+
+.container {
+    background-color: #ffffff8c;
+    margin-left: 200px;
+    margin-top: 92px;
+    padding: 40px;
+    width: 370px;
+    height: calc(75vh - 75px);
+    border-radius: 20px;
+    position: relative;
+}
+
+.container * {
+    position: absolute;
+    left: 50px;
+}
+
+.logo {
+    top: 44px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.signin-word {
+    top: 100px;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.container form {
+    position: unset;
+}
+
+label {
+    font-size: 12px;
+    color: gray;
+}
+
+/*Username or Email Address label*/
+label:first-of-type {
+    top: 200px;
+}
+
+/*password label */
+label:nth-of-type(2) {
+    top: 300px;
+}
+
+input {
+    width: 330px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    padding-left: 20px;
+}
+
+input:focus-visible {
+    background-color: #b291fe3b;
+    transition: 0.3s;
+}
+
+/*Username input*/
+input:first-of-type {
+    top: 230px;
+}
+
+/*password input*/
+input:nth-of-type(2) {
+    top: 330px;
+}
+
+/* Sign in button */
+.login-button {
+    left: 145px;
+    top: 405px;
+    width: 140px;
+    height: 45px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #000000bd;
+}
+
+a:first-of-type {
+    left: 153px;
+    top: 466px;
+    text-align: center;
+    color: #896cc3;
+    font-size: 12px;
+}
