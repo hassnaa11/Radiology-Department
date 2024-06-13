@@ -1,62 +1,69 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>GHOST</title>
-        <link rel="stylesheet" href="/css/style.css">
-        
-    </head>
 
-    <body>
-        <div class="signUpForm">
+<head>
+    <title>GHOST</title>
+    <link rel="stylesheet" href="/css/login.css">
 
-            <P id="ghost">ghost</P>
-            <p id="signUp">Sign Up</P>
-            <p id="login">Already have an account?   
-                <a href="/">
-                    Log In
-                </a> 
-            </p>
-            <p id="errMessage">
-               <% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %> 
-               <p id="errMessage"><%= error.message %></p>
-               <% }) %> <% } %>
-            </p>
+</head>
 
-            <form action="/signup" method="POST">
-                <div>
-                    <label for="fName">First Name:</label>
-                    <input type="text" name="fname" id="fname" placeholder="First Name" required>
-                </div>
-                <br>
+<body>
+    <div class="signUpForm">
 
-                <div>
-                    <label for="lName">Last Name:</label>
-                    <input type="text" name="lname" id="lname" placeholder="Last Name"  required>
-                </div>
-                <br>
+        <P id="ghost">ghost</P>
+        <p id="signUp">Sign Up</P>
+        <p id="login">Already have an account?
+            <a href="/login">
+                Log In
+            </a>
+        </p>
+        <p id="errMessage">
+            <% if(typeof errors !='undefined' ){ %>
+                <% errors.forEach(error=>{ %>
+                    <p id="errMessage">
+                        <%= error.message %>
+                    </p>
+                    <% }) %>
+                        <% } %>
+        </p>
 
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" placeholder="Email" required>
-                </div>
-                <br>
+        <form action="/signup" method="POST">
+            <div>
+                <label for="fName">First Name:</label>
+                <input type="text" name="fname" id="fname" placeholder="First Name" required>
+            </div>
+            <br>
 
-                <div>
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password"  placeholder="Password" maxlength="12" required>
-                </div>
-                <br>
+            <div>
+                <label for="lName">Last Name:</label>
+                <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+            </div>
+            <br>
 
-                <div>
-                    <label for="Confirm-password">Confirm Password:</label>
-                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"  required>
-                </div>
-                <br>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Email" required>
+            </div>
+            <br>
 
-                <div>
-                    <input type="submit" id="sign-up" value="SIGN UP">
-                </div>
-            </form>
-        </div>
-    </body>
-</html> 
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Password" maxlength="12" required>
+            </div>
+            <br>
+
+            <div>
+                <label for="Confirm-password">Confirm Password:</label>
+                <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password"
+                    required>
+            </div>
+            <br>
+
+            <div>
+                <input type="submit" id="sign-up" value="sign up">
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

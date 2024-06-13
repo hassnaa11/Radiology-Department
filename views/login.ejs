@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8" />
@@ -13,16 +13,20 @@
     <div class="container">
         <span class="logo">ghost</span>
         <span class="signin-word">Sign in</span>
-        <p id="errMessage">
+        <p class="message">
             <% if(messages.success_msg) { %>
-            <p><%= messages.success_msg %></p>
-            <% } %>
+                <p class="message">
+                    <%= messages.success_msg %>
+                </p>
+                <% } %>
         </p>
-            
+
         <p id="errMessage">
             <% if(messages.error) { %>
-            <p><%= messages.error %></p>
-            <% } %>
+                <p>
+                    <%= messages.error %>
+                </p>
+                <% } %>
         </p>
         <form action="/login" method="POST">
             <label>Username or Email Address</label>

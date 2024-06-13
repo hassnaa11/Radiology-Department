@@ -1,0 +1,1007 @@
+body {
+    width: 95%;
+    margin: auto;
+    padding-top: 2.5em;
+    background: #FFFFFF;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-rows: auto auto auto auto auto;
+    justify-items: center;
+    grid-template-areas:
+        "header profile"
+        "welcome profile"
+        "welcome taskbar"
+        "scansbox form"
+        "scansbox"
+    ;
+}
+
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: fit-content;
+    grid-area: "header";
+}
+
+
+.logo {
+    width: 4.8em;
+    height: 4.5em;
+    margin-right: 1.5em;
+}
+
+.search {
+    display: inline-block;
+    position: relative;
+}
+
+.search input[type="text"] {
+    padding-left: 2em;
+    border: none;
+    border-radius: 40px;
+    box-shadow: 0 0 15px rgba(10, 45, 73, 0.1);
+    width: 40em;
+    background-color: #ffffff;
+    height: 3.6em;
+}
+
+.search button[type="submit"] {
+    background-color: #2998C1;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    height: 3.7em;
+    padding: 1em 1.5em;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: .9s ease;
+}
+
+
+/* hello div*/
+.good-day-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 87%;
+    height: 16.5em;
+    background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
+    border-radius: 30px;
+    grid-area: "welcome";
+    margin-top: -4em;
+}
+
+.good-day-section h1 {
+    margin-left: 0.6em;
+    margin-bottom: 0.4em;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3rem;
+    color: #FFFFFF;
+}
+
+.scans-section {
+    width: 85%;
+    height: 80%;
+    background-color: #FFFFFF;
+    border-radius: 25px;
+    grid-area: "scanslist";
+    margin-top: -10em;
+}
+
+.scans-section-header {
+    /* sc header */
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50%;
+    position: relative;
+    height: 3em;
+    width: 100%;
+    padding: auto 1em;
+}
+
+.scans-button,
+.viewmore-button {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto;
+    width: fit-content;
+    height: 2.5em;
+
+    background: #FFFFFF;
+    border-bottom: 5px solid #60acc5;
+}
+
+
+.viewmore-button h3,
+.scans-button h3 {
+    /* Scans */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: #000000;
+}
+
+.scans-section-scrollbar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em;
+    gap: 1em;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    height: 90%;
+}
+
+.scans-section-scrollbar::-webkit-scrollbar {
+    width: 1em;
+    /* Set the width of the scrollbar */
+}
+
+.scans-section-scrollbar::-webkit-scrollbar-track {
+    background: #ffffff;
+    /* Set the background color of the scrollbar track */
+}
+
+.scans-section-scrollbar::-webkit-scrollbar-thumb {
+    background: #F8F8F8;
+    ;
+    /* Set the color of the scrollbar thumb */
+}
+
+.scan-block {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 65%;
+
+    width: 95%;
+    height: 15%;
+
+    background: #FFFFFF;
+    border: 2px solid #0C96C5;
+    border-radius: 25px;
+}
+
+.scan-code,
+.send-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+}
+
+
+
+
+
+
+
+.popup {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.25);
+    width: 300px;
+    padding: 20px 30px;
+    background: #fff;
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    z-index: 9999;
+    /* Ensure the popup appears on top of other elements */
+    backdrop-filter: blur(4px);
+    transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms, transform 20ms ease-in-out 0ms;
+}
+
+.popup.active {
+    top: 50%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: 700;
+    font-size: xx-large;
+    color: #333;
+    cursor: pointer;
+}
+
+.popup .form .form-element {
+    margin: 15px 0px;
+}
+
+.popup .form .form-element label {
+    font-size: 14px;
+    color: #222;
+}
+
+.popup .form .form-element input[type="text"] {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element input[type="text"] {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element .form-text {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element input[type="radio"] {
+    margin-right: 5px;
+}
+
+.popup .form .form-element button {
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    background: blue;
+    color: #f5f5f5;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.scan-code h3,
+.send-button h3 {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #000000;
+}
+
+
+.profile-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.2em;
+    width: 94%;
+    height: fit-content;
+    grid-area: "profile";
+    background: #FFFFFF;
+
+}
+
+.profile-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: auto;
+
+    width: 95%;
+    height: 3.5em;
+
+    background: #FFFFFF;
+    border: 9px solid #0C96C5;
+}
+
+.profile-head h2 {
+    margin-left: 0.7em;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-align: center;
+    color: #000000;
+}
+
+.open-file {
+    background-color: #F8F8F8;
+    width: 11%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 10px;
+}
+
+.file-wrapper {
+    width: 70%;
+    margin-right: 25%;
+    background-color: #2998C1;
+    height: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+}
+
+.file-wrapper svg {
+    width: 100%;
+}
+
+.file-front {
+    position: absolute;
+    width: 90%;
+    height: 70%;
+    border: 2px solid rgb(0, 0, 0);
+    border-bottom: 1px solid black;
+    transform: skewX(-40deg);
+    transform-origin: bottom right;
+    background-color: white;
+    transition: all 0.5s;
+    bottom: 0;
+}
+
+.open-file:hover .file-front {
+    height: 50%;
+    transform-origin: bottom right;
+    transform: skewX(-55deg);
+}
+
+.open-file:hover {
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.048);
+}
+
+
+.profile-body {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.7em;
+    gap: 0.7em;
+
+    width: 100%;
+    height: 7.5em;
+    background: #FFFFFF;
+    border: 8px solid #AEDBEE;
+
+}
+
+.profile-pic {
+    width: 22%;
+    height: 90%;
+    background: #631515;
+    object-fit: cover;
+}
+
+.profile-details h2 {
+    margin-top: -0.2em;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 0.3em;
+    color: #000000;
+
+}
+
+.profile-details p {
+    font-family: 'Inter';
+    font-style: normal;
+    margin-top: 0;
+    font-weight: 550;
+    font-size: 1rem;
+    color: #000000;
+}
+
+
+.task-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.5em;
+    width: 90%;
+    height: fit-content;
+    background: #F8F8F8;
+    border-radius: 2.5em;
+    grid-area: "taskbar";
+    margin-top: 3.5em;
+}
+
+.task-bar-title {
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    row-gap: 3em;
+    align-items: center;
+    padding: 0 1em;
+    margin-top: 1.8em;
+    margin-bottom: 0.7em;
+}
+
+.task-bar-title h2 {
+
+    text-align: center;
+    margin: 0;
+    font-size: 1.9rem;
+    font-family: 'Inter';
+
+}
+
+.task-div:hover {
+    background-color: #3ea7b9;
+
+}
+
+.engicon {
+    width: 80px;
+    height: 80px;
+    background-color: #3ea7b9;
+    border-radius: 20px;
+    display: inline-block;
+    object-fit: cover;
+    padding: 10px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 1em;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#mark-done-button,
+#add-new-task-button {
+    font-size: 16px;
+    padding: 0.5em;
+    background-color: #2998C1;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+#mark-done-button:hover,
+#add-new-task-button:hover {
+    background-color: #015876;
+}
+
+#new-task-input {
+    width: 80%;
+    padding: 0.5em;
+    margin: 1em 0;
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+}
+
+.task-bar-elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.2em;
+    margin-bottom: 3em;
+    gap: 1em;
+    overflow-y: auto;
+    width: 75%;
+    height: 13em;
+}
+
+
+.task-bar-elements::-webkit-scrollbar {
+    width: 0.6em;
+    /* Set the width of the scrollbar */
+}
+
+.task-bar-elements::-webkit-scrollbar-track {
+    background: #ffffff;
+    /* Set the background color of the scrollbar track */
+}
+
+.task-bar-elements::-webkit-scrollbar-thumb {
+    background: #c7c1c1;
+    ;
+    /* Set the color of the scrollbar thumb */
+}
+
+
+.task-div {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    width: 90%;
+    height: 19%;
+
+    background: #2998C1;
+    border: 2px solid #015876;
+}
+
+.task-div p {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.5em;
+    width: 75%;
+    height: 23%;
+    background: #F8F8F8;
+    border-radius: 40px;
+    grid-area: "form";
+    margin-top: 3em;
+    padding-bottom: 2em;
+
+}
+
+.contact-form-title {
+    /* Task Bar */
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 1rem;
+    /* identical to box height */
+    text-align: center;
+    color: #000000;
+}
+
+
+.contact-form-button {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 43%;
+    color: #FFFFFF;
+    background: #2998C1;
+    border: 2px solid #015876;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 22px;
+    /* identical to box height */
+    text-align: center;
+}
+
+.contact-form-button:hover {
+
+    background-color: #3ea7b9;
+    /* Darker green */
+
+}
+
+@media (max-width:420px) {
+    body {
+        display: grid;
+        grid-template-columns: 414px;
+        grid-template-rows: auto auto auto auto auto auto auto;
+        justify-items: center;
+        grid-template-areas:
+            "welcome"
+            "header"
+            "profile"
+            "taskbar"
+            "scansbox"
+            "form";
+        overflow-x: hidden;
+    }
+
+    .header {
+        width: 414px;
+    }
+
+    .logo {
+        width: 3.3em;
+        height: 3.2em;
+    }
+
+    .search input[type="text"] {
+        width: 17em;
+    }
+
+    .good-day-section h1 {
+        font-size: 2rem;
+    }
+
+    .good-day-section {
+        height: 10em;
+        margin-top: -7em;
+    }
+
+    .scans-section {
+        margin-top: -15em;
+
+    }
+
+    .scan-block {
+        gap: 3.9em;
+        height: 1.9em;
+    }
+
+    .scans-section-scrollbar {
+        height: 11em;
+    }
+
+    .scans-section-header {
+        gap: 5.5em;
+    }
+
+    .viewmore-button h3,
+    .scans-button h3 {
+        font-size: 1.1em;
+    }
+
+    .task-bar {
+        position: relative;
+        left: -22em;
+        top: 25em;
+        width: 11em;
+        height: 12em;
+    }
+
+    .task-div {
+        height: 1.7em;
+        width: 6em;
+        font-size: 1em;
+    }
+
+    .task-bar-elements {
+        overflow-x: hidden;
+    }
+
+    .task-bar-title h2 {
+        font-size: 1em;
+        margin-left: 1em;
+    }
+
+    #add-task-button {
+        font-size: 0.5em;
+        margin-top: 1em;
+        margin-left: 1em;
+    }
+
+    .task-bar-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+}
+
+
+@media (max-width:1000px) {
+    body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto;
+        justify-items: center;
+        grid-template-areas:
+            "header header"
+            "welcome welcome"
+            "taskbar profile"
+            "scansbox form"
+        ;
+    }
+}
+
+.popup {
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.25);
+    width: 300px;
+    padding: 20px 30px;
+    background: #fff;
+    box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+    transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms, transform 20ms ease-in-out 0ms;
+}
+
+.popup.active {
+    top: 50%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: 700;
+    font-size: xx-large;
+    color: #333;
+    cursor: pointer;
+}
+
+.popup .form .form-element {
+    margin: 15px 0px;
+}
+
+.popup .form .form-element label {
+    font-size: 14px;
+    color: #222;
+}
+
+.popup .form .form-element input[type="text"] {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element input[type="text"] {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element .form-text {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup .form .form-element input[type="radio"] {
+    margin-right: 5px;
+}
+
+.popup .form .form-element button {
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    background: #0C96C5;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.profile_photo {
+    border-radius: 150px;
+    margin-top: 10px;
+}
+
+.close_btn {
+    margin-left: 400px;
+    position: absolute;
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: xx-large;
+    height: 50px;
+    width: 50px;
+    color: #f8f9f9;
+    cursor: pointer;
+
+}
+
+.line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 250px;
+    /* Adjust the width as needed */
+    height: 2px;
+    /* Adjust the height as needed */
+    background-color: #ffffff;
+    /* Color of the line */
+    position: relative;
+}
+
+.info {
+    font-size: 20px;
+    color: #ffffff;
+    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+    margin-left: 30px;
+    height: 35px;
+    font-weight: 300;
+    width: auto;
+
+}
+
+.info-ii {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.editable-text {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    text-shadow: none;
+    color: #e9ebeb;
+    font-weight: 100;
+    margin-left: 12px;
+    font-size: 18px;
+    border-radius: 15px;
+    border-color: #ffffff;
+
+}
+
+.editable-text {
+    cursor: pointer;
+    padding: 2px 5px;
+    border: 1px solid transparent;
+}
+
+.editable-text:hover {
+    border: 1px solid #ccc;
+}
+
+.name {
+    font-size: 25px;
+    color: #ffffff;
+    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+    margin-top: 6px;
+}
+
+.popup-container2 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    /* Ensure the popup appears on top of other elements */
+    backdrop-filter: blur(4px);
+}
+
+/* Styles for the popup content */
+.popup-content {
+    position: relative;
+    max-width: 400px;
+    margin: 15px auto;
+    /* Adjust the top and bottom margins to center the popup vertically */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 625px;
+    width: 500px;
+    background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
+    font-family: "Raleway", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f8f9f9;
+}
+
+#inputText {
+    width: auto;
+}
+
+.container_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.btn {
+    margin-top: 30px;
+    margin-left: 150px;
+    width: 80px;
+    height: 50px;
+    background-color: #ffffff;
+    color: #315772;
+    border-radius: 15px;
+    font-size: 15px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+}
+
+.btn:hover {
+    background-color: #c8d6de;
+    transform: translateY(-5px);
+}

@@ -1,3 +1,8 @@
+:root {
+    --main-color: #0C96C5;
+    --light-color: #f6f6f6;
+    --light-color2: #ededed;
+}
 
 html {
     min-height: 100%;
@@ -5,21 +10,21 @@ html {
 
 body {
     margin-top: 0;
-    background-image: url("/images/backw.jpg");
+    background-image: url("/images/background_login.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'arial';
     transition: 0.3s;
 }
 
-p{
-    color:  red ;
+.message {
+    color: var(--main-color);
     font-size: 13px;
     margin-top: 130px;
 }
 
 .container {
-    background-color: #ffffff8c;
+    background-color: white;
     margin-left: 200px;
     margin-top: 92px;
     padding: 40px;
@@ -50,11 +55,6 @@ p{
     position: unset;
 }
 
-label {
-    font-size: 12px;
-    color: gray;
-}
-
 /*Username or Email Address label*/
 label:first-of-type {
     top: 200px;
@@ -71,10 +71,11 @@ input {
     border: none;
     border-radius: 10px;
     padding-left: 20px;
+    background-color: var(--light-color2);
 }
 
 input:focus-visible {
-    background-color: #b291fe3b;
+    background-color: #0c96c552;
     transition: 0.3s;
 }
 
@@ -94,15 +95,16 @@ input:nth-of-type(2) {
     top: 405px;
     width: 140px;
     height: 45px;
-    background-color: black;
+    background-color: var(--main-color);
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .login-button:hover {
-    background-color: #000000bd;
+    background-color: #077da6;
 }
 
 a:first-of-type {
@@ -111,4 +113,89 @@ a:first-of-type {
     text-align: center;
     color: #896cc3;
     font-size: 12px;
+}
+
+body {
+    font-family: sans-serif, "consolas";
+    background-image: url(/images/background_login.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+
+}
+
+.signUpForm {
+    margin-left: 210px;
+    margin-top: 20px;
+    height: 585px;
+    width: 300px;
+    background-color: rgb(255, 249, 249, 0.7);
+    border-radius: 40px;
+    background-color: white;
+    padding: 40px;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    color: black;
+    margin-bottom: 8px;
+    margin-left: 10px;
+}
+
+input {
+    padding: 5px;
+    border-radius: 10px;
+    border-width: 0;
+    height: 30px;
+    width: 260px;
+    padding-left: 20px;
+}
+
+input[type="submit"] {
+    width: 130px;
+    height: 40px;
+    background-color: var(--main-color);
+    color: white;
+    padding-left: 5px;
+    margin-left: 80px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #077da6;
+}
+
+/* 
+p {
+    color: black;
+} */
+
+#ghost {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-left: 10px;
+
+}
+
+#signUp {
+    font-weight: bolder;
+    font-size: 50px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+
+}
+
+#login {
+    font-size: 13px;
+    margin-bottom: 10%;
+}
+
+#errMessage {
+    color: red;
+    font-size: 13px;
+
 }

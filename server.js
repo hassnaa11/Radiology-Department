@@ -35,6 +35,7 @@ app.use(flash());
 // profile route
 app.get('/profile', (req, res) => {
     res.render("index.ejs", {
+        type: req.user.type,
         email: req.user.email,
         fname: req.user.fname,
         lname: req.user.lname,
@@ -46,17 +47,59 @@ app.get('/profile', (req, res) => {
         picture: req.user.picture
     })
 });
-// sign in route
+// visitors page route
 app.get('/', (req, res) => {
+    res.render("visitors.ejs")
+});
+// sign in route
+app.get('/login', (req, res) => {
     res.render("login.ejs")
 });
 // sign up route
 app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
-// edit window route
-app.get('/edit', (req, res) => {
-    res.render("edit.ejs")
+// patient window route
+app.get('/patient', (req, res) => {
+    res.render("patient.ejs")
+});
+// radiologist window route
+app.get('/radiologist', (req, res) => {
+    res.render("radiologist.ejs")
+});
+// admin home window route
+app.get('/admin', (req, res) => {
+    res.render("admin.ejs")
+});
+// engineers_admin window route
+app.get('/engineers_admin', (req, res) => {
+    res.render("engineers_admin.ejs")
+});
+// doctors_admin window route
+app.get('/doctors_admin', (req, res) => {
+    res.render("doctors_admin.ejs")
+});
+// radiologists_admin window route
+app.get('/radiologists_admin', (req, res) => {
+    res.render("radiologists_admin.ejs")
+});
+// add_radiologist window route
+app.get('/add_radiologist', (req, res) => {
+    res.render("add_radiologist.ejs")
+});
+// add_doctor window route
+app.get('/add_doctor', (req, res) => {
+    res.render("add_doctor.ejs")
+});
+// form window route
+app.get('/forms', (req, res) => {
+    res.render("forms.ejs")
+});
+app.get('/patient_report', (req, res) => {
+    res.render("patient_report.ejs")
+});
+app.get('/doctor', (req, res) => {
+    res.render("doctor.ejs")
 });
 
 // POST request when a user edit his/her information
@@ -77,17 +120,19 @@ app.post("/edit", async (req, res) => {
 // POST request when a user sign up
 app.post("/signup", async (req, res) => {
     let { fname, lname, email, password, confirm_password } = req.body;
+    let type = 'patient'
     console.log({
         fname,
         lname,
         email,
         password,
-        confirm_password
+        confirm_password,
+        type
     });
 
     let errors = [];
 
-    if (!fname || !lname || !email || !password || !confirm_password) {
+    if (!fname || !lname || !email || !password || !confirm_password || !type) {
         errors.push({ message: "Please Enter All Fields" });
     }
 
@@ -116,16 +161,16 @@ app.post("/signup", async (req, res) => {
                     res.render("signup.ejs", { errors });
                 } else {
                     pool.query(
-                        `INSERT INTO users (fname, lname, email, password)
-                        VALUES($1, $2, $3, $4)
+                        `INSERT INTO users (fname, lname, email, password,type)
+                        VALUES($1, $2, $3, $4,$5)
                         RETURNING id, password`,
-                        [fname, lname, email, hashedPassword],
+                        [fname, lname, email, hashedPassword, type],
                         (err, results) => {
                             if (err) {
                                 throw err;
                             }
                             req.flash("success_msg", "you are now registered. please log in");
-                            res.redirect("/");
+                            res.redirect("/login");
                         }
                     )
                 }
@@ -134,30 +179,24 @@ app.post("/signup", async (req, res) => {
     }
 });
 
-// POST request when a user logs in
-app.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/profile",
-        failureRedirect: "/",
-        failureFlash: true
-    }),
-    async (req, res) => {
-        pool.query(`SELECT * from users WHERE email = $1 `, req.user.email, (err, results) => {
-            if (err) {
-                throw err;
-            }
-            if (results.rows.length > 0) {
-                let adress = pool.query(`SELECT adress from users WHERE email = $1 `, req.user.email)
-                let facebook = pool.query(`SELECT facebook from users WHERE email = $1 `, req.user.email)
-                let linkedin = pool.query(`SELECT linkedin from users WHERE email = $1 `, req.user.email)
-                let instgram = pool.query(`SELECT instgram from users WHERE email = $1 `, req.user.email)
-                let github = pool.query(`SELECT github from users WHERE email = $1 `, req.user.email)
-            }
-        })
+app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/',
+    failureFlash: true
+}), (req, res) => {
+    if (req.user.type === 'admin') {
+        res.redirect('/admin');
+    } else if (req.user.type === 'doctor') {
+        res.redirect('/doctor');
     }
-);
-
-
+    else if (req.user.type === 'patient') {
+        res.redirect('/patient');
+    }
+    else if (req.user.type === 'radiologist') {
+        res.redirect('/radiologist');
+    }
+    else {
+        res.redirect('/login');
+    }
+});
 app.listen(PORT);
 app.use(express.static('public'));

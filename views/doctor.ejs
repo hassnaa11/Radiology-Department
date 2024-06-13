@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/doctor.css" rel="stylesheet">
+
+    <title> profile </title>
+</head>
+
+<body>
+    <section class="header">
+        <img class="logo" src="/images/logo2.jpg"></img>
+        <div class="search">
+            <input placeholder="Search..." type="text">
+            <button type="submit">Go</button>
+        </div>
+    </section>
+
+
+    <section class="profile-block"> <!--PROFILE BLOCK-->
+        <div class="profile-head">
+            <h2>My Profile</h2>
+            <button class="open-file" onclick="openPopup2()">
+                <span class="file-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
+                        <path stroke-width="5" stroke="black"
+                            d="M41.7322 11.7678L42.4645 12.5H43.5H68.5V64.5H2.5V2.5H32.4645L41.7322 11.7678Z"></path>
+                    </svg>
+                    <span class="file-front"></span>
+                </span>
+            </button>
+            <div id="popupContainer2" class="popup-container2">
+                <div class="popup-content">
+                    <!-- Content for the popup window -->
+                    <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/profile photo.jpeg"
+                        width="200" height="200">
+                    <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
+                        Abdelazeem</div>
+
+                    <div class="line"></div>
+                    <div class="container_ifo">
+
+                        <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
+                                Emanm@gmail.com</span>
+                        </div>
+                        <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
+                <div class=" info-ii">
+                                <div class="info"> Job: <span class="editable-text" onclick="editText(this)"
+                                        id="displayText">
+                                        Doctor </span> </div>
+                                <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
+                                        id="displayText"> 50,000</span> </div>
+                        </div>
+                        <div class="info-ii">
+                            <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
+                                    id="displayText"> 25
+                                </span> </div>
+                            <div class="info"> Asistant Name: <span onclick="editText(this)" class="editable-text"
+                                    id="displayText"> Rawan </span> </div>
+                        </div>
+                        <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
+                                id="displayText">01090089066</span> </div>
+                        <div class="info"> Specialaization: <span class="editable-text" onclick="editText(this)"
+                                id="displayText"> Cardiovascular </span> </div>
+                        <div class="info"> Doctor room: <span onclick="editText(this)" class="editable-text"
+                                id="displayText">
+                                3103</span> </div>
+                        <div class="info-ii">
+                            <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
+                                    id="displayText">7AM</span> </div>
+                            <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text"
+                                    id="displayText">
+                                    4PM </span> </div>
+                        </div>
+                        <div class="info"> photo: <input type="file"> </div>
+
+                        <button class="btn"> Save Info</button>
+                    </div>
+
+                    <div onclick="closePopup2()" class="close_btn"> &times; </div>
+                </div>
+            </div>
+        </div>
+        <div class="profile-body">
+            <img src="/images/profilepic.jpeg" class="profile-pic"></img>
+            <div class="profile-details">
+                <h2>Dr. Nariman Ahmed</h2>
+                <p>Doctor</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="good-day-section">
+        <h1>Good Day, Dr. Nariman</h1>
+    </section>
+
+
+    <section class="task-bar">
+        <div class="task-bar-title">
+            <h2> Task Bar </h>
+        </div>
+        <div class="task-bar-elements" id="task-bar-elements">
+
+            <div class="engno">
+                <img src="/images/icons8-reports-100.png" alt="icon" class="engicon">
+                <h2>7</h2>
+                <p>Scans</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for marking task as done -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Are you sure you want to mark this task as done?</p>
+            <button id="mark-done-button">Mark as Done</button>
+        </div>
+    </div>
+
+    <!-- Modal for adding a new task -->
+    <div id="add-task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Add a new task</p>
+            <input type="text" id="new-task-input" placeholder="Enter task title">
+            <button id="add-new-task-button">Add Task</button>
+        </div>
+    </div>
+
+
+
+    <section class="scans-section"> <!--SCANS SECTION BELOW GOOD DAY-->
+        <div class="scans-section-header"> <!--SCANS SECTION HEADER-->
+            <div class="scans-button">
+                <h3>Scans</h3>
+            </div>
+            <div class="viewmore-button">
+                <h3><a href="#view-more">View More</a></h3>
+            </div>
+        </div>
+
+
+        <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+            <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                <div class="scan-code">
+                    <h3><a href="scan-file">Scan #2979</a></h3>
+                </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                <div class="send-button">
+                    <h3<a href="#" class="show-login form1">Write Report</a></h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="popupContainer" class="popup">
+            <div class="close-btn" onclick="closePopup()">&times;</div>
+            <div class="form">
+                <div class="form-element">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" placeholder="Write your mail here">
+                </div>
+                <div class="form-element">
+                    <p>You make this form for:</p>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="report" name="why">
+                    <label for="report">Scan Report</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="complaint" name="why">
+                    <label for="complaint">Complaint</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="inquiry" name="why">
+                    <label for="inquiry">Inquiry</label>
+                </div>
+                <div class="form-element">
+                    <input type="text" class="form-text" id="write" placeholder="Write your form here">
+                </div>
+                <div class="form-element">
+                    <button id="send">Send</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="contact-form"> <!--Task Bar BLOCK-->
+        <h2 class="contact-form-title">
+            Got any requests?
+        </h2>
+
+        <button class="contact-form-button" id="contact-btn"> Contact Us</button>
+
+    </section>
+    <div id="popupContainer2" class="popup">
+        <div class="close-btn" onclick="closePopup()">&times;</div>
+        <div class="form">
+            <div class="form-element">
+                <label for="email">E-mail</label>
+                <input type="text" id="email" placeholder="Write your mail here">
+            </div>
+            <div class="form-element">
+                <p>You make this form for:</p>
+            </div>
+            <div class="form-element">
+                <input type="radio" id="report" name="why">
+                <label for="report">Scan Report</label>
+            </div>
+            <div class="form-element">
+                <input type="radio" id="complaint" name="why">
+                <label for="complaint">Complaint</label>
+            </div>
+            <div class="form-element">
+                <input type="radio" id="inquiry" name="why">
+                <label for="inquiry">Inquiry</label>
+            </div>
+            <div class="form-element">
+                <input type="text" class="form-text" id="write" placeholder="Write your form here">
+            </div>
+            <div class="form-element">
+                <button id="send">Send</button>
+            </div>
+        </div>
+    </div>
+
+    </section>
+    <script src="/css/patient.js">
+
+    </script>
+
+</body>
+
+</html>

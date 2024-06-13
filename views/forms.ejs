@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup Form</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+    <div class="top-side">
+        <span>Forms & Complains</span>
+        <button id="form2" class="reply">Reply to</button>
+    </div>
+    <div class="left">
+        <div>form1</div>
+        <div>form2</div>
+        <div>form3</div>
+        <div>form4</div>
+        <div>form5</div>
+        <div>form6</div>
+    </div>
+
+    <div id="replypopup" class="reply-popup">
+        <div class="rclose-btn" onclick="closePopup()">&times;</div>
+        <div class="rform">
+            <div class="rform-element">
+                <label for="reply">Reply to</label>
+                <input type="text" id="remail" placeholder="write email you replying to">
+            </div>
+            <div class="rform-element">
+                <input type="text" class="rform-text" id="write" placeholder="Write your reply here">
+            </div>
+            <div class="rform-element">
+                <button id="send">Send</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/css/forms.js"></script>
+</body>
+
+</html>
