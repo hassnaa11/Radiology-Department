@@ -346,130 +346,43 @@ a {
 }
 
 
-.task-bar {
+.upcoming-bar{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 0.5em;
+    padding-top:0.5em;
     width: 90%;
     height: fit-content;
     background: #F8F8F8;
     border-radius: 2.5em;
     grid-area: "taskbar";
     margin-top: 3.5em;
-}
-
-.task-bar-title {
-    width: 90%;
-    display: flex;
-    justify-content: space-evenly;
-    row-gap: 3em;
-    align-items: center;
-    padding: 0 1em;
-    margin-top: 1.8em;
-    margin-bottom: 0.7em;
-}
-
-.task-bar-title h2 {
-
-    text-align: center;
-    margin: 0;
-    font-size: 1.9rem;
-    font-family: 'Inter';
-
-}
-
-.task-bar-title button {
-    margin-left: 2.8em;
-    position: relative;
-    bottom: 0.2em;
-    font-family: 'Inter';
-
-}
-
-.task-div:hover {
-    background-color: #3ea7b9;
-
-}
-
-#add-task-button {
-    font-size: 1rem;
-    padding: 0.5em;
-    background-color: #2998C1;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-}
-
-#add-task-button:hover {
-    background-color: #015876;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 1em;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#mark-done-button,
-#add-new-task-button {
-    font-size: 16px;
-    padding: 0.5em;
-    background-color: #2998C1;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-}
-
-#mark-done-button:hover,
-#add-new-task-button:hover {
-    background-color: #015876;
-}
-
-#new-task-input {
-    width: 80%;
-    padding: 0.5em;
-    margin: 1em 0;
-    border: 1px solid #ccc;
-    border-radius: 0.5em;
-}
-
-.task-bar-elements {
+    }
+    
+    .upcoming-bar-title {
+      width:90%;
+      display:flex;
+      justify-content: space-evenly;
+      row-gap: 3em;
+      align-items: center;
+      padding: 0 1em;
+      margin-top: 1.8em;
+      margin-bottom: 1.1em;
+    }
+    
+    .upcoming-bar-title h2 {
+      text-align: center;
+      margin: 0;
+      font-size: 1.9rem;
+      font-family: 'Inter';
+    }
+    
+    
+    .upcoming-div:hover{
+      background-color: #3ea7b9;
+    }
+    
+    .upcoming-bar-elements{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -478,50 +391,72 @@ a {
     gap: 1em;
     overflow-y: auto;
     width: 75%;
-    height: 13em;
-}
-
-
-.task-bar-elements::-webkit-scrollbar {
-    width: 0.6em;
-    /* Set the width of the scrollbar */
-}
-
-.task-bar-elements::-webkit-scrollbar-track {
-    background: #ffffff;
-    /* Set the background color of the scrollbar track */
-}
-
-.task-bar-elements::-webkit-scrollbar-thumb {
-    background: #c7c1c1;
-    ;
-    /* Set the color of the scrollbar thumb */
-}
-
-
-.task-div {
+    height: 13.2em;
+    }
+    
+    
+    .upcoming-bar-elements::-webkit-scrollbar {
+      width: 0.6em; /* Set the width of the scrollbar */
+    }
+    
+    .upcoming-bar-elements::-webkit-scrollbar-track {
+      background: #ffffff; /* Set the background color of the scrollbar track */
+    }
+    
+    .upcoming-bar-elements::-webkit-scrollbar-thumb {
+      background: #c7c1c1;; /* Set the color of the scrollbar thumb */
+    } 
+    
+    
+    .upcoming-div{
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: 1em;
-
+    
     width: 90%;
-    height: 19%;
-
+    height: 33%;
+    
     background: #2998C1;
     border: 2px solid #015876;
-}
-
-.task-div p {
+    }
+    
+    .deets-1,.deets-2{
+    display: flex;
+    flex-direction: row;
+    margin-top: -0.7em;
+    justify-content:space-between;
+    margin-right:0.7em;
+    margin-left:0.6em;
+    
+    }
+    
+    .deets-2 p{
+      margin-top: -1.1em;
+      color: #0c1518;
+    }
+    
+    .deets-1 p{
+      margin-top:1.3em;
+    }
+    
+    
+    .upcoming-div p{
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
     font-size: 1rem;
-    text-align: center;
     color: #FFFFFF;
-}
+    }
+    
+    .upcoming-div h3{
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      text-decoration:underline ;
+      color:#162463;
+    }
+    
 
 .contact-form {
     display: flex;
