@@ -1,74 +1,29 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const taskBarElements = document.getElementById("task-bar-elements");
-    const addTaskButton = document.getElementById("add-task-button");
-    const taskModal = document.getElementById("task-modal");
-    const addTaskModal = document.getElementById("add-task-modal");
-    const closeModalElements = document.querySelectorAll(".close");
-    const markDoneButton = document.getElementById("mark-done-button");
-    const addNewTaskButton = document.getElementById("add-new-task-button");
-    const newTaskInput = document.getElementById("new-task-input");
-    let currentTaskDiv = null;
 
-    // Open the add task modal
-    addTaskButton.addEventListener("click", () => {
-        addTaskModal.style.display = "block";
-    });
+// Get the modal
+var modal = document.getElementById("create-new-modal");
 
-    // Close modals
-    closeModalElements.forEach(close => {
-        close.addEventListener("click", () => {
-            taskModal.style.display = "none";
-            addTaskModal.style.display = "none";
-        });
-    });
+// Get the button that opens the modal
+var btn = document.getElementById("create-new-btn");
 
-    // Add a new task
-    addNewTaskButton.addEventListener("click", () => {
-        const newTaskTitle = newTaskInput.value.trim();
-        if (newTaskTitle) {
-            const newTaskDiv = document.createElement("div");
-            newTaskDiv.className = "task-div";
-            newTaskDiv.innerHTML = `<p>${newTaskTitle}</p>`;
-            taskBarElements.appendChild(newTaskDiv);
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close-btn")[0];
 
-            // Add event listener to the new task for removal
-            newTaskDiv.addEventListener("click", () => {
-                currentTaskDiv = newTaskDiv;
-                taskModal.style.display = "block";
-            });
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
 
-            newTaskInput.value = "";  // Clear input field
-            addTaskModal.style.display = "none";
-        }
-    });
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
 
-    // Function to handle task removal
-    taskBarElements.addEventListener("click", (event) => {
-        if (event.target.closest(".task-div")) {
-            currentTaskDiv = event.target.closest(".task-div");
-            taskModal.style.display = "block";
-        }
-    });
-
-    // Mark task as done
-    markDoneButton.addEventListener("click", () => {
-        if (currentTaskDiv) {
-            taskBarElements.removeChild(currentTaskDiv);
-            currentTaskDiv = null;
-            taskModal.style.display = "none";
-        }
-    });
-
-    // Close modals if clicked outside of them
-    window.addEventListener("click", (event) => {
-        if (event.target === taskModal) {
-            taskModal.style.display = "none";
-        }
-        if (event.target === addTaskModal) {
-            addTaskModal.style.display = "none";
-        }
-    });
-});
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 
 
