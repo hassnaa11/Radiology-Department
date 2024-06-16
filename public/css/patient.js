@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentTaskDiv = null;
 
     // Open the add task modal
-    addTaskButton.addEventListener("click", () => {
-        addTaskModal.style.display = "block";
-    });
+    // addTaskButton.addEventListener("click", () => {
+    //     addTaskModal.style.display = "block";
+    // });
 
     // Close modals
     closeModalElements.forEach(close => {
@@ -73,51 +73,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("contact-btn").addEventListener("click", openPopup);
-    document.querySelector(".close-btn").addEventListener("click", closePopup);
+    document.getElementById("contact-btn").addEventListener("click", openPopup2);
+    document.getElementById("close-btn").addEventListener("click", closePopup2);
 
-    function openPopup() {
-        document.getElementById("popupContainer").style.display = "block";
-        document.getElementById("popupContainer").classList.add("active");
+    function openPopup2() {
+        document.getElementById("popupContainer2").style.display = "block";
+        document.getElementById("popupContainer2").classList.add("active");
         document.body.classList.add("blur-background");
     }
-
-    function closePopup() {
-        document.getElementById("popupContainer").style.display = "none";
-        document.getElementById("popupContainer").classList.remove("active");
+    function closePopup2() {
+        document.getElementById("popupContainer2").style.display = "none";
+        document.getElementById("popupContainer2").classList.remove("active");
         document.body.classList.remove("blur-background");
 
     }
+
+
 });
 
+function closePopup2() {
+    document.getElementById("popupContainer2").style.display = "none";
+    document.getElementById("popupContainer2").classList.remove("active");
+    document.body.classList.remove("blur-background");
 
+}
 
-function openPopup2() {
+function openPopup3() {
     // Show the popup container
-    document.getElementById("popupContainer2").style.display = "block";
+    document.getElementById("popupContainer3").style.display = "block";
     // Apply the blur effect to the background
     document.body.classList.add("blur-background");
 }
 
-function closePopup2() {
+function closePopup3() {
     // Hide the popup container
-    document.getElementById("popupContainer2").style.display = "none";
+    document.getElementById("popupContainer3").style.display = "none";
     // Remove the blur effect from the background
     document.body.classList.remove("blur-background");
 }
 
 function editText(element) {
-    const currentText = element.innerText;
+    console.log(element);
     const input = document.createElement('input');
+    const currentText = element.innerText;
     input.type = 'text';
     input.value = currentText;
     input.className = 'editable-input';
     input.onblur = function () {
+        console.log(this);
         saveText(this);
     };
     input.onkeypress = function (event) {
         if (event.key === 'Enter') {
-            saveText(this);
+            saveText(this, element);
         }
     };
     element.replaceWith(input);
@@ -125,14 +133,16 @@ function editText(element) {
 }
 
 function saveText(inputElement) {
+
     const newText = inputElement.value;
-    const span = document.createElement('span');
-    span.className = 'editable-text';
-    span.onclick = function () {
-        editText(this);
-    };
-    span.innerText = newText;
-    inputElement.replaceWith(span);
+    console.log(newText)
+    // const span = document.createElement('span');
+    // span.className = 'editable-text';
+    // span.onclick = function () {
+    //     editText(this);
+    // };
+    // span.innerText = newText;
+    // inputElement.replaceWith(span);
 }
 
 
@@ -146,15 +156,26 @@ document.addEventListener("DOMContentLoaded", function () {
     showLoginLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault(); // Prevent default link behavior
-            openPopup();
+            const scanId = parseInt(this.getAttribute('data-scan-id'));
+            const drId = parseInt(this.getAttribute('data-dr-id'));
+            const picIndex = parseInt(this.getAttribute('data-pic-index'));
+            console.log(scanId)
+            console.log(drId)
+            console.log(picIndex)
+
+
+            openPopup(scanId, drId, picIndex);
         });
     });
 
     closeBtn.addEventListener("click", closePopup);
 
-    function openPopup() {
+    function openPopup(scanId, drId, picIndex) {
         document.getElementById("popupContainer").style.display = "block";
         document.getElementById("popupContainer").classList.add("active");
+        document.getElementById('scanId').value = scanId;
+        document.getElementById('drId').value = drId;
+        document.getElementById('picIndex').value = picIndex;
         document.body.classList.add("blur-background");
     }
 
@@ -165,4 +186,67 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// document.getElementById('update').addEventListener('submit', function(event) {
+//     event.preventDefault(); // Prevent the form from submitting the traditional way
+
+//     var formData = new FormData(this);
+//     formData.forEach((value, key) => {
+//         console.log(key + ': ' + value);
+//     });
+
+// You can also convert FormData to an object if you prefer
+// const formObject = Object.fromEntries(formData.entries());});
+document.getElementById('updateForm').addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    //     const form = document.getElementById('updateForm');
+    //     const formData = new FormData(form);
+
+    //     formData.forEach((value, key) => {
+    //         console.log(key + ': ' + value);
+    //     });
+    //     const formDataObject = {};
+    //  formData.forEach((value, key) => {
+    //     formDataObject[key] = value;
+    // });
+    //     console.log(formDataObject)
+    const form = document.getElementById('updateForm');
+    const formData = new FormData(form);
+
+    const fileInput = document.getElementById('picture2');
+    let file;
+    if (fileInput.files[0]) {
+        file = fileInput.files[0].name;
+    }
+    console.log(file);
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    // Convert FormData to a plain object
+
+
+    // Add Base64 string to the form data object
+    formDataObject.picture2 = file;
+
+    fetch('/update', {
+        method: 'POST',
+        body: JSON.stringify(formDataObject),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Server response:', data); // Log server response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+function closePopup3() {
+    document.getElementById("popupContainer3").style.display = "none";
+}
 

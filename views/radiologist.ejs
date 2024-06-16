@@ -22,7 +22,7 @@
     <section class="profile-block"> <!--PROFILE BLOCK-->
         <div class="profile-head">
             <h2>My Profile</h2>
-            <button class="open-file" onclick="openPopup2()">
+            <button class="open-file" onclick="openPopup3()">
                 <span class="file-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
                         <path stroke-width="5" stroke="black"
@@ -31,53 +31,84 @@
                     <span class="file-front"></span>
                 </span>
             </button>
-            <div id="popupContainer2" class="popup-container2">
+
+            <div id="popupContainer3" class="popup-container2">
                 <div class="popup-content">
                     <!-- Content for the popup window -->
-                    <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/Dr icon.png"
-                        width="200" height="200">
-                    <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                        Abdelazeem</div>
-
-                    <div class="line"></div>
-                    <div class="container_ifo">
-
-                        <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
-                                Emanm@gmail.com</span> </div>
-                        <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-                      <div class=" info-ii">
-                                <div class="info"> Job: <span class="editable-text" onclick="editText(this)"
-                                        id="displayText"> Radiologist </span> </div>
-                                <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
-                                        id="displayText"> 50,000</span> </div>
+                    <img class="profile_photo" id="picture2" name="picture" src="/images/<%=picture %>" width="200"
+                        height="200">
+                    <form action="/rad_profile" method="POST">
+                        <div>
+                            <label for="fName">Name:</label>
+                            <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
                         </div>
-                        <div class="info-ii">
-                            <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
-                                    id="displayText"> 25 </span> </div>
+                        <br>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" placeholder="<%=email %>" required>
                         </div>
-                        <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                                id="displayText">01090089066</span> </div>
-                        <div class="info-ii">
-                            <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
-                                    id="displayText">7AM</span> </div>
-                            <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text"
-                                    id="displayText"> 4PM </span> </div>
+                        <br>
+                        <div>
+                            <label for="fName">Address:</label>
+                            <input type="text" name="address" placeholder="<%=address%>">
                         </div>
-                        <div class="info"> photo: <input type="file"> </div>
-
-
-                        <button class="btn"> Save Info</button>
-                    </div>
-
-                    <div onclick="closePopup2()" class="close_btn"> &times; </div>
+                        <br>
+                        <div>
+                            <label for="fName">Age:</label>
+                            <input type="number" name="age" placeholder="<%=age%>">
+                        </div>
+                        <br>
+                        <div>
+                            <label for="fName">Sex:</label>
+                            <input type="text" name="sex" placeholder="<%=sex%>">
+                        </div>
+                        <br>
+                        <div>
+                            <label for="fName">Phone:</label>
+                            <input type="number" name="phone_no" placeholder="<%=phone_no%>">
+                        </div>
+                        <br>
+                        <div>
+                            <label for="fName">Salary:</label>
+                            <input type="number" name="Salary" placeholder="<%=salary%>" readonly>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="fName">Start Shift:</label>
+                            <input type="number" name="start_shift" placeholder="<%=start_shift%>" readonly>
+                        </div>
+                        <br>
+                        <div>
+                            <label>End Shift:</label>
+                            <input type="number" name="end_shift" placeholder="<%=end_shift%>" readonly>
+                        </div>
+                        <br>
+                        <div>
+                            <label>Change Password:</label>
+                            <input type="number" name="password" placeholder="new password" maxlength="12">
+                        </div>
+                        <br>
+                        <div>
+                            <label>Picture:</label>
+                            <input type="file" id="fileInput" name="picture" accept="image/*">
+                        </div>
+                        <br>
+                        <div>
+                            <input type="submit" value="save">
+                        </div>
+                    </form>
+                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
                 </div>
             </div>
-
         </div>
+
+
         <div class="profile-body">
-            <img src="/images/profilepic.jpeg" class="profile-pic"></img>
+            <img id="profile-photo" name="picture" src="/images/<%=picture %>" class="profile-pic" width="230"
+                height="230">
             <div class="profile-details">
-                <h2>Dr. Nariman Ahmed</h2>
+                <h2>Dr. <%= fname + " " + lname %>
+                </h2>
                 <p>Radiologist</p>
             </div>
         </div>
@@ -86,7 +117,8 @@
 
 
     <section class="good-day-section">
-        <h1>Good Day, Dr. Nariman</h1>
+        <h1>Good Day, Dr. <%= fname %>
+        </h1>
     </section>
 
 
@@ -211,8 +243,8 @@
         </h2>
 
         <button class="contact-form-button" id="contact-btn"> Contact Us</button>
-        <div id="popupContainer" class="popup">
-            <div class="close-btn" onclick="closePopup()">&times;</div>
+        <div id="popupContainer2" class="popup">
+            <div class="close-btn" onclick="closePopup2()">&times;</div>
             <div class="form">
                 <div class="form-element">
                     <label for="email">E-mail</label>
