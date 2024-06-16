@@ -87,8 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.classList.remove("blur-background");
 
     }
-
-
 });
 
 function closePopup2() {
@@ -113,19 +111,17 @@ function closePopup3() {
 }
 
 function editText(element) {
-    console.log(element);
-    const input = document.createElement('input');
     const currentText = element.innerText;
+    const input = document.createElement('input');
     input.type = 'text';
     input.value = currentText;
     input.className = 'editable-input';
     input.onblur = function () {
-        console.log(this);
         saveText(this);
     };
     input.onkeypress = function (event) {
         if (event.key === 'Enter') {
-            saveText(this, element);
+            saveText(this);
         }
     };
     element.replaceWith(input);
@@ -184,6 +180,63 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("popupContainer").classList.remove("active");
         document.body.classList.remove("blur-background");
     }
+});
+
+// document.getElementById('update').addEventListener('submit', function(event) {
+//     event.preventDefault(); // Prevent the form from submitting the traditional way
+
+//     var formData = new FormData(this);
+//     formData.forEach((value, key) => {
+//         console.log(key + ': ' + value);
+//     });
+
+// You can also convert FormData to an object if you prefer
+// const formObject = Object.fromEntries(formData.entries());});
+document.getElementById('updateForm').addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    //     const form = document.getElementById('updateForm');
+    //     const formData = new FormData(form);
+
+    //     formData.forEach((value, key) => {
+    //         console.log(key + ': ' + value);
+    //     });
+    //     const formDataObject = {};
+    //  formData.forEach((value, key) => {
+    //     formDataObject[key] = value;
+    // });
+    //     console.log(formDataObject)
+    const form = document.getElementById('updateForm');
+    const formData = new FormData(form);
+
+    const fileInput = document.getElementById('picture2');
+    const file = fileInput.files[0].name;
+    console.log(file);
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    // Convert FormData to a plain object
+
+
+    // Add Base64 string to the form data object
+    formDataObject.picture2 = file;
+
+    fetch('/update', {
+        method: 'POST',
+        body: JSON.stringify(formDataObject),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Server response:', data); // Log server response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 });
 
 // document.getElementById('update').addEventListener('submit', function(event) {

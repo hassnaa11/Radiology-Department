@@ -18,7 +18,7 @@
         <img class="logo" src="/images/logo2.jpg"></img>
         <div class="search">
             <input placeholder="Search..." type="text">
-            <button type="submit">Go</button>
+            <button type="submit"><p class="go">Go</p></button>
         </div>
     </section>
 
@@ -85,23 +85,81 @@
     </section>
 
 
-    <section class="medicalhistory-bar">
-        <div class="medicalhistory-title">
-            <h2> Medical History </h>
-
+    <section class="reservations-bar">
+        <div class="reservations-title">
+            <h2>Reservations</h2>
         </div>
-        <div class="medicalhistory-elements" id="medicalhistory-elements">
-            <div class="medicalhistory-div">
-                <p>Previous Illnesses</p>
+        <div class="reservations-elements" id="reservations-elements">
+            <div class="reservations-div">
+                <div class="deets-1">  <h3>MRI</h3>  </div>
+                <div class="deets-2">  <p>12/3</p>  <p>3:00pm</p></div>
             </div>
-            <div class="medicalhistory-div">
-                <p>Medications</p>
+            <div class="reservations-div">
+                <div class="deets-1">  <h3>CT</h3>  </div>
+                <div class="deets-2">  <p>12/3</p>  <p>4:00pm</p></div>
             </div>
-            <div class="medicalhistory-div">
-                <p>Allergies</p>
+            <div class="reservations-div">
+                <div class="deets-1">  <h3>X-ray</h3>  </div>
+                <div class="deets-2">  <p>12/3</p>  <p>5:00pm</p></div>
             </div>
+        </div>
+        <div class="create-new">
+            <button id="create-new-btn">Create New</button>
         </div>
     </section>
+
+    <!-- Modal -->
+<div id="create-new-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create New Reservation</h2>
+            <span class="close-btn">&times;</span>
+        </div>
+        <form id="create-new-form">
+            <label for="scan-type">Scan Type:</label>
+            <select id="scan-type" name="scan-type">
+                <option value="xray">X-Ray</option>
+                <option value="mri">MRI</option>
+                <option value="ct">CT Scan</option>
+            </select>
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date">
+            <label for="time">Time:</label>
+            <select id="time" name="time">
+                <option value="08:00">08:00 AM</option>
+                <option value="08:30">08:30 AM</option>
+                <option value="09:00">09:00 AM</option>
+                <option value="09:30">09:30 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="10:30">10:30 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="11:30">11:30 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="12:30">12:30 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="13:30">01:30 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="14:30">02:30 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="15:30">03:30 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="16:30">04:30 PM</option>
+                <option value="17:00">05:00 PM</option>
+                <option value="17:30">05:30 PM</option>
+                <option value="18:00">06:00 PM</option>
+                <option value="18:30">06:30 PM</option>
+                <option value="19:00">07:00 PM</option>
+                <option value="19:30">07:30 PM</option>
+                <option value="20:00">08:00 PM</option>
+                <option value="20:30">08:30 PM</option>
+                <option value="21:00">09:00 PM</option>
+                <option value="21:30">09:30 PM</option>
+                <option value="22:00">10:00 PM</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 
 
 

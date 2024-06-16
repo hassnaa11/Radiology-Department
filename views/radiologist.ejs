@@ -14,7 +14,7 @@
         <img class="logo" src="/images/logo2.jpg"></img>
         <div class="search">
             <input placeholder="Search..." type="text">
-            <button type="submit">Go</button>
+            <button type="submit"><p class="go">Go</p></button>
         </div>
     </section>
 
@@ -122,42 +122,26 @@
     </section>
 
 
-    <section class="task-bar">
-        <div class="task-bar-title">
-            <h2> Task Bar </h>
-                <button id="add-task-button">Add</button>
+    <section class="upcoming-bar">
+        <div class="upcoming-bar-title">
+            <h2> Upcoming Scans </h>  
         </div>
-        <div class="task-bar-elements" id="task-bar-elements">
-            <div class="task-div">
-                <p>Report #67</p>
+        <div class="upcoming-bar-elements" id="upcoming-bar-elements">
+            <div class="upcoming-div">
+                <div class="deets-1">  <h3>MRI</h3>  <p>Patient #13</p></div>
+                <div class="deets-2">  <p>12/3</p>  <p>3:00pm</p></div>
             </div>
-            <div class="task-div">
-                <p>Report #68</p>
+            <div class="upcoming-div">
+                <div class="deets-1">  <h3>CT</h3>  <p>Patient #13</p></div>
+                <div class="deets-2">  <p>12/3</p>  <p>4:00pm</p></div>
             </div>
-            <div class="task-div">
-                <p>Report #69</p>
+            <div class="upcoming-div">
+                <div class="deets-1">  <h3>X-ray</h3>  <p>Patient #13</p></div>
+                <div class="deets-2">  <p>12/3</p>  <p>5:00pm</p></div>
             </div>
         </div>
     </section>
 
-    <!-- Modal for marking task as done -->
-    <div id="task-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Are you sure you want to mark this task as done?</p>
-            <button id="mark-done-button">Mark as Done</button>
-        </div>
-    </div>
-
-    <!-- Modal for adding a new task -->
-    <div id="add-task-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Add a new task</p>
-            <input type="text" id="new-task-input" placeholder="Enter task title">
-            <button id="add-new-task-button">Add Task</button>
-        </div>
-    </div>
 
 
 

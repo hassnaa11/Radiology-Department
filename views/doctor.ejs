@@ -23,7 +23,7 @@
     <section class="profile-block"> <!--PROFILE BLOCK-->
         <div class="profile-head">
             <h2>My Profile</h2>
-            <button class="open-file" onclick="openPopup2()">
+            <button class="open-file" onclick="openPopup3()">
                 <span class="file-wrapper">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
                         <path stroke-width="5" stroke="black"
@@ -32,62 +32,70 @@
                     <span class="file-front"></span>
                 </span>
             </button>
-            <div id="popupContainer2" class="popup-container2">
+            <div id="popupContainer3" class="popup-container2">
                 <div class="popup-content">
                     <!-- Content for the popup window -->
-                    <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/profile photo.jpeg"
-                        width="200" height="200">
-                    <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                        Abdelazeem</div>
-
-                    <div class="line"></div>
-                    <div class="container_ifo">
-
-                        <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
-                                Emanm@gmail.com</span>
+                    <img class="profile_photo" id="profile-photo" name="picture2" src="/images/<%=picture %>"
+                    width="200" height="200">
+                    <form id="updateForm">
+                        <div class="name" id="fname">
+                            <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text">
                         </div>
-                        <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-                <div class=" info-ii">
-                                <div class="info"> Job: <span class="editable-text" onclick="editText(this)"
-                                        id="displayText">
-                                        Doctor </span> </div>
-                                <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
-                                        id="displayText"> 50,000</span> </div>
+                        <div class="line"></div>
+                        <div class="container_ifo">
+                            <div class="info" id="email">
+                                Email: <input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text">
+                            </div>
+                            <div class="info" id="address">
+                                Address: <input type="text" name="adress" value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address" class="editable-text">
+                            </div>
+                            <div class="info-ii">
+                                <div class="info" id="job">
+                                    Job: <input type="text" name="job" value="<%= typeof job !== 'undefined' ? job : '' %>" placeholder="job" class="editable-text">
+                                </div>
+                                <div class="info" id="salary">
+                                    Salary: <input type="text" name="salary" value="<%= typeof salary !== 'undefined' ? salary : 0 %>" placeholder="salary" class="editable-text">
+                                </div>
+                            </div>
+                            <div class="info-ii">
+                                <div class="info" id="age">
+                                    Age: <input type="text" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>" placeholder="age" class="editable-text">
+                                </div>
+                                <div class="info" id="ass_name">
+                                    Assistant Name: <input type="text" name="ass_name" value="<%= typeof ass_name !== 'undefined' ? ass_name : '' %>" placeholder="ass_name" class="editable-text">
+                                </div>
+                            </div>
+                            <div class="info" id="phone_no">
+                                Phone Number: <input type="text" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text">
+                            </div>
+                            <div class="info" id="special">
+                                Specialization: <input type="text" name="special" value="<%= typeof special !== 'undefined' ? special : '' %>" placeholder="special" class="editable-text">
+                            </div>
+                            <div class="info" id="dr_room">
+                                Doctor Room: <input type="text" name="dr_room" value="<%= typeof dr_room !== 'undefined' ? dr_room : 0 %>" placeholder="dr_room" class="editable-text">
+                            </div>
+                            <div class="info-ii">
+                                <div class="info" id="start_time">
+                                    Start Shift: <input type="text" name="start_time" value="<%= typeof start_time !== 'undefined' ? start_time : '' %>" placeholder="start_time" class="editable-text">
+                                </div>
+                                <div class="info" id="end_time">
+                                    End Shift: <input type="text" name="end_time" value="<%= typeof end_time !== 'undefined' ? end_time : '' %>" placeholder="end_time" class="editable-text">
+                                </div>
+                            </div>
+                            <div class="info" id="picture">
+                                Photo: <input type="file" name="picture2" id="picture2" accept="image/*">
+                            </div>
+                            <input type="submit" class="btn" value="Save Info">
                         </div>
-                        <div class="info-ii">
-                            <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
-                                    id="displayText"> 25
-                                </span> </div>
-                            <div class="info"> Asistant Name: <span onclick="editText(this)" class="editable-text"
-                                    id="displayText"> Rawan </span> </div>
-                        </div>
-                        <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                                id="displayText">01090089066</span> </div>
-                        <div class="info"> Specialaization: <span class="editable-text" onclick="editText(this)"
-                                id="displayText"> Cardiovascular </span> </div>
-                        <div class="info"> Doctor room: <span onclick="editText(this)" class="editable-text"
-                                id="displayText">
-                                3103</span> </div>
-                        <div class="info-ii">
-                            <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
-                                    id="displayText">7AM</span> </div>
-                            <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text"
-                                    id="displayText">
-                                    4PM </span> </div>
-                        </div>
-                        <div class="info"> photo: <input type="file"> </div>
-
-                        <button class="btn"> Save Info</button>
-                    </div>
-
-                    <div onclick="closePopup2()" class="close_btn"> &times; </div>
+                    </form> 
+                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
                 </div>
             </div>
         </div>
         <div class="profile-body">
-            <img src="/images/profilepic.jpeg" class="profile-pic"></img>
+            <img name="picture2" src="/images/<%=picture %>" class="profile-pic"></img>
             <div class="profile-details">
-                <h2>Dr. Nariman Ahmed</h2>
+                <h2><%= fname %></h2>
                 <p>Doctor</p>
             </div>
         </div>
@@ -96,7 +104,7 @@
 
 
     <section class="good-day-section">
-        <h1>Good Day, Dr. Nariman</h1>
+        <h1>Good Day, <%= fname %></h1>
     </section>
 
 
@@ -147,96 +155,50 @@
 
 
         <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
+            <% scans.forEach((scan, scanIndex) => { %>
+                <% scan.scan_pics.forEach((pic, picIndex) => { %>
+                    <div class="scan-block"> <!--A SEPARATE BLOCK-->
+                        <div class="scan-code">
+                            <h3><a href="/doctor_scan"><%= pic %></a></h3>
+                        </div> 
+        
+                        <div class="send-button">
+                            <h3>
+                                <a href="#" class="show-login form1" data-scan-id="<%= scan.scan_id %>" data-dr-id="<%= scan.dr_id %>" data-pic-index="<%= picIndex %>">Write Report</a>
+                            </h3>
+                            <% console.log(scan.scan_id) %>
+                            <% console.log(scan.dr_id) %>
+                            <% console.log(picIndex) %>
+                        </div>
+                    </div>
+                    <% }) %> 
+                    <% }) %>
+                
                 </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3<a href="#" class="show-login form1">Write Report</a></h3>
-                </div>
-            </div>
-        </div>
+                        
+                
+                    </section>
+                   
+                    <div id="popupContainer" class="popup">
+                        <div class="close-btn" onclick="closePopup()">&times;</div>
+                         <div class="form">
+                            <div class="form-element">
+                                <form action="/write_report" method="POST" id="reportForm">
+                                    <input type="hidden" name="scan_id" id="scanId" value="scanId">
+                                    <input type="hidden" name="dr_id" id="drId" value="drId">
+                                    <input type="hidden" name="picIndex" id="picIndex" value="picIndex">
+                                     <div class="form-element">
+                                        <input type="text" class="form-text" id="write" name="report" placeholder="Write your report here">
+                                    </div>
+                                    <div class="form-element">
+                                         <button type="submit" id="send">Send</button>
+                                    </div>
+                                </form>
+                            </div>
+                         </div>
+                    </div>
 
-        <div id="popupContainer" class="popup">
-            <div class="close-btn" onclick="closePopup()">&times;</div>
-            <div class="form">
-                <div class="form-element">
-                    <label for="email">E-mail</label>
-                    <input type="text" id="email" placeholder="Write your mail here">
-                </div>
-                <div class="form-element">
-                    <p>You make this form for:</p>
-                </div>
-                <div class="form-element">
-                    <input type="radio" id="report" name="why">
-                    <label for="report">Scan Report</label>
-                </div>
-                <div class="form-element">
-                    <input type="radio" id="complaint" name="why">
-                    <label for="complaint">Complaint</label>
-                </div>
-                <div class="form-element">
-                    <input type="radio" id="inquiry" name="why">
-                    <label for="inquiry">Inquiry</label>
-                </div>
-                <div class="form-element">
-                    <input type="text" class="form-text" id="write" placeholder="Write your form here">
-                </div>
-                <div class="form-element">
-                    <button id="send">Send</button>
-                </div>
-            </div>
-        </div>
-
-    </section>
+    
 
 
     <section class="contact-form"> <!--Task Bar BLOCK-->
@@ -248,7 +210,7 @@
 
     </section>
     <div id="popupContainer2" class="popup">
-        <div class="close-btn" onclick="closePopup()">&times;</div>
+        <div class="close-btn" onclick="closePopup2()">&times;</div>
         <div class="form">
             <div class="form-element">
                 <label for="email">E-mail</label>
