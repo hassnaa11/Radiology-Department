@@ -375,44 +375,20 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: true
 }), (req, res) => {
-    const userId = req.user.id;
-    pool.query(
-        'select users.* , doctors.* from users join doctors on users.id = doctors.doctor_id where users.id=$1',
-        [userId],
-        (err, results) => {
-            if (err) {
-                throw err;
-            }
-            const user = results.rows[0];
-            req.session.user = user;
-
-            pool.query(
-                'SELECT * FROM scans WHERE dr_id = $1',
-                [userId],
-                (err, scanResults) => {
-                    if (err) {
-                        throw err;
-                    }
-                    req.session.doctorScans = scanResults.rows;
-                    console.log(req.session.doctorScans)
-
-                    if (req.user.type === 'admin') {
-                        res.redirect('/admin');
-                    } else if (req.user.type === 'doctor') {
-                        res.redirect('/doctor');
-                    }
-                    else if (req.user.type === 'patient') {
-                        res.redirect('/patient');
-                    }
-                    else if (req.user.type === 'radiologist') {
-                        res.redirect('/radiologist');
-                    }
-                    else {
-                        res.redirect('/login');
-                    }
-                }
-            );
-        });
+    if (req.user.type === 'admin') {
+        res.redirect('/admin');
+    } else if (req.user.type === 'doctor') {
+        res.redirect('/doctor');
+    }
+    else if (req.user.type === 'patient') {
+        res.redirect('/patient');
+    }
+    else if (req.user.type === 'radiologist') {
+        res.redirect('/radiologist');
+    }
+    else {
+        res.redirect('/login');
+    }
 });
 app.listen(PORT);
 app.use(express.static('public'));
