@@ -40,30 +40,66 @@
                     <!-- Content for the popup window -->
                     <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/malee.png"
                         width="200" height="200">
-                    <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                        Abdelazeem</div>
-
-                    <div class="line"></div>
-                    <div class="container_ifo">
-
-                        <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
-                                Emanm@gmail.com</span> </div>
-                        <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-                      <div class=" info-ii">
-                        </div>
-                        <div class="info-ii">
-                            <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
-                                    id="displayText"> 25 </span> </div>
-                        </div>
-                        <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                                id="displayText">01090089066</span> </div>
-                        <div class="info-ii">
-                        </div>
-                        <div class="info"> photo: <input type="file"> </div>
-
-
-                        <button class="btn"> Save Info</button>
-                    </div>
+                        <form action="/rad_profile" method="POST">
+                            <div>
+                                <label for="fName">Name:</label>
+                                <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" placeholder="<%=email %>" required>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Address:</label>
+                                <input type="text" name="address" placeholder="<%=address%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Age:</label>
+                                <input type="number" name="age" placeholder="<%=age%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Sex:</label>
+                                <input type="text" name="sex" placeholder="<%=sex%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Phone:</label>
+                                <input type="number" name="phone_no" placeholder="<%=phone_no%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Salary:</label>
+                                <input type="number" name="Salary" placeholder="<%=salary%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Start Shift:</label>
+                                <input type="number" name="start_shift" placeholder="<%=start_shift%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label>End Shift:</label>
+                                <input type="number" name="end_shift" placeholder="<%=end_shift%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label>Change Password:</label>
+                                <input type="number" name="password" placeholder="new password" maxlength="12">
+                            </div>
+                            <br>
+                            <div>
+                                <label>Picture:</label>
+                                <input type="file" id="fileInput" name="picture" accept="image/*">
+                            </div>
+                            <br>
+                            <div>
+                                <input type="submit" value="save">
+                            </div>
+                        </form>
 
                     <div onclick="closePopup2()" class="close_btn"> &times; </div>
                 </div>
