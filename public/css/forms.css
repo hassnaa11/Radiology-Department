@@ -48,9 +48,9 @@ body {
 .left div {
     background-color: var(--light-color);
     height: 180px;
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
     border-radius: 15px;
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
@@ -154,4 +154,15 @@ body {
     color: white;
     border-radius: 10px;
     cursor: pointer;
+}
+.left-item {
+    font-weight: 600;
+    font-size: 20px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.left-item-span {
+    font-weight: 400;
+    font-size: 20px;
 }

@@ -209,8 +209,12 @@ document.getElementById('updateForm').addEventListener("submit", async (event) =
     const form = document.getElementById('updateForm');
     const formData = new FormData(form);
 
+    let file;
     const fileInput = document.getElementById('picture2');
-    const file = fileInput.files[0].name;
+    if(fileInput.files[0]){
+        file = fileInput.files[0].name;
+    }
+    
     console.log(file);
     const formDataObject = {};
     formData.forEach((value, key) => {

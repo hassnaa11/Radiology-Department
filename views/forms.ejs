@@ -14,12 +14,13 @@
         <button id="form2" class="reply">Reply to</button>
     </div>
     <div class="left">
-        <div>form1</div>
-        <div>form2</div>
-        <div>form3</div>
-        <div>form4</div>
-        <div>form5</div>
-        <div>form6</div>
+        <% forms.forEach(form => { %>
+            <div>
+             <p class="left-item">From: <span class="left-item-span"><%= form.user_email %></span></p>
+             <p class="left-item">About: <span class="left-item-span"><%= form.about %></span></p>
+             <p class="left-item">Body: <span class="left-item-span"><%= form.body %></span></p>
+            </div>
+            <% }) %>
     </div>
 
     <div id="replypopup" class="reply-popup">

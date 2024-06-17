@@ -209,67 +209,24 @@
                 <h3><a href="#view-more">View More</a></h3>
             </div>
         </div>
-
-
         <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
+            
+            <% scans.scan_pics.forEach((pic, picIndex) => { %>
+        <div class="scan-block"> <!--A SEPARATE BLOCK-->
+            <div class="scan-code">
+                <h3><%= pic %></h3>
+            </div> <!--E3MELEEHOM ANCHOR BOTH-->
+            <div class="send-button">
+                <h3><a href="/patient_report?scan_id=<%= scans.scan_id %>&pic_index=<%= picIndex %>">Open</a></h3>
             </div>
         </div>
-    </section>
+        <% }); %>
+        
+
+    </div>
+
+
+           </section>
     <section class="contact-form"> <!--Task Bar BLOCK-->
         <h2 class="contact-form-title">
             Got any requests?
