@@ -106,10 +106,12 @@
             </div>
         </div>
         <div class="profile-body">
-            <img src="/images/profilepic.jpeg" class="profile-pic"></img>
+            <img id="profile-photo" name="picture" src="/images/<%=picture %>" class="profile-pic" width="230"
+                height="230">
             <div class="profile-details">
-                <h2>Dr. Nariman Ahmed</h2>
-                <p>Patient</p>
+                <h2>Dr. <%= fname + " " + lname %>
+                </h2>
+                <p>Radiologist</p>
             </div>
         </div>
     </section>
@@ -126,7 +128,7 @@
             <h2>Reservations</h2>
         </div>
         <div class="reservations-elements" id="reservations-elements">
-            <% let num_of_appointments=patients_id.length; %>
+            <% let num_of_appointments=scans_id.length; %>
                 <% for (let i=num_of_appointments; i> 0; i--) { %>
                     <% const now=new Date(); %>
                         <% if(now<scans_date[i-1].scan_date){%>
@@ -150,7 +152,7 @@
             <h2>Create New Reservation</h2>
             <span class="close-btn">&times;</span>
         </div>
-        <form id="create-new-form">
+        <form id="create-new-form" method="POST" action="/reserve">
             <label for="scan-type">Scan Type:</label>
             <select id="scan-type" name="scan-type">
                 <option value="xray">X-Ray</option>
