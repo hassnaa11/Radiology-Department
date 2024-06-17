@@ -416,6 +416,53 @@ app.post("/write_report", async (req, res) => {
     }
 });
 
+app.post("/reserve", async (req, res) => {
+    let { scanType, date, time } = req.body;
+    console.log(scanType);
+    console.log({
+        scanType,
+        date,
+        time
+    });
+
+    let errors = [];
+
+    // Validate the input
+    if (!scanType || !date || !time) {
+        errors.push({ message: "Please fill in all fields" });
+    }
+
+    if (errors.length > 0) {
+        res.render("reserve.ejs", { errors });
+    } else {
+        try {
+            // Check if the scan type, date, and time are already reserved
+            const result = await pool.query(
+                `SELECT * FROM reservations WHERE scan_type = $1 AND date = $2 AND time = $3`,
+                [scanType, date, time]
+            );
+
+            if (result.rows.length > 0) {
+                errors.push({ message: "This time slot is already reserved for the selected scan type" });
+                res.render("reserve.ejs", { errors });
+            } else {
+                // Insert the new reservation
+                await pool.query(
+                    `INSERT INTO reservations (scan_type, date, time) VALUES ($1, $2, $3)`,
+                    [scanType, date, time]
+                );
+
+                req.flash("success_msg", "Your reservation was successful");
+                res.redirect("/reserve");
+            }
+        } catch (err) {
+            console.error(err);
+            errors.push({ message: "Server error" });
+            res.render("reserve.ejs", { errors });
+        }
+    }
+});
+
 
 // POST request of radiologist profile
 app.post("/rad_profile", async (req, res) => {
