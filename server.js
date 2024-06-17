@@ -17,9 +17,15 @@ const passport = require("passport");
 const initializePassport = require("./passportConfig");
 initializePassport(passport);
 const PORT = process.env.PORT || 4000;
+const bodyParser = require('body-parser');
+const path = require('path');
+const ROOT_DIR = path.resolve(__dirname);
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(ROOT_DIR, 'views'));
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: 'absolete',
     resave: false,
@@ -64,7 +70,15 @@ app.get('/signup', (req, res) => {
 });
 // patient window route
 app.get('/patient', (req, res) => {
-    res.render("patient.ejs")
+    const patientScans = req.session.patient || [];
+    res.render("patient.ejs",{
+        // job: patient.type,
+        // email: patient.email,
+        // fname: patient.fname,
+        // adress: patient.adress,
+        // picture: patient.picture,
+        scans: patientScans
+    })
 });
 // radiologist window route
 app.get('/radiologist', (req, res) => {
@@ -95,18 +109,52 @@ app.get('/add_doctor', (req, res) => {
     res.render("add_doctor.ejs")
 });
 // form window route
-app.get('/forms', (req, res) => {
-    res.render("forms.ejs")
+app.get('/forms', async(req, res) => {
+    try{
+        const result = await pool.query('SELECT * FROM forms');
+        const forms = result.rows;
+        res.render('forms', { forms });
+        }catch(err){
+            throw(err)
+        }
 });
 app.get('/patient_report', (req, res) => {
-    res.render("patient_report.ejs")
+    const { scan_id, pic_index } = req.query;
+    pool.query(
+        'SELECT scans.scan_pics, reports.case_description FROM scans JOIN reports ON scans.scan_id = reports.scan_id WHERE scans.scan_id = $1',
+        [scan_id],
+        (err, result) => {
+        
+        if (result.rows.length > 0) {
+            const scanPics = result.rows[0].scan_pics;
+            const caseDescriptions = result.rows[0].case_description;
+            const selectedPic = scanPics[pic_index];
+            const selectedReport = caseDescriptions[pic_index];
+            res.render('patient_report', { selectedPic, selectedReport });
+}else{
+    throw(err)
+}
+})
 });
-app.get('/doctor_scan', (req, res) => {
-    res.render("doctor_scan.ejs")
+app.get('/doctor_scan',async (req, res) => {
+    const { scan_id, pic_index } = req.query;
+    const result = await pool.query(
+        'SELECT scan_pics FROM scans WHERE scan_id = $1',
+        [scan_id]);
+        if (result.rows.length > 0) {
+            const scanPics = result.rows[0].scan_pics;
+            const selectedPic = scanPics[pic_index];
+            console.log(selectedPic)
+            res.render('doctor_scan', { selectedPic });
+        } else {
+            res.status(404).send('Scan not found');
+        }
+    
 });
 app.get('/doctor', (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
+    // const formEmail = req.session.formEmail;
         res.render("doctor.ejs",{
             job: user.type,
             email: user.email,
@@ -121,9 +169,31 @@ app.get('/doctor', (req, res) => {
             special: user.special,
             start_time: user.start_time,
             end_time: user.end_time,
-            scans: scans
+            scans: scans,
+            // formEmail : formEmail
         })
     });
+    app.post("/contact_form", async(req, res) =>{
+        const{user_email, why, body}=req.body;
+    console.log(user_email)
+    console.log(why)
+    console.log(body)
+    pool.query(
+        'insert into forms (user_email, about, body) values($1,$2,$3)',
+        [user_email,why,body],
+        (err, contact_form_res) => {
+            if (err) {
+                throw err;
+            }
+        
+        }
+
+    )
+            // req.session.formEmail = res.rows[0];
+            // console.log(req.session.formEmail)
+        
+    });
+
     app.post("/update", async(req, res) =>{
         const{fname, email, adress, job, salary, age, ass_name, phone_no, special, dr_room, start_time ,end_time, picture2}= req.body;
         let newage = parseInt(age)
@@ -315,6 +385,21 @@ app.post('/login', passport.authenticate('local', {
                     }
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
+                    pool.query(
+                        `SELECT users.*, patients.*, scans.*, reports.*
+                         FROM users
+                        JOIN patients ON users.id = patients.patient_id
+                        JOIN scans ON patients.patient_id = scans.patient_id
+                        JOIN reports ON scans.scan_id = reports.scan_id
+                         WHERE users.id = $1`,
+                        [userId],
+                        (err, results) => {
+                            if (err) {
+                                throw err;
+                            }
+                
+                            req.session.patient = results.rows[0];
+                            console.log(req.session.patient);
     
     if (req.user.type === 'admin') {
         res.redirect('/admin');
@@ -334,5 +419,7 @@ app.post('/login', passport.authenticate('local', {
     );
 });
 });
+});
+
 app.listen(PORT);
 app.use(express.static('public'));
