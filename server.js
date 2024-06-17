@@ -55,17 +55,66 @@ app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
 // patient window route
-app.get('/patient', (req, res) => {
-    const patientScans = req.session.patient || [];
-    res.render("patient.ejs",{
-        // job: patient.type,
-        // email: patient.email,
-        // fname: patient.fname,
-        // adress: patient.adress,
-        // picture: patient.picture,
-        scans: patientScans
+app.get('/patient', async (req, res) => {
+
+    let scans_type = await pool.query(
+        'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_date = await pool.query(
+        'SELECT scan_date FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_id = await pool.query(
+        'SELECT scan_id FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    
+    scans_type = scans_type.rows;
+    scans_date = scans_date.rows;
+    scans_id = scans_id.rows;
+    console.log(patients_id);
+    console.log(scans_type);
+    console.log(scans_date);
+    console.log(scans_id);
+    let num_of_appointments = scans_id.length;
+    for (let i = num_of_appointments; i > 0; i--) {
+        const now = new Date();
+        if (now > scans_date[i - 1].scan_date) {
+            pool.query(
+                'INSERT INTO report (report_no, patient_id) ' +
+                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM report WHERE report_no = $1)',
+                [scans_id[i - 1].scan_id, req.user.id]);
+        }
+    }
+    let reports_no = await pool.query(
+        'SELECT report_no FROM report WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    reports_no = reports_no.rows;
+    console.log(reports_no);
+    res.render("patient.ejs", {
+        type: req.user.type,
+        email: req.user.email,
+        fname: req.user.fname,
+        lname: req.user.lname,
+        address: req.user.address,
+        age: req.user.age,
+        sex: req.user.sex,
+        phone_no: req.user.phone_no,
+        salary: req.user.salary,
+        start_shift: req.user.start_shift,
+        end_shift: req.user.end_shift,
+        password: req.user.password,
+        picture: req.user.picture,
+        scans_type,
+        scans_date,
+        reports_no
     })
 });
+
+
+
 // radiologist window route
 app.get('/radiologist', async (req, res) => {
 

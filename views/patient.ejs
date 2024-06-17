@@ -117,7 +117,7 @@
 
 
     <section class="good-day-section">
-        <h1>Good Day, Mrs. Nariman</h1>
+        <h1>Good Day, <%= fname %></h1>
     </section>
 
 
@@ -126,18 +126,17 @@
             <h2>Reservations</h2>
         </div>
         <div class="reservations-elements" id="reservations-elements">
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>MRI</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>3:00pm</p></div>
-            </div>
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>CT</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>4:00pm</p></div>
-            </div>
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>X-ray</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>5:00pm</p></div>
-            </div>
+            <% let num_of_appointments=patients_id.length; %>
+                <% for (let i=num_of_appointments; i> 0; i--) { %>
+                    <% const now=new Date(); %>
+                        <% if(now<scans_date[i-1].scan_date){%>
+                            <div class="reservations-div">
+                                <div class="deets-1">  <h3><%=scans_type[i-1].scan_type%></h3>  </div>
+                                <div class="deets-2">  <p><%=scans_date[i-1].scan_date.toLocaleString()%></p></div>
+                            </div>
+                            <%};%>
+                                <%};%>
+            
         </div>
         <div class="create-new">
             <button id="create-new-btn">Create New</button>
