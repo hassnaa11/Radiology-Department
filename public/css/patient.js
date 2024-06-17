@@ -74,19 +74,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("contact-btn").addEventListener("click", openPopup2);
-    document.getElementById("close-btn").addEventListener("click", closePopup2);
+    // document.getElementById("close-btn").addEventListener("click", closePopup2);
 
     function openPopup2() {
         document.getElementById("popupContainer2").style.display = "block";
         document.getElementById("popupContainer2").classList.add("active");
         document.body.classList.add("blur-background");
     }
-    function closePopup2() {
-        document.getElementById("popupContainer2").style.display = "none";
-        document.getElementById("popupContainer2").classList.remove("active");
-        document.body.classList.remove("blur-background");
+    // function closePopup2() {
+    //     document.getElementById("popupContainer2").style.display = "none";
+    //     document.getElementById("popupContainer2").classList.remove("active");
+    //     document.body.classList.remove("blur-background");
 
-    }
+    // }
 });
 
 function closePopup2() {
@@ -302,4 +302,73 @@ document.getElementById('updateForm').addEventListener("submit", async (event) =
 function closePopup3() {
     document.getElementById("popupContainer3").style.display = "none";
 }
+
+
+
+// for send to in radiologist page
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.getElementById("send-to-btn").addEventListener("click", openPopup4);
+//     function openPopup4() {
+//         document.getElementById("popupContainer4").style.display = "block";
+//         document.getElementById("popupContainer4").classList.add("active");
+//         document.body.classList.add("blur-background");
+//     }
+// });
+
+// function closePopup4() {
+//     document.getElementById("popupContainer4").style.display = "none";
+//     document.getElementById("popupContainer4").classList.remove("active");
+//     document.body.classList.remove("blur-background");
+// }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     // Attach event listener to all send buttons
+//     const sendButtons = document.querySelectorAll(".send-to-btn");
+
+//     sendButtons.forEach(button => {
+//         button.addEventListener("click", function () {
+//             const index = this.id.split('-')[3];
+//             openPopup4(index);
+//         });
+//     });
+
+//     // Open popup function
+//     function openPopup4(index) {
+//         const popup = document.getElementById(`popupContainer4-${index}`);
+//         if (popup) {
+//             popup.style.display = "block";
+//             popup.classList.add("active");
+//             document.body.classList.add("blur-background");
+//         } else {
+//             console.error(`Popup with ID popupContainer4-${index} not found`);
+//         }
+//     }
+
+//     // Close popup function exposed to global scope
+//     window.closePopup4 = function (index) {
+//         const popup = document.getElementById(`popupContainer4-${index}`);
+//         if (popup) {
+//             popup.style.display = "none";
+//             popup.classList.remove("active");
+//             document.body.classList.remove("blur-background");
+//         } else {
+//             console.error(`Popup with ID popupContainer4-${index} not found`);
+//         }
+//     }
+// });
+
+function openPopup4() {
+    // Show the popup container
+    document.getElementById("popupContainer4").style.display = "block";
+    // Apply the blur effect to the background
+    document.body.classList.add("blur-background");
+}
+
+function closePopup4() {
+    // Hide the popup container
+    document.getElementById("popupContainer4").style.display = "none";
+    // Remove the blur effect from the background
+    document.body.classList.remove("blur-background");
+}
+
 

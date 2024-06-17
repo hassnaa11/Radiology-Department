@@ -14,7 +14,9 @@
         <img class="logo" src="/images/logo2.jpg"></img>
         <div class="search">
             <input placeholder="Search..." type="text">
-            <button type="submit"><p class="go">Go</p></button>
+            <button type="submit">
+                <p class="go">Go</p>
+            </button>
         </div>
     </section>
 
@@ -124,21 +126,28 @@
 
     <section class="upcoming-bar">
         <div class="upcoming-bar-title">
-            <h2> Upcoming Scans </h>  
+            <h2> Upcoming Scans </h>
         </div>
+
         <div class="upcoming-bar-elements" id="upcoming-bar-elements">
-            <div class="upcoming-div">
-                <div class="deets-1">  <h3>MRI</h3>  <p>Patient #13</p></div>
-                <div class="deets-2">  <p>12/3</p>  <p>3:00pm</p></div>
-            </div>
-            <div class="upcoming-div">
-                <div class="deets-1">  <h3>CT</h3>  <p>Patient #13</p></div>
-                <div class="deets-2">  <p>12/3</p>  <p>4:00pm</p></div>
-            </div>
-            <div class="upcoming-div">
-                <div class="deets-1">  <h3>X-ray</h3>  <p>Patient #13</p></div>
-                <div class="deets-2">  <p>12/3</p>  <p>5:00pm</p></div>
-            </div>
+            <% let num_of_appointments=patients_id.length; %>
+                <% for (let i=num_of_appointments; i> 0; i--) { %>
+                    <% const now=new Date(); %>
+                        <% if(now<scans_date[i-1].scan_date){%>
+                            <div class="upcoming-div">
+                                <div class="deets-1">
+                                    <h3>
+                                        <%=scans_type[i-1].scan_type%>
+                                    </h3>
+                                    <p>Patient #<%=patients_id[i-1].patient_id%>
+                                    </p>
+                                </div>
+                                <div class="deets-2">
+                                    <p><%=scans_date[i-1].scan_date.toLocaleString()%></p>
+                                </div>
+                            </div>
+                            <%};%>
+                                <%};%>
         </div>
     </section>
 
@@ -156,64 +165,39 @@
         </div>
 
 
-        <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
+        <div class="scans-section-scrollbar">
+            <% for (let i=reports_no.length; i> 0; i--) { %>
+                <div class="scan-block">
+                    <div class="scan-code">
+                        <h3><a href="scan-file">Scan #<%= reports_no[i-1].report_no %></a></h3>
+                    </div>
+                    <div class="send-button">
+                        <button class="send-to-btn" onclick="openPopup4()" width="100px" height="50px">Send
+                            To</button>
+                        <div id="popupContainer4" class="popup-container2" style=" padding-top:200px;">
+                            <div class="popup-content" style=" height: 120px;">
+                                <div class="close_btn" onclick="closePopup4()">&times;</div>
+                                <div class="form">
+                                    <div class="form-element">
+                                        <label for="email">E-mail: </label>
+                                        <input type="text" id="email" placeholder="Write Doctor email here">
+                                    </div>
+                                    <br>
+                                    <div class="form-element">
+                                        <input type="submit" value="send">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="send-to">Send To</a></h3>
-                </div>
-            </div>
+                <% } %>
         </div>
+
+
+
+
+
     </section>
 
 
