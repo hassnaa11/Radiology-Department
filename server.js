@@ -55,12 +55,71 @@ app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
 // patient window route
-app.get('/patient', (req, res) => {
+
+
+app.get('/patient', async (req, res) => {
     const patientScans = req.session.patient || [];
-    res.render("patient.ejs",{
+    let scans_type = await pool.query(
+        'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_date = await pool.query(
+        'SELECT scan_date FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_id = await pool.query(
+        'SELECT scan_id FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    
+    scans_type = scans_type.rows;
+    scans_date = scans_date.rows;
+    scans_id = scans_id.rows;
+    console.log(patients_id);
+    console.log(scans_type);
+    console.log(scans_date);
+    console.log(scans_id);
+    let num_of_appointments = scans_id.length;
+    for (let i = num_of_appointments; i > 0; i--) {
+        const now = new Date();
+        if (now > scans_date[i - 1].scan_date) {
+            pool.query(
+                'INSERT INTO report (report_no, patient_id) ' +
+                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM report WHERE report_no = $1)',
+                [scans_id[i - 1].scan_id, req.user.id]);
+        }
+    }
+    let reports_no = await pool.query(
+        'SELECT report_no FROM report WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    reports_no = reports_no.rows;
+    console.log(reports_no);
+    res.render("patient.ejs", {
+        type: req.user.type,
+        email: req.user.email,
+        fname: req.user.fname,
+        lname: req.user.lname,
+        address: req.user.address,
+        age: req.user.age,
+        sex: req.user.sex,
+        phone_no: req.user.phone_no,
+        salary: req.user.salary,
+        start_shift: req.user.start_shift,
+        end_shift: req.user.end_shift,
+        password: req.user.password,
+        picture: req.user.picture,
+        scans_type,
+        scans_date,
+        reports_no,
         scans: patientScans
+
+
     })
 });
+
+
+
 // radiologist window route
 app.get('/radiologist', async (req, res) => {
 
@@ -318,92 +377,52 @@ const { scan_id, dr_id, picIndex, report } = req.body;
                         }
                     });
                 
+app.post("/reserve", async (req, res) => {
+    let { scanType, date, time } = req.body;
+    console.log(scanType);
+    console.log({
+        scanType,
+        date,
+        time
+    });
 
-// POST request when a user edit his/her information
-// app.post("/edit", async (req, res) => {
-//     let { fname, address, email, facebook, github, instgram, linkedin, picture } = req.body;
-//     pool.query(`UPDATE users SET fname=$1 , adress=$2 ,email = $3, facebook=$4, github=$5, instgram=$6, linkedin=$7, picture=$8 WHERE id=$9  `,
-//         [fname, address, email, facebook, github, instgram, linkedin, picture, req.user.id],
-//         (err) => {
-//             if (err) {
-//                 throw err;
-//             }
-//         });
+    let errors = [];
 
-//     pool.query(
-//         'update doctors set job=$1 , salary=$2 , age=$3 , ass_name=$4, phone_no=$5, special=$6, dr_room=$7, start_time=$8, end_time=$9 where doctor_id=$10',
-//         [job, newsalary, newage, ass_name, newphone_no, special, newdr_room, start_time, end_time, userId],
-//         (err) => {
-//             if (err) {
-//                 throw err;
-//             }
-//         });
+    // Validate the input
+    if (!scanType || !date || !time) {
+        errors.push({ message: "Please fill in all fields" });
+    }
 
-//     const user = req.session.user;
-//     user.type = job,
-//         user.email = email,
-//         user.fname = fname,
-//         user.adress = adress,
-//         user.picture = picture2,
-//         user.salary = salary,
-//         user.age = age,
-//         user.ass_name = ass_name,
-//         user.phone_no = phone_no,
-//         user.dr_room = dr_room,
-//         user.special = special,
-//         user.start_time = start_time,
-//         user.end_time = end_time
-//     res.redirect('/doctor');
-// });
+    if (errors.length > 0) {
+        res.render("reserve.ejs", { errors });
+    } else {
+        try {
+            // Check if the scan type, date, and time are already reserved
+            const result = await pool.query(
+                `SELECT * FROM reservations WHERE scan_type = $1 AND date = $2 AND time = $3`,
+                [scanType, date, time]
+            );
 
-// app.post("/write_report", async (req, res) => {
-//     const { scan_id, dr_id, picIndex, report } = req.body;
+            if (result.rows.length > 0) {
+                errors.push({ message: "This time slot is already reserved for the selected scan type" });
+                res.render("reserve.ejs", { errors });
+            } else {
+                // Insert the new reservation
+                await pool.query(
+                    `INSERT INTO reservations (scan_type, date, time) VALUES ($1, $2, $3)`,
+                    [scanType, date, time]
+                );
 
-//     try {
-//         const result = await pool.query(
-//             'SELECT case_description FROM reports WHERE scan_id = $1 AND dr_id = $2',
-//             [scan_id, dr_id]
-//         );
-
-//         let caseDescriptions = result.rows.length ? result.rows[0].case_description : [];
-//         console.log(caseDescriptions)
-
-//         // Ensure the caseDescriptions array is long enough
-//         while (caseDescriptions.length <= picIndex) {
-//             caseDescriptions.push(null);
-//         }
-//         console.log(picIndex)
-//         console.log(dr_id)
-//         console.log(scan_id)
-
-
-//         // Update the report at the specific index
-//         caseDescriptions[picIndex] = report;
-
-//         if (result.rows.length) {
-//             // Update existing report
-//             await pool.query(
-//                 'UPDATE reports SET case_description = $1 WHERE scan_id = $2 AND dr_id = $3',
-//                 [caseDescriptions, scan_id, dr_id]
-//             );
-//             console.log(caseDescriptions)
-
-//         } else {
-//             // Insert new report
-//             await pool.query(
-//                 'INSERT INTO reports (scan_id, dr_id, case_description) VALUES ($1, $2, $3)',
-//                 [scan_id, dr_id, caseDescriptions]
-//             );
-//             console.log(caseDescriptions)
-
-//         }
-
-//         res.redirect('/doctor');
-//     } catch (err) {
-//         console.error('Error during report submission:', err);
-//         res.status(500).send('Server error');
-//     }
-// });
+                req.flash("success_msg", "Your reservation was successful");
+                res.redirect("/reserve");
+            }
+        } catch (err) {
+            console.error(err);
+            errors.push({ message: "Server error" });
+            res.render("reserve.ejs", { errors });
+        }
+    }
+});
 
 
 // POST request of radiologist profile
