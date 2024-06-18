@@ -397,20 +397,23 @@ app.post("/reserve", async (req, res) => {
         res.render("reserve.ejs", { errors });
     } else {
         try {
+            // Combine date and time into a single timestamp string
+            const scanDate = `${date} ${time}:00`;
+
             // Check if the scan type, date, and time are already reserved
             const result = await pool.query(
-                `SELECT * FROM reservations WHERE scan_type = $1 AND date = $2 AND time = $3`,
-                [scanType, date, time]
+                `SELECT * FROM reservations WHERE scan_type = $1 AND scan_date = $2`,
+                [scanType, scanDate]
             );
 
             if (result.rows.length > 0) {
                 errors.push({ message: "This time slot is already reserved for the selected scan type" });
-                res.render("reserve.ejs", { errors });
+                res.render("reserve", { errors });
             } else {
                 // Insert the new reservation
                 await pool.query(
-                    `INSERT INTO reservations (scan_type, date, time) VALUES ($1, $2, $3)`,
-                    [scanType, date, time]
+                    `INSERT INTO reservations (scan_type, scan_date) VALUES ($1, $2)`,
+                    [scanType, scanDate]
                 );
 
                 req.flash("success_msg", "Your reservation was successful");
