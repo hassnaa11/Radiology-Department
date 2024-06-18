@@ -184,7 +184,7 @@ a {
     gap: 65%;
 
     width: 95%;
-    height: 15%;
+    height: 30%;
 
     background: #FFFFFF;
     border: 2px solid #0C96C5;
@@ -212,8 +212,8 @@ a {
 .popup {
     position: fixed;
     display: none;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 40%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.25);
     width: 300px;
@@ -235,8 +235,9 @@ a {
 
 .popup .close-btn {
     position: absolute;
-    top: 10px;
+    top: 5px;
     right: 10px;
+    bottom: 10px;
     font-weight: 700;
     font-size: xx-large;
     color: #333;
@@ -244,7 +245,10 @@ a {
 }
 
 .popup .form .form-element {
-    margin: 15px 0px;
+    /* margin: 15px 0px; */
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 15px;
 }
 
 .popup .form .form-element label {
@@ -614,7 +618,7 @@ a {
     align-items: center;
     padding-top: 0.5em;
     width: 75%;
-    height: 23%;
+    height: 30%;
     background: #F8F8F8;
     border-radius: 40px;
     grid-area: "form";
@@ -641,7 +645,7 @@ a {
     justify-content: center;
     align-items: center;
     width: 50%;
-    height: 43%;
+    height: 70%;
     color: #FFFFFF;
     background: #2998C1;
     border: 2px solid #015876;
@@ -886,6 +890,7 @@ a {
 .line {
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 90px;
     width: 250px;
     /* Adjust the width as needed */
     height: 2px;
@@ -898,19 +903,33 @@ a {
 .info {
     font-size: 20px;
     color: #ffffff;
-    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
-    margin-left: 30px;
-    height: 35px;
-    font-weight: 300;
-    width: auto;
+    text-shadow: 2px 4px 4px rgba(25, 26, 27, 0.5);
+    margin-left: 20px;
+    height: 45px;
+    font-weight: 100;
+    /* width: auto; */
+    width: 60px;
+    display: flex;
+    margin-bottom: 5px;
+    
 
 }
 
 .info-ii {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    /* gap: 90px; */
+    /* justify-content: 100px; */
+    /* margin-left: 100px; */
 
+}
+
+.info-ii .info {
+    width: 45%; /* Adjust width as needed */
+    margin-right: 5%; /* Adjust margin for spacing */
+}
+.info-ii .info:last-child {
+    margin-right: 0; /* Remove margin from the last child */
 }
 
 .editable-text {
@@ -920,13 +939,72 @@ a {
     resize: none;
     font-family: inherit;
     text-shadow: none;
-    color: #e9ebeb;
-    font-weight: 100;
-    margin-left: 12px;
-    font-size: 18px;
-    border-radius: 15px;
+    color: #121212;
+    font-weight: 50;
+    margin-left: 5px;
+    /* margin-top: 10px; */
+    font-size: 15px;
+    border-radius: 10px;
     border-color: #ffffff;
+    width: 50px;
+    height: 20px;
+    padding-left: 10px;
+    padding: 5px 10px;
 
+}
+.editable-text4 {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    text-shadow: none;
+    color: #121212;
+    font-weight: 50;
+    margin-left: 0px;
+    /* margin-top: 10px; */
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: #ffffff;
+    width: 50px;
+    height: 20px;
+    padding-left: 20px;
+    /* padding: 5px 10px; */
+
+}
+
+.editable-text3 {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    text-shadow: none;
+    color: #121212;
+    font-weight: 50;
+    margin-left: 160px;
+    /* margin-top: 10px; */
+    font-size: 15px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 50px;
+    height: 20px;
+    padding-left: 30px;
+    
+
+}
+
+.file-input {
+    /* width: auto; Ensure file input button is visible */
+    cursor: pointer; /* Add pointer cursor on hover */
+    padding: 0px 100px; /* Add padding for better click area */
+    /* background-color: #ffffff;  */
+    /* color: #ecf1f5;  */
+    border-radius: 10px; /* Rounded corners */
+    border: none; /* Remove default border */
+    font-size: 15px;
+    /* transition: background-color 0.3s, color 0.3s, transform 0.3s; */
+    width: 200px;
 }
 
 .editable-text {
@@ -938,9 +1016,28 @@ a {
 .editable-text:hover {
     border: 1px solid #ccc;
 }
+.editable-text2 {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    text-shadow: none;
+    color: #121212;
+    font-weight: 50;
+    margin-left: 5px;
+    /* margin-top: 10px; */
+    font-size: 15px;
+    border-radius: 15px;
+    border-color: #ffffff;
+    width: 180px;
+    height: 30px;
+    padding-left: 10px;
+
+}
 
 .name {
-    font-size: 25px;
+    font-size: 20px;
     color: #ffffff;
     text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
     margin-top: 6px;
@@ -960,15 +1057,15 @@ a {
 
 /* Styles for the popup content */
 .popup-content {
-    position: relative;
+    /* position: relative; */
     max-width: 400px;
     margin: 15px auto;
     /* Adjust the top and bottom margins to center the popup vertically */
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    height: 625px;
-    width: 500px;
+    height: 650px;
+    /* width: 600px; */
     background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
     font-family: "Raleway", sans-serif;
     display: flex;
@@ -989,16 +1086,18 @@ a {
 }
 
 .btn {
-    margin-top: 30px;
+    margin-top: 0px;
     margin-left: 150px;
     width: 80px;
-    height: 50px;
+    height: 40px;
     background-color: #ffffff;
     color: #315772;
     border-radius: 15px;
     font-size: 15px;
     transition: transform 0.3s ease;
     box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+    
+
 }
 
 .btn:hover {

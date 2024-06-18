@@ -58,11 +58,6 @@ app.get('/signup', (req, res) => {
 app.get('/patient', (req, res) => {
     const patientScans = req.session.patient || [];
     res.render("patient.ejs",{
-        // job: patient.type,
-        // email: patient.email,
-        // fname: patient.fname,
-        // adress: patient.adress,
-        // picture: patient.picture,
         scans: patientScans
     })
 });
@@ -200,7 +195,6 @@ app.get('/doctor_scan',async (req, res) => {
 app.get('/doctor', (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
-    // const formEmail = req.session.formEmail;
         res.render("doctor.ejs",{
             job: user.type,
             email: user.email,
@@ -216,7 +210,6 @@ app.get('/doctor', (req, res) => {
             start_time: user.start_time,
             end_time: user.end_time,
             scans: scans,
-            // formEmail : formEmail
         })
     });
     app.post("/contact_form", async(req, res) =>{
@@ -232,12 +225,7 @@ app.get('/doctor', (req, res) => {
                 throw err;
             }
         
-        }
-
-    )
-            // req.session.formEmail = res.rows[0];
-            // console.log(req.session.formEmail)
-        
+        })
     });
 
     app.post("/update", async(req, res) =>{
@@ -247,17 +235,18 @@ app.get('/doctor', (req, res) => {
         let newphone_no = parseInt(phone_no)
         let newdr_room = parseInt(dr_room)
         const userId = req.user.id;
+        console.log(req.body);
         pool.query(
-            'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 where id=$5',
-            [fname, email, adress, picture2 ,userId],
+            'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6 where id=$7',
+            [fname, email, adress, picture2 , newage, newphone_no, userId],
             (err) =>{
                 if(err){
                     throw err;
                 }});
     
         pool.query(
-            'update doctors set job=$1 , salary=$2 , age=$3 , ass_name=$4, phone_no=$5, special=$6, dr_room=$7, start_time=$8, end_time=$9 where doctor_id=$10',
-            [job, newsalary, newage, ass_name, newphone_no, special, newdr_room, start_time, end_time, userId],
+            'update doctor set job=$1 , salary=$2 ,ass_name=$3, special=$4, dr_room=$5, start_time=$6, end_time=$7 where doctor_id=$8',
+            [job, newsalary, ass_name, special, newdr_room, start_time, end_time, userId],
             (err) =>{
                     if(err){
                         throw err;
@@ -280,50 +269,50 @@ app.get('/doctor', (req, res) => {
                         res.redirect('/doctor');
                     });
     
-                    app.post("/write_report",async(req,res)=>{
-                        const { scan_id, dr_id, picIndex, report } = req.body;
+app.post("/write_report",async(req,res)=>{
+const { scan_id, dr_id, picIndex, report } = req.body;
                     
-                        try {
-                            const result = await pool.query(
-                                'SELECT case_description FROM reports WHERE scan_id = $1 AND dr_id = $2',
-                                [scan_id, dr_id]
-                            );
+     try {
+         const result = await pool.query(
+             'SELECT case_description FROM reports WHERE scan_id = $1 AND dr_id = $2',
+                [scan_id, dr_id]
+            );
                     
-                            let caseDescriptions = result.rows.length ? result.rows[0].case_description : [];
-                            console.log(caseDescriptions)
+        let caseDescriptions = result.rows.length ? result.rows[0].case_description : [];
+         console.log(caseDescriptions)
                     
                             // Ensure the caseDescriptions array is long enough
-                            while (caseDescriptions.length <= picIndex) {
-                                caseDescriptions.push(null);
-                            }
-                            console.log(picIndex)
-                            console.log(dr_id)
-                            console.log(scan_id)
+        while (caseDescriptions.length <= picIndex) {
+                 caseDescriptions.push(null);
+                }
+            console.log(picIndex)
+            console.log(dr_id)
+            console.log(scan_id)
                 
                     
                             // Update the report at the specific index
-                            caseDescriptions[picIndex] = report;
+            caseDescriptions[picIndex] = report;
                     
-                            if (result.rows.length) {
+            if (result.rows.length) {
                                 // Update existing report
-                                await pool.query(
-                                    'UPDATE reports SET case_description = $1 WHERE scan_id = $2 AND dr_id = $3',
-                                    [caseDescriptions, scan_id, dr_id]
-                                );
-                            console.log(caseDescriptions)
+                 await pool.query(
+                'UPDATE reports SET case_description = $1 WHERE scan_id = $2 AND dr_id = $3',
+                [caseDescriptions, scan_id, dr_id]
+                 );
+                console.log(caseDescriptions)
                 
-                            } else {
+                 } else {
                                 // Insert new report
-                                await pool.query(
-                                    'INSERT INTO reports (scan_id, dr_id, case_description) VALUES ($1, $2, $3)',
-                                    [scan_id, dr_id, caseDescriptions]
-                                );
-                            console.log(caseDescriptions)
+                await pool.query(
+                     'INSERT INTO reports (scan_id, dr_id, case_description) VALUES ($1, $2, $3)',
+                    [scan_id, dr_id, caseDescriptions]
+                     );
+                    console.log(caseDescriptions)
                 
-                            }
+                    }
                     
-                            res.redirect('/doctor');
-                        } catch (err) {
+                res.redirect('/doctor');
+             } catch (err) {
                             console.error('Error during report submission:', err);
                             res.status(500).send('Server error');
                         }
@@ -331,90 +320,90 @@ app.get('/doctor', (req, res) => {
                 
 
 // POST request when a user edit his/her information
-app.post("/edit", async (req, res) => {
-    let { fname, address, email, facebook, github, instgram, linkedin, picture } = req.body;
-    pool.query(`UPDATE users SET fname=$1 , adress=$2 ,email = $3, facebook=$4, github=$5, instgram=$6, linkedin=$7, picture=$8 WHERE id=$9  `,
-        [fname, address, email, facebook, github, instgram, linkedin, picture, req.user.id],
-        (err) => {
-            if (err) {
-                throw err;
-            }
-        });
+// app.post("/edit", async (req, res) => {
+//     let { fname, address, email, facebook, github, instgram, linkedin, picture } = req.body;
+//     pool.query(`UPDATE users SET fname=$1 , adress=$2 ,email = $3, facebook=$4, github=$5, instgram=$6, linkedin=$7, picture=$8 WHERE id=$9  `,
+//         [fname, address, email, facebook, github, instgram, linkedin, picture, req.user.id],
+//         (err) => {
+//             if (err) {
+//                 throw err;
+//             }
+//         });
 
-    pool.query(
-        'update doctors set job=$1 , salary=$2 , age=$3 , ass_name=$4, phone_no=$5, special=$6, dr_room=$7, start_time=$8, end_time=$9 where doctor_id=$10',
-        [job, newsalary, newage, ass_name, newphone_no, special, newdr_room, start_time, end_time, userId],
-        (err) => {
-            if (err) {
-                throw err;
-            }
-        });
+//     pool.query(
+//         'update doctors set job=$1 , salary=$2 , age=$3 , ass_name=$4, phone_no=$5, special=$6, dr_room=$7, start_time=$8, end_time=$9 where doctor_id=$10',
+//         [job, newsalary, newage, ass_name, newphone_no, special, newdr_room, start_time, end_time, userId],
+//         (err) => {
+//             if (err) {
+//                 throw err;
+//             }
+//         });
 
-    const user = req.session.user;
-    user.type = job,
-        user.email = email,
-        user.fname = fname,
-        user.adress = adress,
-        user.picture = picture2,
-        user.salary = salary,
-        user.age = age,
-        user.ass_name = ass_name,
-        user.phone_no = phone_no,
-        user.dr_room = dr_room,
-        user.special = special,
-        user.start_time = start_time,
-        user.end_time = end_time
-    res.redirect('/doctor');
-});
+//     const user = req.session.user;
+//     user.type = job,
+//         user.email = email,
+//         user.fname = fname,
+//         user.adress = adress,
+//         user.picture = picture2,
+//         user.salary = salary,
+//         user.age = age,
+//         user.ass_name = ass_name,
+//         user.phone_no = phone_no,
+//         user.dr_room = dr_room,
+//         user.special = special,
+//         user.start_time = start_time,
+//         user.end_time = end_time
+//     res.redirect('/doctor');
+// });
 
-app.post("/write_report", async (req, res) => {
-    const { scan_id, dr_id, picIndex, report } = req.body;
+// app.post("/write_report", async (req, res) => {
+//     const { scan_id, dr_id, picIndex, report } = req.body;
 
-    try {
-        const result = await pool.query(
-            'SELECT case_description FROM reports WHERE scan_id = $1 AND dr_id = $2',
-            [scan_id, dr_id]
-        );
+//     try {
+//         const result = await pool.query(
+//             'SELECT case_description FROM reports WHERE scan_id = $1 AND dr_id = $2',
+//             [scan_id, dr_id]
+//         );
 
-        let caseDescriptions = result.rows.length ? result.rows[0].case_description : [];
-        console.log(caseDescriptions)
+//         let caseDescriptions = result.rows.length ? result.rows[0].case_description : [];
+//         console.log(caseDescriptions)
 
-        // Ensure the caseDescriptions array is long enough
-        while (caseDescriptions.length <= picIndex) {
-            caseDescriptions.push(null);
-        }
-        console.log(picIndex)
-        console.log(dr_id)
-        console.log(scan_id)
+//         // Ensure the caseDescriptions array is long enough
+//         while (caseDescriptions.length <= picIndex) {
+//             caseDescriptions.push(null);
+//         }
+//         console.log(picIndex)
+//         console.log(dr_id)
+//         console.log(scan_id)
 
 
-        // Update the report at the specific index
-        caseDescriptions[picIndex] = report;
+//         // Update the report at the specific index
+//         caseDescriptions[picIndex] = report;
 
-        if (result.rows.length) {
-            // Update existing report
-            await pool.query(
-                'UPDATE reports SET case_description = $1 WHERE scan_id = $2 AND dr_id = $3',
-                [caseDescriptions, scan_id, dr_id]
-            );
-            console.log(caseDescriptions)
+//         if (result.rows.length) {
+//             // Update existing report
+//             await pool.query(
+//                 'UPDATE reports SET case_description = $1 WHERE scan_id = $2 AND dr_id = $3',
+//                 [caseDescriptions, scan_id, dr_id]
+//             );
+//             console.log(caseDescriptions)
 
-        } else {
-            // Insert new report
-            await pool.query(
-                'INSERT INTO reports (scan_id, dr_id, case_description) VALUES ($1, $2, $3)',
-                [scan_id, dr_id, caseDescriptions]
-            );
-            console.log(caseDescriptions)
+//         } else {
+//             // Insert new report
+//             await pool.query(
+//                 'INSERT INTO reports (scan_id, dr_id, case_description) VALUES ($1, $2, $3)',
+//                 [scan_id, dr_id, caseDescriptions]
+//             );
+//             console.log(caseDescriptions)
 
-        }
+//         }
 
-        res.redirect('/doctor');
-    } catch (err) {
-        console.error('Error during report submission:', err);
-        res.status(500).send('Server error');
-    }
-});
+//         res.redirect('/doctor');
+//     } catch (err) {
+//         console.error('Error during report submission:', err);
+//         res.status(500).send('Server error');
+//     }
+// });
 
 
 // POST request of radiologist profile
@@ -565,7 +554,7 @@ app.post('/login', passport.authenticate('local', {
 }), (req, res) => {
     const userId = req.user.id;
     pool.query(
-        'select users.* , doctors.* from users join doctors on users.id = doctors.doctor_id where users.id=$1', 
+        'select users.* , doctor.* from users join doctor on users.id = doctor.doctor_id where users.id=$1', 
         [userId],
         (err,results) => {
             if(err){
@@ -584,10 +573,10 @@ app.post('/login', passport.authenticate('local', {
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(
-                        `SELECT users.*, patients.*, scans.*, reports.*
+                        `SELECT users.*, patient.*, scans.*, reports.*
                          FROM users
-                        JOIN patients ON users.id = patients.patient_id
-                        JOIN scans ON patients.patient_id = scans.patient_id
+                        JOIN patient ON users.id = patient.patient_id
+                        JOIN scans ON patient.patient_id = scans.patient_id
                         JOIN reports ON scans.scan_id = reports.scan_id
                          WHERE users.id = $1`,
                         [userId],

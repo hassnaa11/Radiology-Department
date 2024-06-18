@@ -17,8 +17,6 @@ body {
     height: 100vh;
     color: var(--color-dark);
     display: grid;
-    /* grid-template-columns: repeat(2, 50%);
-    gap: 140px; */
 }
 
 .top-side {
@@ -48,9 +46,6 @@ body {
 .left div {
     background-color: var(--light-color);
     height: 180px;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
     border-radius: 15px;
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
@@ -156,6 +151,8 @@ body {
     cursor: pointer;
 }
 .left-item {
+    margin-top: 15px;
+    margin-left: 25px;
     font-weight: 600;
     font-size: 20px;
     display: block;
