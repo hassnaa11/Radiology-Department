@@ -379,7 +379,7 @@ const { scan_id, dr_id, picIndex, report } = req.body;
                         }
                     });
                 
-app.post("/reserve", async (req, res) => {
+app.post("/take_appointment", async (req, res) => {
     let { scanType, date, time } = req.body;
     console.log(scanType);
     console.log({
@@ -396,32 +396,35 @@ app.post("/reserve", async (req, res) => {
     }
 
     if (errors.length > 0) {
-        res.render("reserve.ejs", { errors });
+        res.render("take_appointment.ejs", { errors });
     } else {
         try {
+            // Combine date and time into a single timestamp string
+            const scanDate = `${date} ${time}:00`;
+
             // Check if the scan type, date, and time are already reserved
             const result = await pool.query(
-                `SELECT * FROM reservations WHERE scan_type = $1 AND date = $2 AND time = $3`,
-                [scanType, date, time]
+                `SELECT * FROM take_appointment WHERE scan_type = $1 AND scan_date = $2`,
+                [scanType, scanDate]
             );
 
             if (result.rows.length > 0) {
                 errors.push({ message: "This time slot is already reserved for the selected scan type" });
-                res.render("reserve.ejs", { errors });
+                res.render("reserve", { errors });
             } else {
                 // Insert the new reservation
                 await pool.query(
-                    `INSERT INTO reservations (scan_type, date, time) VALUES ($1, $2, $3)`,
-                    [scanType, date, time]
+                    `INSERT INTO take_appointment (scan_type, scan_date) VALUES ($1, $2)`,
+                    [scanType, scanDate]
                 );
 
                 req.flash("success_msg", "Your reservation was successful");
-                res.redirect("/reserve");
+                res.redirect("/take_appointment");
             }
         } catch (err) {
             console.error(err);
             errors.push({ message: "Server error" });
-            res.render("reserve.ejs", { errors });
+            res.render("take_appointment.ejs", { errors });
         }
     }
 });
