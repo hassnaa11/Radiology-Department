@@ -37,12 +37,19 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({
     storage: storage,
-    // limits: {
-    //     fileSize: 1024 * 1024 * 20
-    // },
     fileFilter: fileFilter
 }).array('scan_folder');
+
+const upload_profile_img = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 20
+    },
+    fileFilter: fileFilter
+}).single('picture');
+
 const path = require('path');
+const { log } = require("console");
 const ROOT_DIR = path.resolve(__dirname);
 
 app.set('view engine', 'ejs');
@@ -489,69 +496,72 @@ app.post("/take_appointment", async (req, res) => {
 
 // POST request of radiologist profile
 app.post("/rad_profile", async (req, res) => {
-    let { email, fullName, address, age, sex, phone_no, salary, start_shift, end_shift, password, picture } = req.body;
-    console.log({
-        fullName,
-        email,
-        age,
-        picture
-    });
-
-    age = parseInt(age)
-    salary = parseInt(salary)
-    phone_no = parseInt(phone_no)
-    start_shift = parseInt(start_shift)
-    end_shift = parseInt(end_shift)
-    if (isNaN(age)) {
-        age = null;
-    }
-    if (isNaN(salary)) {
-        salary = null;
-    }
-    if (isNaN(phone_no)) {
-        phone_no = null;
-    }
-    if (isNaN(start_shift)) {
-        start_shift = null;
-    }
-    if (isNaN(end_shift)) {
-        end_shift = null;
-    }
-
-    let nameParts = fullName.split(' ');
-    let fname = '';
-    let lname = '';
-    if (nameParts.length > 0) { fname = nameParts[0]; }
-    if (nameParts.length > 1) { lname = nameParts[1]; }
-    console.log("pass: ", password);
-    let hashedPassword = '';
-
-    if (password === '') {
-        const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [req.user.id]);
-        hashedPassword = oldPasswordResult.rows[0].password;
-    } else {
-        hashedPassword = await bcrypt.hash(password, 10);
-    }
-    pool.query(`UPDATE users SET fname=$1, lname=$2, email=$3, address=$4, age=$5, sex=$6, phone_no=$7, password=$8,  picture=$9 WHERE users.id = $10`,
-        [fname, lname, email, address, age, sex, phone_no, hashedPassword, picture, req.user.id],
-        (err) => {
-            if (err) {
-                throw err;
-            }
-            else {
-                pool.query(
-                    `UPDATE radiologist SET salary=$1, start_shift=$2, end_shift=$3 WHERE radiologist_id = $4`,
-                    [salary, start_shift, end_shift, req.user.id],
-                    (err) => {
-                        if (err) {
-                            throw err;
-                        }
-                        res.redirect('back')
-                    }
-                );
-            }
+    upload_profile_img(req, res, async (err) => {
+        let picture = req.file;
+        console.log(picture)
+        picture = picture.path
+        console.log(picture)
+        if (picture != null) {
+            picture = picture.replace(/\\/g, '/');
+            picture = picture.replace('public', '');
         }
-    );
+        console.log(picture)
+        let { email, fullName, address, age, sex, phone_no, salary, start_shift, end_shift, password } = req.body;
+        console.log({
+            fullName,
+            email,
+            age,
+            picture
+        });
+
+        age = parseInt(age)
+        salary = parseInt(salary)
+        phone_no = parseInt(phone_no)
+        start_shift = parseInt(start_shift)
+        end_shift = parseInt(end_shift)
+        if (isNaN(age)) {
+            age = null;
+        }
+        if (isNaN(salary)) {
+            salary = null;
+        }
+        if (isNaN(phone_no)) {
+            phone_no = null;
+        }
+        if (isNaN(start_shift)) {
+            start_shift = null;
+        }
+        if (isNaN(end_shift)) {
+            end_shift = null;
+        }
+
+        let nameParts = fullName.split(' ');
+        let fname = '';
+        let lname = '';
+        if (nameParts.length > 0) { fname = nameParts[0]; }
+        if (nameParts.length > 1) { lname = nameParts[1]; }
+        console.log("pass: ", password);
+        let hashedPassword = '';
+
+        if (password === '') {
+            const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [req.user.id]);
+            hashedPassword = oldPasswordResult.rows[0].password;
+        } else {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+        pool.query(`UPDATE users SET fname=$1, lname=$2, email=$3, address=$4, age=$5, sex=$6, phone_no=$7, password=$8,  picture=$9 WHERE users.id = $10`,
+            [fname, lname, email, address, age, sex, phone_no, hashedPassword, picture, req.user.id],
+            (err) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    res.redirect('back')
+                }
+            }
+        );
+
+    })
 });
 
 app.post("/upload_scan", async (req, res) => {

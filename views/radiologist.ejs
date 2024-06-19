@@ -35,68 +35,57 @@
             </button>
 
             <div id="popupContainer3" class="popup-container2">
-                <div class="popup-content">
+                <div class="popup-content profile-input ">
                     <!-- Content for the popup window -->
-                    <img class="profile_photo" id="picture2" name="picture" src="/images/<%=picture %>" width="200"
+                    <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="200"
                         height="200">
-                    <form action="/rad_profile" method="POST">
+                    <form action="/rad_profile" method="POST" enctype="multipart/form-data">
                         <div>
                             <label for="fName">Name:</label>
                             <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="email">Email:</label>
                             <input type="email" name="email" placeholder="<%=email %>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Address:</label>
-                            <input type="text" name="address" placeholder="<%=address%>">
+                            <input type="text" name="address" placeholder="<%=address%>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Age:</label>
-                            <input type="number" name="age" placeholder="<%=age%>">
+                            <input type="number" name="age" placeholder="<%=age%>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Sex:</label>
-                            <input type="text" name="sex" placeholder="<%=sex%>">
+                            <input type="text" name="sex" placeholder="<%=sex%>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Phone:</label>
-                            <input type="tel" name="phone_no" placeholder="<%=phone_no%>">
+                            <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Salary:</label>
                             <input type="number" name="Salary" placeholder="<%=salary%>" readonly>
                         </div>
-                        <br>
                         <div>
                             <label for="fName">Start Shift:</label>
                             <input type="number" name="start_shift" placeholder="<%=start_shift%>" readonly>
                         </div>
-                        <br>
                         <div>
                             <label>End Shift:</label>
                             <input type="number" name="end_shift" placeholder="<%=end_shift%>" readonly>
                         </div>
-                        <br>
                         <div>
                             <label>Change Password:</label>
                             <input type="number" name="password" placeholder="new password" maxlength="12">
                         </div>
-                        <br>
                         <div>
                             <label>Picture:</label>
-                            <input type="file" id="fileInput" name="picture" accept="image/*">
+                            <input type="file" id="fileInput" name="picture" accept="image/*" required>
                         </div>
-                        <br>
                         <div>
-                            <input type="submit" value="save">
+                            <input class="submit-profile-btn" type="submit" value="save">
                         </div>
                     </form>
                     <div onclick="closePopup3()" class="close_btn"> &times; </div>
@@ -106,8 +95,7 @@
 
 
         <div class="profile-body">
-            <img id="profile-photo" name="picture" src="/images/<%=picture %>" class="profile-pic" width="230"
-                height="230">
+            <img id="profile-photo" name="picture" src="<%=picture %>" class="profile-pic" width="230" height="230">
             <div class="profile-details">
                 <h2>Dr. <%= fname + " " + lname %>
                 </h2>
