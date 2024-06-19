@@ -18,33 +18,9 @@ const initializePassport = require("./passportConfig");
 initializePassport(passport);
 const PORT = process.env.PORT || 4000;
 const bodyParser = require('body-parser');
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-        cb(null, true);
-    } else {
-        cb(new Error('Unsupported files type'), false);
-    }
-};
-
-const upload = multer({
-    storage: storage,
-    // limits: {
-    //     fileSize: 1024 * 1024 * 20
-    // },
-    fileFilter: fileFilter
-}).array('scan_folder');
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: 'absolete',
     resave: false,
@@ -55,6 +31,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(flash());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
 
 // routes
 // visitors page route
@@ -70,9 +50,71 @@ app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
 // patient window route
-app.get('/patient', (req, res) => {
-    res.render("patient.ejs")
+
+
+app.get('/patient', async (req, res) => {
+    const patientScans = req.session.patient || [];
+    let scans_type = await pool.query(
+        'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_date = await pool.query(
+        'SELECT scan_date FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    let scans_id = await pool.query(
+        'SELECT scan_id FROM take_appointment WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+
+    scans_type = scans_type.rows;
+    scans_date = scans_date.rows;
+    scans_id = scans_id.rows;
+    console.log(patients_id);
+    console.log(scans_type);
+    console.log(scans_date);
+    console.log(scans_id);
+    let num_of_appointments = scans_id.length;
+    for (let i = num_of_appointments; i > 0; i--) {
+        const now = new Date();
+        if (now > scans_date[i - 1].scan_date) {
+            pool.query(
+                'INSERT INTO report (report_no, patient_id) ' +
+                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM report WHERE report_no = $1)',
+                [scans_id[i - 1].scan_id, req.user.id]);
+        }
+    }
+    let reports_no = await pool.query(
+        'SELECT report_no FROM report WHERE patient_id = $1 ',
+        [req.user.id]
+    );
+    reports_no = reports_no.rows;
+    console.log(reports_no);
+    res.render("patient.ejs", {
+        type: req.user.type,
+        email: req.user.email,
+        fname: req.user.fname,
+        lname: req.user.lname,
+        address: req.user.address,
+        age: req.user.age,
+        sex: req.user.sex,
+        phone_no: req.user.phone_no,
+        salary: req.user.salary,
+        start_shift: req.user.start_shift,
+        end_shift: req.user.end_shift,
+        password: req.user.password,
+        picture: req.user.picture,
+        scans_type,
+        scans_date,
+        reports_no,
+        scans: patientScans
+
+
+    })
 });
+
+
+
 // radiologist window route
 let msg = '';
 let count = 0;
@@ -195,14 +237,47 @@ app.get('/add_doctor', (req, res) => {
     res.render("add_doctor.ejs")
 });
 // form window route
-app.get('/forms', (req, res) => {
-    res.render("forms.ejs")
+app.get('/forms', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM forms');
+        const forms = result.rows;
+        res.render('forms', { forms });
+    } catch (err) {
+        throw (err)
+    }
 });
 app.get('/patient_report', (req, res) => {
-    res.render("patient_report.ejs")
+    const { scan_id, pic_index } = req.query;
+    pool.query(
+        'SELECT scans.scan_pics, reports.case_description FROM scans JOIN reports ON scans.scan_id = reports.scan_id WHERE scans.scan_id = $1',
+        [scan_id],
+        (err, result) => {
+
+            if (result.rows.length > 0) {
+                const scanPics = result.rows[0].scan_pics;
+                const caseDescriptions = result.rows[0].case_description;
+                const selectedPic = scanPics[pic_index];
+                const selectedReport = caseDescriptions[pic_index];
+                res.render('patient_report', { selectedPic, selectedReport });
+            } else {
+                throw (err)
+            }
+        })
 });
-app.get('/doctor_scan', (req, res) => {
-    res.render("doctor_scan.ejs")
+app.get('/doctor_scan', async (req, res) => {
+    const { scan_id, pic_index } = req.query;
+    const result = await pool.query(
+        'SELECT scan_pics FROM scans WHERE scan_id = $1',
+        [scan_id]);
+    if (result.rows.length > 0) {
+        const scanPics = result.rows[0].scan_pics;
+        const selectedPic = scanPics[pic_index];
+        console.log(selectedPic)
+        res.render('doctor_scan', { selectedPic });
+    } else {
+        res.status(404).send('Scan not found');
+    }
+
 });
 app.get('/doctor', (req, res) => {
     const user = req.session.user;
@@ -221,9 +296,25 @@ app.get('/doctor', (req, res) => {
         special: user.special,
         start_time: user.start_time,
         end_time: user.end_time,
-        scans: scans
+        scans: scans,
     })
 });
+app.post("/contact_form", async (req, res) => {
+    const { user_email, why, body } = req.body;
+    console.log(user_email)
+    console.log(why)
+    console.log(body)
+    pool.query(
+        'insert into forms (user_email, about, body) values($1,$2,$3)',
+        [user_email, why, body],
+        (err, contact_form_res) => {
+            if (err) {
+                throw err;
+            }
+
+        })
+});
+
 app.post("/update", async (req, res) => {
     const { fname, email, adress, job, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     let newage = parseInt(age)
@@ -231,9 +322,10 @@ app.post("/update", async (req, res) => {
     let newphone_no = parseInt(phone_no)
     let newdr_room = parseInt(dr_room)
     const userId = req.user.id;
+    console.log(req.body);
     pool.query(
-        'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 where id=$5',
-        [fname, email, adress, picture2, userId],
+        'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6 where id=$7',
+        [fname, email, adress, picture2, newage, newphone_no, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -241,8 +333,8 @@ app.post("/update", async (req, res) => {
         });
 
     pool.query(
-        'update doctors set job=$1 , salary=$2 , age=$3 , ass_name=$4, phone_no=$5, special=$6, dr_room=$7, start_time=$8, end_time=$9 where doctor_id=$10',
-        [job, newsalary, newage, ass_name, newphone_no, special, newdr_room, start_time, end_time, userId],
+        'update doctor set job=$1 , salary=$2 ,ass_name=$3, special=$4, dr_room=$5, start_time=$6, end_time=$7 where doctor_id=$8',
+        [job, newsalary, ass_name, special, newdr_room, start_time, end_time, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -312,6 +404,56 @@ app.post("/write_report", async (req, res) => {
     } catch (err) {
         console.error('Error during report submission:', err);
         res.status(500).send('Server error');
+    }
+});
+
+app.post("/take_appointment", async (req, res) => {
+    let { scanType, date, time } = req.body;
+    console.log(scanType);
+    console.log({
+        scanType,
+        date,
+        time
+    });
+
+    let errors = [];
+
+    // Validate the input
+    if (!scanType || !date || !time) {
+        errors.push({ message: "Please fill in all fields" });
+    }
+
+    if (errors.length > 0) {
+        res.render("take_appointment.ejs", { errors });
+    } else {
+        try {
+            // Combine date and time into a single timestamp string
+            const scanDate = `${date} ${time}:00`;
+
+            // Check if the scan type, date, and time are already reserved
+            const result = await pool.query(
+                `SELECT * FROM take_appointment WHERE scan_type = $1 AND scan_date = $2`,
+                [scanType, scanDate]
+            );
+
+            if (result.rows.length > 0) {
+                errors.push({ message: "This time slot is already reserved for the selected scan type" });
+                res.render("reserve", { errors });
+            } else {
+                // Insert the new reservation
+                await pool.query(
+                    `INSERT INTO take_appointment (scan_type, scan_date) VALUES ($1, $2)`,
+                    [scanType, scanDate]
+                );
+
+                req.flash("success_msg", "Your reservation was successful");
+                res.redirect("/take_appointment");
+            }
+        } catch (err) {
+            console.error(err);
+            errors.push({ message: "Server error" });
+            res.render("take_appointment.ejs", { errors });
+        }
     }
 });
 
@@ -553,20 +695,60 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: true
 }), (req, res) => {
-    if (req.user.type === 'admin') {
-        res.redirect('/admin');
-    } else if (req.user.type === 'doctor') {
-        res.redirect('/doctor');
-    }
-    else if (req.user.type === 'patient') {
-        res.redirect('/patient');
-    }
-    else if (req.user.type === 'radiologist') {
-        res.redirect('/radiologist');
-    }
-    else {
-        res.redirect('/login');
-    }
+    const userId = req.user.id;
+    pool.query(
+        'select users.* , doctor.* from users join doctor on users.id = doctor.doctor_id where users.id=$1',
+        [userId],
+        (err, results) => {
+            if (err) {
+                throw err;
+            }
+            const user = results.rows[0];
+            req.session.user = user;
+
+            pool.query(
+                'SELECT * FROM scans WHERE dr_id = $1',
+                [userId],
+                (err, scanResults) => {
+                    if (err) {
+                        throw err;
+                    }
+                    req.session.doctorScans = scanResults.rows;
+                    console.log(req.session.doctorScans)
+                    pool.query(
+                        `SELECT users.*, patient.*, scans.*, reports.*
+                         FROM users
+                        JOIN patient ON users.id = patient.patient_id
+                        JOIN scans ON patient.patient_id = scans.patient_id
+                        JOIN reports ON scans.scan_id = reports.scan_id
+                         WHERE users.id = $1`,
+                        [userId],
+                        (err, results) => {
+                            if (err) {
+                                throw err;
+                            }
+
+                            req.session.patient = results.rows[0];
+                            console.log(req.session.patient);
+
+                            if (req.user.type === 'admin') {
+                                res.redirect('/admin');
+                            } else if (req.user.type === 'doctor') {
+                                res.redirect('/doctor');
+                            }
+                            else if (req.user.type === 'patient') {
+                                res.redirect('/patient');
+                            }
+                            else if (req.user.type === 'radiologist') {
+                                res.redirect('/radiologist');
+                            }
+                            else {
+                                res.redirect('/login');
+                            }
+                        });
+                });
+        });
 });
+
 app.listen(PORT);
 app.use(express.static('public'));

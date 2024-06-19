@@ -10,10 +10,16 @@
 
 <body>
     <div class="top-side">
-        <span>Scan</span>
+        <span>Scan Image</span>
     </div>
     <div class="left">
-        <div>form1</div>
+        <% if (selectedPic) { %>
+            <img src="/images/ali/<%=selectedPic %>.png" class="scan-image" alt="Scan Image">
+        <% } else { %>
+            <p>No image available</p>
+        <% } %>
+        <!-- <% console.log(selectedPic) %>
+        <img src="<%= selectedPic %>" class="scan-image"> -->
     </div>
 </body>
 

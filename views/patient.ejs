@@ -40,40 +40,78 @@
                     <!-- Content for the popup window -->
                     <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/malee.png"
                         width="200" height="200">
-                    <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                        Abdelazeem</div>
-
-                    <div class="line"></div>
-                    <div class="container_ifo">
-
-                        <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
-                                Emanm@gmail.com</span> </div>
-                        <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-                      <div class=" info-ii">
-                        </div>
-                        <div class="info-ii">
-                            <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
-                                    id="displayText"> 25 </span> </div>
-                        </div>
-                        <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                                id="displayText">01090089066</span> </div>
-                        <div class="info-ii">
-                        </div>
-                        <div class="info"> photo: <input type="file"> </div>
-
-
-                        <button class="btn"> Save Info</button>
-                    </div>
+                        <form action="/rad_profile" method="POST">
+                            <div>
+                                <label for="fName">Name:</label>
+                                <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" placeholder="<%=email %>" required>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Address:</label>
+                                <input type="text" name="address" placeholder="<%=address%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Age:</label>
+                                <input type="number" name="age" placeholder="<%=age%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Sex:</label>
+                                <input type="text" name="sex" placeholder="<%=sex%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Phone:</label>
+                                <input type="number" name="phone_no" placeholder="<%=phone_no%>">
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Salary:</label>
+                                <input type="number" name="Salary" placeholder="<%=salary%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label for="fName">Start Shift:</label>
+                                <input type="number" name="start_shift" placeholder="<%=start_shift%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label>End Shift:</label>
+                                <input type="number" name="end_shift" placeholder="<%=end_shift%>" readonly>
+                            </div>
+                            <br>
+                            <div>
+                                <label>Change Password:</label>
+                                <input type="number" name="password" placeholder="new password" maxlength="12">
+                            </div>
+                            <br>
+                            <div>
+                                <label>Picture:</label>
+                                <input type="file" id="fileInput" name="picture" accept="image/*">
+                            </div>
+                            <br>
+                            <div>
+                                <input type="submit" value="save">
+                            </div>
+                        </form>
 
                     <div onclick="closePopup2()" class="close_btn"> &times; </div>
                 </div>
             </div>
         </div>
         <div class="profile-body">
-            <img src="/images/profilepic.jpeg" class="profile-pic"></img>
+            <img id="profile-photo" name="picture" src="/images/<%=picture %>" class="profile-pic" width="230"
+                height="230">
             <div class="profile-details">
-                <h2>Dr. Nariman Ahmed</h2>
-                <p>Patient</p>
+                <h2>Dr. <%= fname + " " + lname %>
+                </h2>
+                <p>Radiologist</p>
             </div>
         </div>
     </section>
@@ -81,7 +119,7 @@
 
 
     <section class="good-day-section">
-        <h1>Good Day, Mrs. Nariman</h1>
+        <h1>Good Day, <%= fname %></h1>
     </section>
 
 
@@ -90,18 +128,17 @@
             <h2>Reservations</h2>
         </div>
         <div class="reservations-elements" id="reservations-elements">
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>MRI</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>3:00pm</p></div>
-            </div>
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>CT</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>4:00pm</p></div>
-            </div>
-            <div class="reservations-div">
-                <div class="deets-1">  <h3>X-ray</h3>  </div>
-                <div class="deets-2">  <p>12/3</p>  <p>5:00pm</p></div>
-            </div>
+            <% let num_of_appointments=scans_id.length; %>
+                <% for (let i=num_of_appointments; i> 0; i--) { %>
+                    <% const now=new Date(); %>
+                        <% if(now<scans_date[i-1].scan_date){%>
+                            <div class="reservations-div">
+                                <div class="deets-1">  <h3><%=scans_type[i-1].scan_type%></h3>  </div>
+                                <div class="deets-2">  <p><%=scans_date[i-1].scan_date.toLocaleString()%></p></div>
+                            </div>
+                            <%};%>
+                                <%};%>
+            
         </div>
         <div class="create-new">
             <button id="create-new-btn">Create New</button>
@@ -115,7 +152,7 @@
             <h2>Create New Reservation</h2>
             <span class="close-btn">&times;</span>
         </div>
-        <form id="create-new-form">
+        <form id="create-new-form" method="POST" action="/take_appointment">
             <label for="scan-type">Scan Type:</label>
             <select id="scan-type" name="scan-type">
                 <option value="xray">X-Ray</option>
@@ -173,74 +210,31 @@
                 <h3><a href="#view-more">View More</a></h3>
             </div>
         </div>
-
-
         <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
-            </div>
-            <div class="scan-block"> <!--A SEPARATE BLOCK-->
-                <div class="scan-code">
-                    <h3><a href="scan-file">Scan #2979</a></h3>
-                </div> <!--E3MELEEHOM ANCHOR BOTH-->
-                <div class="send-button">
-                    <h3><a href="/patient_report">Open</a></h3>
-                </div>
+            
+            <% scans.scan_pics.forEach((pic, picIndex) => { %>
+        <div class="scan-block"> <!--A SEPARATE BLOCK-->
+            <div class="scan-code">
+                <h3><%= pic %></h3>
+            </div> <!--E3MELEEHOM ANCHOR BOTH-->
+            <div class="send-button">
+                <h3><a href="/patient_report?scan_id=<%= scans.scan_id %>&pic_index=<%= picIndex %>">Open</a></h3>
             </div>
         </div>
-    </section>
+        <% }); %>
+        
+
+    </div>
+
+
+           </section>
     <section class="contact-form"> <!--Task Bar BLOCK-->
         <h2 class="contact-form-title">
             Got any requests?
         </h2>
 
         <button class="contact-form-button" id="contact-btn"> Contact Us</button>
-        <div id="popupContainer" class="popup">
+        <div id="popupContainer2" class="popup">
             <div class="close-btn" onclick="closePopup()">&times;</div>
             <div class="form">
                 <div class="form-element">
