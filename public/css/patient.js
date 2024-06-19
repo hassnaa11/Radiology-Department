@@ -306,69 +306,77 @@ function closePopup3() {
 
 
 // for send to in radiologist page
-// document.addEventListener("DOMContentLoaded", function () {
-//     document.getElementById("send-to-btn").addEventListener("click", openPopup4);
-//     function openPopup4() {
-//         document.getElementById("popupContainer4").style.display = "block";
-//         document.getElementById("popupContainer4").classList.add("active");
-//         document.body.classList.add("blur-background");
-//     }
-// });
-
-// function closePopup4() {
-//     document.getElementById("popupContainer4").style.display = "none";
-//     document.getElementById("popupContainer4").classList.remove("active");
-//     document.body.classList.remove("blur-background");
-// }
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Attach event listener to all send buttons
-//     const sendButtons = document.querySelectorAll(".send-to-btn");
-
-//     sendButtons.forEach(button => {
-//         button.addEventListener("click", function () {
-//             const index = this.id.split('-')[3];
-//             openPopup4(index);
-//         });
-//     });
-
-//     // Open popup function
-//     function openPopup4(index) {
-//         const popup = document.getElementById(`popupContainer4-${index}`);
-//         if (popup) {
-//             popup.style.display = "block";
-//             popup.classList.add("active");
-//             document.body.classList.add("blur-background");
-//         } else {
-//             console.error(`Popup with ID popupContainer4-${index} not found`);
-//         }
-//     }
-
-//     // Close popup function exposed to global scope
-//     window.closePopup4 = function (index) {
-//         const popup = document.getElementById(`popupContainer4-${index}`);
-//         if (popup) {
-//             popup.style.display = "none";
-//             popup.classList.remove("active");
-//             document.body.classList.remove("blur-background");
-//         } else {
-//             console.error(`Popup with ID popupContainer4-${index} not found`);
-//         }
-//     }
-// });
-
 function openPopup4() {
-    // Show the popup container
     document.getElementById("popupContainer4").style.display = "block";
-    // Apply the blur effect to the background
     document.body.classList.add("blur-background");
 }
-
 function closePopup4() {
-    // Hide the popup container
     document.getElementById("popupContainer4").style.display = "none";
+    document.body.classList.remove("blur-background");
+}
+
+
+// for upload scans in radiologist page
+function openPopup_upload_scan() {
+    document.getElementById("popupContainer_upload_scan").style.display = "block";
+    document.body.classList.add("blur-background");
+}
+function closePopup_upload_scan() {
+    const input = document.getElementById('scanFolderInput');
+    const errorMessage = document.getElementById('error-message');
+    console.log("input: ", input);
+    const files = input.files;
+    let isValid = true;
+    console.log("files: ", files);
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.match('image/jpeg') && !file.type.match('image/png') && !file.type.match('image/jpg')) {
+            isValid = false;
+            break;
+        }
+    }
+
+    if (!isValid) {
+        errorMessage.textContent = 'Error: Only image files (JPEG, PNG, JPG) are allowed.';
+        event.preventDefault();  // Prevent form submission
+    }
+    else {
+        errorMessage.textContent = '';
+    }
+
+    // Hide the popup container
+    document.getElementById("popupContainer_upload_scan").style.display = "none";
     // Remove the blur effect from the background
     document.body.classList.remove("blur-background");
 }
 
 
+// contact form 
+document.querySelector('form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevents the default form submission behavior
+    const selectedReason = document.querySelector('input[name="why"]:checked').value;
+    console.log('Selected reason:', selectedReason);
+});
+
+
+//show scan in radiologist page
+function openPopup_show_scan(index) {
+    document.getElementById("popupContainer_show_scan_" + index).style.display = "block";
+    document.body.classList.add("blur-background");
+}
+
+function closePopup_show_scan(index) {
+    document.getElementById("popupContainer_show_scan_" + index).style.display = "none";
+    document.body.classList.remove("blur-background");
+}
+
+function openPopup4() {
+    document.getElementById("popupContainer4").style.display = "block";
+    document.body.classList.add("blur-background");
+}
+
+function closePopup4() {
+    document.getElementById("popupContainer4").style.display = "none";
+    document.body.classList.remove("blur-background");
+}

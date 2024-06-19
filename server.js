@@ -18,6 +18,30 @@ const initializePassport = require("./passportConfig");
 initializePassport(passport);
 const PORT = process.env.PORT || 4000;
 const bodyParser = require('body-parser');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function (req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+        cb(null, true);
+    } else {
+        cb(new Error('Unsupported files type'), false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    // limits: {
+    //     fileSize: 1024 * 1024 * 20
+    // },
+    fileFilter: fileFilter
+}).array('scan_folder');
 
 
 app.use(express.urlencoded({ extended: false }));
@@ -50,10 +74,34 @@ app.get('/patient', (req, res) => {
     res.render("patient.ejs")
 });
 // radiologist window route
+let msg = '';
+let count = 0;
 app.get('/radiologist', async (req, res) => {
+    if (count == 1) {
+        msg = '';
+        count--;
+    }
+    if (msg != '') {
+        count++;
+    }
+    let salary = await pool.query(
+        'SELECT salary FROM radiologist WHERE radiologist_id = $1',
+        [req.user.id]
+    );
+    let start_shift = await pool.query(
+        'SELECT start_shift FROM radiologist WHERE radiologist_id = $1',
+        [req.user.id]
+    );
+    let end_shift = await pool.query(
+        'SELECT end_shift FROM radiologist WHERE radiologist_id = $1',
+        [req.user.id]
+    );
+    salary = salary.rows[0].salary
+    start_shift = start_shift.rows[0].start_shift
+    end_shift = end_shift.rows[0].end_shift
 
     let patients_id = await pool.query(
-        'SELECT patient_id FROM take_appointment WHERE radiologist_id = $1 ',
+        'SELECT patient_id FROM take_appointment WHERE radiologist_id = $1',
         [req.user.id]
     );
     let scans_type = await pool.query(
@@ -72,26 +120,27 @@ app.get('/radiologist', async (req, res) => {
     scans_type = scans_type.rows;
     scans_date = scans_date.rows;
     scans_id = scans_id.rows;
-    console.log(patients_id);
-    console.log(scans_type);
-    console.log(scans_date);
-    console.log(scans_id);
     let num_of_appointments = patients_id.length;
     for (let i = num_of_appointments; i > 0; i--) {
         const now = new Date();
         if (now > scans_date[i - 1].scan_date) {
             pool.query(
-                'INSERT INTO report (report_no, radiologist_id) ' +
-                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM report WHERE report_no = $1)',
+                'INSERT INTO scans (scan_id, radiologist_id) ' +
+                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM scans WHERE scan_id = $1)',
                 [scans_id[i - 1].scan_id, req.user.id]);
         }
     }
-    let reports_no = await pool.query(
-        'SELECT report_no FROM report WHERE radiologist_id = $1 ',
+    let scans_no = await pool.query(
+        'SELECT scan_id FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL',
         [req.user.id]
     );
-    reports_no = reports_no.rows;
-    console.log(reports_no);
+    scans_no = scans_no.rows;
+    console.log(scans_no);
+
+    let scan_pics = await pool.query('SELECT scan_pics FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL', [req.user.id]);
+    scan_pics = scan_pics.rows;
+    console.log(scan_pics.rows);
+
     res.render("radiologist.ejs", {
         type: req.user.type,
         email: req.user.email,
@@ -101,16 +150,24 @@ app.get('/radiologist', async (req, res) => {
         age: req.user.age,
         sex: req.user.sex,
         phone_no: req.user.phone_no,
-        salary: req.user.salary,
-        start_shift: req.user.start_shift,
-        end_shift: req.user.end_shift,
+        salary,
+        start_shift,
+        end_shift,
         password: req.user.password,
         picture: req.user.picture,
         patients_id,
         scans_type,
         scans_date,
-        reports_no
+        scans_no,
+        scan_pics,
+        msg
     })
+});
+app.get('/radiologist_scan', async (req, res) => {
+    let scan_pics = await pool.query('SELECT scan_pics FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL', [req.user.id]);
+    console.log(scan_pics.rows);
+    scan_pics = scan_pics.rows;
+    res.render("radiologist_scan.ejs", scan_pics)
 });
 
 // admin home window route
@@ -324,6 +381,97 @@ app.post("/rad_profile", async (req, res) => {
             }
         }
     );
+});
+
+app.post("/upload_scan", async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err) {
+            console.log("Upload error: ", err.message);
+            return res.redirect('back');
+        }
+        let { scan_id } = req.body;
+        console.log("scan_id:): ", scan_id);
+        let scan_pics = [];
+        let scans_no = await pool.query(
+            'SELECT scan_id FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL',
+            [req.user.id]
+        );
+        scans_no = scans_no.rows
+        console.log("scans_no:<< ", scans_no);
+        let cond = false;
+        for (let i = 0; i < scans_no.length; i++) {
+            console.log("here: ");
+            console.log(scans_no[i].scan_id);
+            if (scan_id == scans_no[i].scan_id) {
+                cond = true;
+            }
+        }
+        if (!cond) {
+            msg = 'Error: Incorrect Scan ID!';
+        }
+
+        req.files.forEach(file => {
+            scan_pics.push(file.path);
+        });
+        console.log(scan_pics);
+        pool.query(
+            'UPDATE scans SET scan_pics = $1 WHERE scan_id = $2',
+            [scan_pics, scan_id],
+            (err) => {
+                if (err) {
+                    throw err;
+                } else {
+                    res.redirect('back');
+                }
+            }
+        );
+    })
+});
+
+app.post("/send_to_doctor", async (req, res) => {
+    let { doc_email, scan_to_doc } = req.body;
+    console.log({
+        doc_email,
+        scan_to_doc
+    });
+    let doc_id = await pool.query(
+        'SELECT id FROM users WHERE email = $1 AND type = $2 ',
+        [doc_email, 'doctor']
+    );
+    let patient_id = await pool.query(
+        'SELECT patient_id FROM take_appointment WHERE scan_id = $1 ',
+        [scan_to_doc]
+    );
+    doc_id = doc_id.rows[0].id
+    patient_id = patient_id.rows[0].patient_id
+    console.log(doc_id, "  ", patient_id);
+    pool.query(`UPDATE scans SET dr_id = $1, patient_id = $2 WHERE scan_id = $3`,
+        [doc_id, patient_id, scan_to_doc], (err) => {
+            if (err) {
+                throw err;
+            }
+            res.redirect('back')
+        }
+    );
+});
+
+app.post("/rad_send_form", async (req, res) => {
+    let { email, why, body } = req.body;
+    console.log({
+        email, why, body
+    })
+    pool.query(
+        `insert into forms (user_email,about,body) values ($1,$2,$3)`,
+        [req.user.email, why, body],
+        (err, results) => {
+            if (err) {
+                throw err;
+            } else {
+                res.redirect('back');
+            }
+        }
+    )
+
 });
 
 // POST request when a user sign up
