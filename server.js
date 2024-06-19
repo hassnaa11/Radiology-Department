@@ -70,10 +70,10 @@ app.get('/patient', async (req, res) => {
     scans_type = scans_type.rows;
     scans_date = scans_date.rows;
     scans_id = scans_id.rows;
-    console.log(patients_id);
-    console.log(scans_type);
-    console.log(scans_date);
-    console.log(scans_id);
+    // console.log(patient_id);
+    // console.log(scans_type);
+    // console.log(scans_date);
+    // console.log(scans_id);
     let num_of_appointments = scans_id.length;
     for (let i = num_of_appointments; i > 0; i--) {
         const now = new Date();
@@ -713,6 +713,7 @@ app.post('/login', passport.authenticate('local', {
                     if (err) {
                         throw err;
                     }
+                    req.session.scansNo = scanResults.rows.length;
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(
