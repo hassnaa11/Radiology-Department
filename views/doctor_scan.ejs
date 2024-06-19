@@ -14,7 +14,9 @@
     </div>
     <div class="left">
         <% if (selectedPic) { %>
-            <img src="/images/ali/<%=selectedPic %>.png" class="scan-image" alt="Scan Image">
+            <div>
+            <img src="/images/<%=scan_id %>/<%=selectedPic %>.png" class="scan-image" alt="Scan Image">
+        </div>
         <% } else { %>
             <p>No image available</p>
         <% } %>
