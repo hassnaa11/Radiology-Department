@@ -18,6 +18,35 @@ const initializePassport = require("./passportConfig");
 initializePassport(passport);
 const PORT = process.env.PORT || 4000;
 const bodyParser = require('body-parser');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function (req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+        cb(null, true);
+    } else {
+        cb(new Error('Unsupported files type'), false);
+    }
+};
+
+const upload = multer({
+    storage: storage,
+    // limits: {
+    //     fileSize: 1024 * 1024 * 20
+    // },
+    fileFilter: fileFilter
+}).array('scan_folder');
+const path = require('path');
+const ROOT_DIR = path.resolve(__dirname);
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(ROOT_DIR, 'views'));
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -70,10 +99,10 @@ app.get('/patient', async (req, res) => {
     scans_type = scans_type.rows;
     scans_date = scans_date.rows;
     scans_id = scans_id.rows;
-    // console.log(patient_id);
-    // console.log(scans_type);
-    // console.log(scans_date);
-    // console.log(scans_id);
+    console.log(patients_id);
+    console.log(scans_type);
+    console.log(scans_date);
+    console.log(scans_id);
     let num_of_appointments = scans_id.length;
     for (let i = num_of_appointments; i > 0; i--) {
         const now = new Date();
@@ -713,7 +742,6 @@ app.post('/login', passport.authenticate('local', {
                     if (err) {
                         throw err;
                     }
-                    req.session.scansNo = scanResults.rows.length;
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(
