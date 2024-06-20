@@ -34,71 +34,64 @@
             </button>
             <div id="popupContainer3" class="popup-container2">
                 <div class="popup-content">
+                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
+
                     <!-- Content for the popup window -->
-                    <img class="profile_photo" id="profile-photo" name="picture2" src="/images/<%=picture %>"
+                    <img class="profile_photo" id="profile-photo" name="picture" src="/uploads/<%=picture%> "
                         width="150" height="150">
-                        <form id="updateForm">
+                        <form id="updateForm" >
                             <div class="name" id="fname">
-                                <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text3">
+                                <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text2">
                             </div>
                             <div class="line"></div>
                             <div class="container_ifo">
                                 <div class="info" id="email">
-                                    Email: <input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text2">
+                                    Email: <input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text">
                                 </div>
                                 <div class="info" id="address">
                                     Address: <input type="text" name="adress" value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address" class="editable-text">
                                 </div>
-                                <div class="info-ii">
-                                    <div class="info" id="job">
-                                        Job: <input type="text" name="job" value="<%= typeof job !== 'undefined' ? job : '' %>" placeholder="job" class="editable-text" readonly>
+                                    <div class="info" id="password" style="white-space: nowrap;">
+                                        New Password: <input type="password" name="password" placeholder="new password" maxlength="12" class="editable-text">
                                     </div>
                                     <div class="info" id="salary">
                                         Salary: <input type="text"  name="salary" value="<%= typeof salary !== 'undefined' ? salary : 0 %>" placeholder="salary" class="editable-text" readonly>
                                     </div>
-                                </div>
-                                <div class="info-ii">
                                     <div class="info" id="age">
                                         Age: <input type="text" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>" placeholder="age" class="editable-text">
                                     </div>
-                                    <div class="info" id="ass_name">
+                                    <div class="info" id="ass_name" style="white-space: nowrap;">
                                         Assistant Name: <input type="text" name="ass_name" value="<%= typeof ass_name !== 'undefined' ? ass_name : '' %>" placeholder="ass_name" class="editable-text">
                                     </div>
-                                </div>
                                 
-                                <div class="info" id="phone_no">
-                                    Phone Number: <input type="text" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text2">
+                                    <div class="info" id="phone_no" style="white-space: nowrap;">
+                                    Phone Number: <input type="text" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text">
                                 </div>
-                            <div class="info-ii">
                                 <div class="info" id="special">
                                     Specialization: <input type="text" name="special" value="<%= typeof special !== 'undefined' ? special : '' %>" placeholder="special" class="editable-text">
                                 </div>
-                                <div class="info" id="dr_room">
+                                <div class="info" id="dr_room" style="white-space: nowrap;">
                                     Doctor Room: <input type="text" name="dr_room" value="<%= typeof dr_room !== 'undefined' ? dr_room : 0 %>" placeholder="dr_room" class="editable-text">
                                 </div>
-                            </div>
 
-                                <div class="info-ii">
-                                    <div class="info" id="start_time">
+                                    <div class="info" id="start_time" style="white-space: nowrap;">
                                         Start Shift: <input type="text"  name="start_time" value="<%= typeof start_time !== 'undefined' ? start_time : '' %>" placeholder="start_time" class="editable-text" readonly>
                                     </div>
-                                    <div class="info" id="end_time">
+                                    <div class="info" id="end_time" style="white-space: nowrap;">
                                         End Shift: <input type="text" name="end_time" value="<%= typeof end_time !== 'undefined' ? end_time : '' %>" placeholder="end_time" class="editable-text" readonly>
                                     </div>
-                                </div>
                                 <div class="info" id="picture">
                                     Photo: <input type="file" name="picture2" id="picture2" accept="image/*" class="file-input">
                                 </div>
                                 <input type="submit" class="btn" id="save_info" value="Save Info">
                             </div>
                         </form>
-                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
                 </div>
             </div>
         </div>
 
         <div class="profile-body">
-            <img name="picture2" src="/images/<%=picture %>" class="profile-pic"></img>
+            <img name="picture2" src="/uploads/<%=picture %>" class="profile-pic"></img>
             <div class="profile-details">
                 <h2><%= fname %></h2>
                 <p>Doctor</p>
@@ -164,6 +157,10 @@
                 <% scan.scan_pics.forEach((pic, picIndex) => { %>
             <div class="scan-block"> <!--A SEPARATE BLOCK-->
                 <div class="scan-code">
+                    <%pic = pic.replace( /\\/g, '' ); %>
+                    <%pic=pic.replace('public', '' ); %>
+                    <%pic=pic.replace('uploads', '' ); %>
+
                     <h3><a href="/doctor_scan?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>"><%= pic %></a></h3>
                 </div> 
 
@@ -213,10 +210,10 @@
         <div class="close-btn" onclick="closePopup2()">&times;</div>
         <div class="form">
             <form action="/contact_form" method="POST">
-            <div class="form-element">
+            <!-- <div class="form-element">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="user_email" placeholder="Write your e-mail here">
-            </div>
+            </div> -->
             <div class="form-element">
                 <p>You make this form for:</p>
             </div>

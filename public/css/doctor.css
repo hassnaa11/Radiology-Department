@@ -205,10 +205,6 @@ a {
 
 
 
-
-
-
-
 .popup {
     position: fixed;
     display: none;
@@ -872,67 +868,47 @@ a {
 .profile_photo {
     border-radius: 150px;
     margin-top: 10px;
+    margin-left: 120px;
 }
 
 .close_btn {
-    margin-left: 400px;
+    margin-left: 360px;
     position: absolute;
-    margin-top: 5px;
+    margin-top: 4px;
+    margin-right: 10px;
     font-weight: 700;
     font-size: xx-large;
     height: 50px;
     width: 50px;
     color: #f8f9f9;
     cursor: pointer;
+    z-index: 10001;
 
 }
 
 .line {
     margin-top: 10px;
     margin-bottom: 10px;
-    margin-left: 90px;
+    margin-left: 70px;
     width: 250px;
-    /* Adjust the width as needed */
     height: 2px;
-    /* Adjust the height as needed */
     background-color: #ffffff;
-    /* Color of the line */
     position: relative;
 }
 
 .info {
-    font-size: 20px;
+    font-size: 15px;
     color: #ffffff;
     text-shadow: 2px 4px 4px rgba(25, 26, 27, 0.5);
     margin-left: 20px;
-    height: 45px;
+    height: 35px;
     font-weight: 100;
-    /* width: auto; */
     width: 60px;
     display: flex;
-    margin-bottom: 5px;
-    
-
+    /* margin-bottom: 5px; */
 }
 
-.info-ii {
-    display: flex;
-    flex-direction: row;
-    /* gap: 90px; */
-    /* justify-content: 100px; */
-    /* margin-left: 100px; */
-
-}
-
-.info-ii .info {
-    width: 45%; /* Adjust width as needed */
-    margin-right: 5%; /* Adjust margin for spacing */
-}
-.info-ii .info:last-child {
-    margin-right: 0; /* Remove margin from the last child */
-}
-
-.editable-text {
+.editable-text2 {
     border: none;
     cursor: pointer;
     outline: none;
@@ -941,49 +917,8 @@ a {
     text-shadow: none;
     color: #121212;
     font-weight: 50;
-    margin-left: 5px;
-    /* margin-top: 10px; */
-    font-size: 15px;
-    border-radius: 10px;
-    border-color: #ffffff;
-    width: 50px;
-    height: 20px;
-    padding-left: 10px;
-    padding: 5px 10px;
-
-}
-.editable-text4 {
-    border: none;
-    cursor: pointer;
-    outline: none;
-    resize: none;
-    font-family: inherit;
-    text-shadow: none;
-    color: #121212;
-    font-weight: 50;
-    margin-left: 0px;
-    /* margin-top: 10px; */
-    font-size: 15px;
-    border-radius: 10px;
-    border-color: #ffffff;
-    width: 50px;
-    height: 20px;
-    padding-left: 20px;
-    /* padding: 5px 10px; */
-
-}
-
-.editable-text3 {
-    border: none;
-    cursor: pointer;
-    outline: none;
-    resize: none;
-    font-family: inherit;
-    text-shadow: none;
-    color: #121212;
-    font-weight: 50;
-    margin-left: 160px;
-    /* margin-top: 10px; */
+    margin-left: 150px;
+    margin-top: 10px;
     font-size: 15px;
     border-radius: 10px;
     background-color: #ffffff;
@@ -992,19 +927,18 @@ a {
     padding-left: 30px;
     
 
-}
+ } 
 
 .file-input {
-    /* width: auto; Ensure file input button is visible */
-    cursor: pointer; /* Add pointer cursor on hover */
-    padding: 0px 100px; /* Add padding for better click area */
-    /* background-color: #ffffff;  */
-    /* color: #ecf1f5;  */
+    
+    cursor: pointer; 
+    padding-left: 10px;
+    padding-right:200px; /* Add padding for better click area */
     border-radius: 10px; /* Rounded corners */
     border: none; /* Remove default border */
     font-size: 15px;
     /* transition: background-color 0.3s, color 0.3s, transform 0.3s; */
-    width: 200px;
+    width: 100px;
 }
 
 .editable-text {
@@ -1016,7 +950,7 @@ a {
 .editable-text:hover {
     border: 1px solid #ccc;
 }
-.editable-text2 {
+.editable-text {
     border: none;
     cursor: pointer;
     outline: none;
@@ -1026,14 +960,13 @@ a {
     color: #121212;
     font-weight: 50;
     margin-left: 5px;
-    /* margin-top: 10px; */
+    margin-bottom: 0px;
     font-size: 15px;
     border-radius: 15px;
     border-color: #ffffff;
     width: 180px;
-    height: 30px;
+    height: 20px;
     padding-left: 10px;
-
 }
 
 .name {
@@ -1064,11 +997,11 @@ a {
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    height: 650px;
+    height: 670px;
     /* width: 600px; */
     background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
     font-family: "Raleway", sans-serif;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: center;
     color: #f8f9f9;
