@@ -637,9 +637,9 @@ app.post("/send_to_doctor", async (req, res) => {
 });
 
 app.post("/rad_send_form", async (req, res) => {
-    let { email, why, body } = req.body;
+    let { why, body } = req.body;
     console.log({
-        email, why, body
+        why, body
     })
     pool.query(
         `insert into forms (user_email,about,body) values ($1,$2,$3)`,

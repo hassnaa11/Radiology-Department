@@ -154,21 +154,21 @@
                 <h3><a class="contact-form-button" onclick="openPopup_upload_scan()"
                         style="width: 150px; height: 45px;">Upload Scan</a></h3>
                 <div id="popupContainer_upload_scan" class="popup-container2" style=" padding-top:200px;">
-                    <div class="popup-content" style=" height: 120px;">
+                    <div class="popup-content" style=" height: 140px;">
                         <div class="close_btn" onclick="closePopup_upload_scan()">&times;</div>
-                        <form id="uploadForm" action="/upload_scan" method="POST" enctype="multipart/form-data">
+                        <form class="profile-input" id="uploadForm" action="/upload_scan" method="POST"
+                            enctype="multipart/form-data">
                             <br>
                             <div>
                                 <label>Scan ID:</label>
                                 <input type="number" name="scan_id" min="1" placeholder="scan id" required>
                             </div>
-                            <br>
                             <div>
-                                <label>Select folder:</label>
+                                <label>Select Folder:</label>
                                 <input type="file" id="scanFolderInput" name="scan_folder" webkitdirectory required>
                             </div>
-                            <br>
-                            <input type="submit" value="upload" onclick="closePopup_upload_scan()">
+                            <input class="submit-profile-btn upload" type="submit" value="upload"
+                                onclick="closePopup_upload_scan()">
                         </form>
                     </div>
                 </div>
@@ -213,20 +213,18 @@
                 <div id="popupContainer4" class="popup-container2" style=" padding-top:200px;">
                     <div class="popup-content" style=" height: 120px;">
                         <div class="close_btn" onclick="closePopup4()">&times;</div>
-                        <form action="/send_to_doctor" method="POST">
+                        <form class="profile-input" action="/send_to_doctor" method="POST">
                             <br>
                             <div>
                                 <label>Email:</label>
                                 <input type="email" name="doc_email" placeholder="doctor email" required>
                             </div>
-                            <br>
                             <div>
                                 <label>Scan ID:</label>
                                 <input input type="number" name="scan_to_doc" min="1" max="10000" placeholder="scan id"
                                     required>
                             </div>
-                            <br>
-                            <input type="submit" value="send">
+                            <input class="send-btn" type="submit" value="send">
                         </form>
                     </div>
                 </div>
@@ -243,10 +241,6 @@
         <div id="popupContainer2" class="popup">
             <div class="close-btn" onclick="closePopup2()">&times;</div>
             <form class="form" action="/rad_send_form" method="POST">
-                <div class="form-element">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Write email here" required>
-                </div>
                 <div class="form-element">
                     <p>You make this form for:</p>
                 </div>

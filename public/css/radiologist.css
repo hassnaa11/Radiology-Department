@@ -1060,12 +1060,32 @@ a {
 .submit-profile-btn {
     width: 100px;
     height: 40px;
-    margin-left: 90px !important;
+    margin-left: 115px !important;
     font-weight: bold;
     transition: 0.3s;
     cursor: pointer;
 }
 
 .submit-profile-btn:hover {
+    background-color: #b6c1c5;
+}
+
+.submit-profile-btn.upload {
+    height: 30px;
+    margin-top: 8px;
+    margin-left: 135px !important;
+}
+
+.send-btn {
+    width: 100px;
+    height: 30px;
+    margin-top: 6px;
+    margin-left: 72px !important;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.send-btn:hover {
     background-color: #b6c1c5;
 }
