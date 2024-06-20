@@ -41,43 +41,33 @@
                     <!-- Content for the popup window -->
                     <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="200"
                         height="200">
-                    <form id="updateForm">
-                        <div class="name" id="fname">
-                            <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text3">
-                        </div>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text2">
-                        </div>
-                        <div>
-                            <label for="fName">Address:</label>
-                            <input type="text" name="adress" value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address" class="editable-text">
-                        </div>
-                        <div>
-                            <label for="fName">Age:</label>
-                            <input type="number" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>" placeholder="age" class="editable-text">
-                        </div>
-                        <div>
-                            <label for="fName">Sex:</label>
-                            <input type="text" name="sex" value="<%= typeof sex !== 'undefined' ? sex : 0 %>" placeholder="<%=sex%>" class="editable-text">
-                        </div>
-                        <div>
-                            <label for="fName">Phone:</label>
-                            <input type="number" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text2">
-                        </div>
-                        <div>
-                            <label>Change Password:</label>
-                            <input type="number" name="password" placeholder="new password" maxlength="12">
-                        </div>
-                        <div>
-                            <label>Picture:</label>
-                            <input type="file" id="fileInput" name="picture" accept="image/*" required>
-                        </div>
-                        <div>
-                            <input class="submit-profile-btn" type="submit" value="save">
-                        </div>
-                    </form>
-                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
+                        <form id="updateForm" >
+                            <div class="name" id="fname">
+                                <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text2">
+                            </div>
+                            <div class="line"></div>
+                            <div class="container_ifo">
+                                <div class="info" id="email">
+                                    Email: <input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text">
+                                </div>
+                                <div class="info" id="address">
+                                    Address: <input type="text" name="adress" value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address" class="editable-text">
+                                </div>
+                                <div class="info" id="password" style="white-space: nowrap;">
+                                    New Password: <input type="password" name="password" placeholder="new password" maxlength="12" class="editable-text">
+                                </div>
+                                <div class="info" id="age">
+                                    Age: <input type="text" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>" placeholder="age" class="editable-text">
+                                </div>
+                                <div class="info" id="phone_no" style="white-space: nowrap;">
+                                Phone Number: <input type="text" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text">
+                                </div> 
+                                <div class="info" id="picture">
+                                    Photo: <input type="file" name="picture2" id="picture2" accept="image/*" class="file-input">
+                                </div>
+                                <input type="submit" class="btn" id="save_info" value="Save Info">
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>
