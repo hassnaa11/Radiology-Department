@@ -506,7 +506,7 @@ app.post("/rad_profile", async (req, res) => {
             picture = picture.replace('public', '');
         }
         console.log(picture)
-        let { email, fullName, address, age, sex, phone_no, salary, start_shift, end_shift, password } = req.body;
+        let { email, fullName, address, age, sex, phone_no, password } = req.body;
         console.log({
             fullName,
             email,
@@ -515,24 +515,12 @@ app.post("/rad_profile", async (req, res) => {
         });
 
         age = parseInt(age)
-        salary = parseInt(salary)
         phone_no = parseInt(phone_no)
-        start_shift = parseInt(start_shift)
-        end_shift = parseInt(end_shift)
         if (isNaN(age)) {
             age = null;
         }
-        if (isNaN(salary)) {
-            salary = null;
-        }
         if (isNaN(phone_no)) {
             phone_no = null;
-        }
-        if (isNaN(start_shift)) {
-            start_shift = null;
-        }
-        if (isNaN(end_shift)) {
-            end_shift = null;
         }
 
         let nameParts = fullName.split(' ');
@@ -611,10 +599,11 @@ app.post("/upload_scan", async (req, res) => {
 
 app.post("/send_to_doctor", async (req, res) => {
     let { doc_email, scan_to_doc } = req.body;
-    console.log({
-        doc_email,
-        scan_to_doc
-    });
+    // console.log({
+    //     doc_email,
+    //     scan_to_doc
+    // });
+    // let is_pics;
     let doc_id = await pool.query(
         'SELECT id FROM users WHERE email = $1 AND type = $2 ',
         [doc_email, 'doctor']
@@ -623,17 +612,44 @@ app.post("/send_to_doctor", async (req, res) => {
         'SELECT patient_id FROM take_appointment WHERE scan_id = $1 ',
         [scan_to_doc]
     );
-    doc_id = doc_id.rows[0].id
-    patient_id = patient_id.rows[0].patient_id
-    console.log(doc_id, "  ", patient_id);
-    pool.query(`UPDATE scans SET dr_id = $1, patient_id = $2 WHERE scan_id = $3`,
-        [doc_id, patient_id, scan_to_doc], (err) => {
-            if (err) {
-                throw err;
-            }
-            res.redirect('back')
+    console.log("doc b: ", doc_id)
+    console.log("pat b: ", patient_id)
+    if (doc_id.rows.length === 0) {
+        console.log("err doc ", doc_id.rows.length);
+        msg = 'Error: Incorrect Doctor Email !';
+        res.redirect('back');
+    } else if (patient_id.rows.length === 0) {
+        console.log("err pat ", patient_id.rows.length);
+        msg = 'Error: Incorrect Scan ID !';
+        res.redirect('back');
+    } else {
+        console.log("pass2")
+        doc_id = doc_id.rows[0].id
+        patient_id = patient_id.rows[0].patient_id
+        console.log(doc_id, "  ", patient_id);
+
+        let is_pics = await pool.query(`select scan_pics from scans where scan_id = $1`,
+            [scan_to_doc]
+        )
+        console.log("is pics: ", is_pics)
+
+        if (is_pics.rows[0].scan_pics == null) {
+            msg = 'Error: Scan pictures does not exist !';
+            res.redirect('back');
         }
-    );
+        else {
+            is_pics = is_pics.rows[0].scan_pics
+            console.log("is pics2: ", is_pics)
+            pool.query(`UPDATE scans SET dr_id = $1, patient_id = $2 WHERE scan_id = $3`,
+                [doc_id, patient_id, scan_to_doc], (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    res.redirect('back')
+                }
+            );
+        }
+    }
 });
 
 app.post("/rad_send_form", async (req, res) => {
