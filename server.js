@@ -276,6 +276,15 @@ app.get('/forms', async (req, res) => {
         throw (err)
     }
 });
+app.get('/replies', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM forms where user_email=$1 and reply IS NOT NULL', [req.user.email]);
+        const replies = result.rows;
+        res.render('replies', { replies });
+    } catch (err) {
+        throw (err)
+    }
+});
 app.get('/patient_report', (req, res) => {
     const { scan_id, pic_index } = req.query;
     pool.query(
@@ -492,14 +501,14 @@ app.post("/take_appointment", async (req, res) => {
 app.post("/rad_profile", async (req, res) => {
     upload_profile_img(req, res, async (err) => {
         let picture = req.file;
-        // console.log(picture)
+        console.log(picture)
         picture = picture.path
-        // console.log(picture)
+        console.log(picture)
         if (picture != null) {
             picture = picture.replace(/\\/g, '/');
             picture = picture.replace('public', '');
         }
-        // console.log(picture)
+        console.log(picture)
         let { email, fullName, address, age, sex, phone_no, password } = req.body;
         // console.log({
         //     fullName,
