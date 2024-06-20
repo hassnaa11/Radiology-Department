@@ -14,7 +14,9 @@
     </div>
     <div class="left">
         <div>
-            <img src="/images/<%= scan_id %>/<%= selectedPic %>.jpg">
+            <%selectedPic = selectedPic.replace( /\\/g, '/' ); %>
+            <%selectedPic=selectedPic.replace('public', '' ); %>
+            <img src="<%= selectedPic %>">
         </div>
         <div>
             <p><%= selectedReport %></p>
