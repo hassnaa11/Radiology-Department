@@ -312,6 +312,7 @@ app.get('/doctor_scan', async (req, res) => {
 app.get('/doctor', (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
+    const scansNo = req.session.scansNo;
     res.render("doctor.ejs", {
         job: user.type,
         email: user.email,
@@ -327,6 +328,7 @@ app.get('/doctor', (req, res) => {
         start_time: user.start_time,
         end_time: user.end_time,
         scans: scans,
+        scansNo: scansNo
     })
 });
 app.post("/contact_form", async (req, res) => {
@@ -762,6 +764,7 @@ app.post('/login', passport.authenticate('local', {
                     if (err) {
                         throw err;
                     }
+                    req.session.scansNo = scanResults.rows.length;
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(
