@@ -213,11 +213,11 @@ app.get('/radiologist', async (req, res) => {
         [req.user.id]
     );
     scans_no = scans_no.rows;
-    console.log(scans_no);
+    // console.log(scans_no);
 
     let scan_pics = await pool.query('SELECT scan_pics FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL', [req.user.id]);
     scan_pics = scan_pics.rows;
-    console.log(scan_pics.rows);
+    // console.log(scan_pics.rows);
 
     res.render("radiologist.ejs", {
         type: req.user.type,
@@ -240,12 +240,6 @@ app.get('/radiologist', async (req, res) => {
         scan_pics,
         msg
     })
-});
-app.get('/radiologist_scan', async (req, res) => {
-    let scan_pics = await pool.query('SELECT scan_pics FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL', [req.user.id]);
-    console.log(scan_pics.rows);
-    scan_pics = scan_pics.rows;
-    res.render("radiologist_scan.ejs", scan_pics)
 });
 
 // admin home window route
@@ -498,21 +492,21 @@ app.post("/take_appointment", async (req, res) => {
 app.post("/rad_profile", async (req, res) => {
     upload_profile_img(req, res, async (err) => {
         let picture = req.file;
-        console.log(picture)
+        // console.log(picture)
         picture = picture.path
-        console.log(picture)
+        // console.log(picture)
         if (picture != null) {
             picture = picture.replace(/\\/g, '/');
             picture = picture.replace('public', '');
         }
-        console.log(picture)
+        // console.log(picture)
         let { email, fullName, address, age, sex, phone_no, password } = req.body;
-        console.log({
-            fullName,
-            email,
-            age,
-            picture
-        });
+        // console.log({
+        //     fullName,
+        //     email,
+        //     age,
+        //     picture
+        // });
 
         age = parseInt(age)
         phone_no = parseInt(phone_no)
@@ -528,7 +522,7 @@ app.post("/rad_profile", async (req, res) => {
         let lname = '';
         if (nameParts.length > 0) { fname = nameParts[0]; }
         if (nameParts.length > 1) { lname = nameParts[1]; }
-        console.log("pass: ", password);
+        // console.log("pass: ", password);
         let hashedPassword = '';
 
         if (password === '') {
@@ -555,22 +549,22 @@ app.post("/rad_profile", async (req, res) => {
 app.post("/upload_scan", async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
-            console.log("Upload error: ", err.message);
+            // console.log("Upload error: ", err.message);
             return res.redirect('back');
         }
         let { scan_id } = req.body;
-        console.log("scan_id:): ", scan_id);
+        // console.log("scan_id:): ", scan_id);
         let scan_pics = [];
         let scans_no = await pool.query(
             'SELECT scan_id FROM scans WHERE radiologist_id = $1 AND dr_id IS NULL',
             [req.user.id]
         );
         scans_no = scans_no.rows
-        console.log("scans_no:<< ", scans_no);
+        // console.log("scans_no:<< ", scans_no);
         let cond = false;
         for (let i = 0; i < scans_no.length; i++) {
-            console.log("here: ");
-            console.log(scans_no[i].scan_id);
+            // console.log("here: ");
+            // console.log(scans_no[i].scan_id);
             if (scan_id == scans_no[i].scan_id) {
                 cond = true;
             }
@@ -582,7 +576,7 @@ app.post("/upload_scan", async (req, res) => {
         req.files.forEach(file => {
             scan_pics.push(file.path);
         });
-        console.log(scan_pics);
+        // console.log(scan_pics);
         pool.query(
             'UPDATE scans SET scan_pics = $1 WHERE scan_id = $2',
             [scan_pics, scan_id],
@@ -612,26 +606,26 @@ app.post("/send_to_doctor", async (req, res) => {
         'SELECT patient_id FROM take_appointment WHERE scan_id = $1 ',
         [scan_to_doc]
     );
-    console.log("doc b: ", doc_id)
-    console.log("pat b: ", patient_id)
+    // console.log("doc b: ", doc_id)
+    // console.log("pat b: ", patient_id)
     if (doc_id.rows.length === 0) {
-        console.log("err doc ", doc_id.rows.length);
+        // console.log("err doc ", doc_id.rows.length);
         msg = 'Error: Incorrect Doctor Email !';
         res.redirect('back');
     } else if (patient_id.rows.length === 0) {
-        console.log("err pat ", patient_id.rows.length);
+        // console.log("err pat ", patient_id.rows.length);
         msg = 'Error: Incorrect Scan ID !';
         res.redirect('back');
     } else {
-        console.log("pass2")
+        // console.log("pass2")
         doc_id = doc_id.rows[0].id
         patient_id = patient_id.rows[0].patient_id
-        console.log(doc_id, "  ", patient_id);
+        // console.log(doc_id, "  ", patient_id);
 
         let is_pics = await pool.query(`select scan_pics from scans where scan_id = $1`,
             [scan_to_doc]
         )
-        console.log("is pics: ", is_pics)
+        // console.log("is pics: ", is_pics)
 
         if (is_pics.rows[0].scan_pics == null) {
             msg = 'Error: Scan pictures does not exist !';
@@ -639,7 +633,7 @@ app.post("/send_to_doctor", async (req, res) => {
         }
         else {
             is_pics = is_pics.rows[0].scan_pics
-            console.log("is pics2: ", is_pics)
+            // console.log("is pics2: ", is_pics)
             pool.query(`UPDATE scans SET dr_id = $1, patient_id = $2 WHERE scan_id = $3`,
                 [doc_id, patient_id, scan_to_doc], (err) => {
                     if (err) {
@@ -654,9 +648,9 @@ app.post("/send_to_doctor", async (req, res) => {
 
 app.post("/rad_send_form", async (req, res) => {
     let { why, body } = req.body;
-    console.log({
-        why, body
-    })
+    // console.log({
+    //     why, body
+    // })
     pool.query(
         `insert into forms (user_email,about,body) values ($1,$2,$3)`,
         [req.user.email, why, body],
