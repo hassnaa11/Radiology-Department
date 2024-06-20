@@ -10,7 +10,7 @@ html {
 
 body {
     margin-top: 0;
-    background-image: url("/images/background_login.jpg");
+    background-image: url("/images/bac.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'arial';
@@ -25,6 +25,9 @@ body {
 
 .container {
     background-color: white;
+    background-color: rgb(53 68 219 / 56%);
+    background-color: transparent;
+    /* background-color: var(--light-color); */
     margin-left: 200px;
     margin-top: 92px;
     padding: 40px;
@@ -96,7 +99,9 @@ input:nth-of-type(2) {
     width: 140px;
     height: 45px;
     background-color: var(--main-color);
+    background-color: var(--light-color);
     color: white;
+    color: black;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -117,10 +122,22 @@ a:first-of-type {
 
 body {
     font-family: sans-serif, "consolas";
-    background-image: url(/images/background_login.jpg);
+    /* background-image: url(/images/bac.png); */
+    /* background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%); */
+    /* background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 50%, #ededed 80%, #f6f6f6 100%); */
+    ;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+
+}
+
+body img {
+    position: absolute;
+    top: 45px;
+    left: 820px;
+    width: 600px;
+    height: 600px;
 
 }
 
@@ -198,4 +215,15 @@ p {
     color: red;
     font-size: 13px;
 
+}
+
+.back {
+    width: 700px;
+    height: 100%;
+    background-color: #077da6;
+    background-color: rgb(53 68 219 / 56%);
+
+    background-color: var(--light-color2);
+    background-color: var(--main-color);
+    background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
 }

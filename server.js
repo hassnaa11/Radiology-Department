@@ -106,7 +106,7 @@ app.get('/patient', async (req, res) => {
     scans_type = scans_type.rows;
     scans_date = scans_date.rows;
     scans_id = scans_id.rows;
-    console.log(patients_id);
+
     console.log(scans_type);
     console.log(scans_date);
     console.log(scans_id);
@@ -115,22 +115,22 @@ app.get('/patient', async (req, res) => {
         const now = new Date();
         if (now > scans_date[i - 1].scan_date) {
             pool.query(
-                'INSERT INTO report (report_no, patient_id) ' +
-                'SELECT $1, $2 WHERE NOT EXISTS (SELECT 1 FROM report WHERE report_no = $1)',
-                [scans_id[i - 1].scan_id, req.user.id]);
+                'INSERT INTO reports (report_no) ' +
+                'SELECT $1 WHERE NOT EXISTS (SELECT 1 FROM reports WHERE report_no = $1)',
+                [scans_id[i - 1].scan_id]);
         }
     }
-    let reports_no = await pool.query(
-        'SELECT report_no FROM report WHERE patient_id = $1 ',
-        [req.user.id]
-    );
-    reports_no = reports_no.rows;
-    console.log(reports_no);
+
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const fname = capitalize(req.user.fname);
+    const lname = capitalize(req.user.lname);
+
     res.render("patient.ejs", {
         type: req.user.type,
         email: req.user.email,
-        fname: req.user.fname,
-        lname: req.user.lname,
+        fname: fname,
+        lname: lname,
         address: req.user.address,
         age: req.user.age,
         sex: req.user.sex,
@@ -142,11 +142,79 @@ app.get('/patient', async (req, res) => {
         picture: req.user.picture,
         scans_type,
         scans_date,
-        reports_no,
+        scans_id,
+        //reports_no,
         scans: patientScans
-
-
     })
+});
+
+
+app.post("/take_appointment", async (req, res) => {
+    const patientId = req.user.id; // Assuming `req.user.id` contains the patient's ID
+    const { scanType, date, time } = req.body;
+
+    console.log(scanType, date, time);
+
+    let errors = [];
+
+    // Validate the input
+    if (!scanType || !date || !time) {
+        errors.push({ message: "Please fill in all fields" });
+    }
+
+    if (errors.length > 0) {
+        return res.render("take_appointment", { errors });
+    }
+
+    try {
+        // Combine date and time into a single timestamp string
+        const scanDate = `${date} ${time}:00`;
+
+        // Check if the scan type, date, and time are already reserved
+        const result = await pool.query(
+            `SELECT * FROM take_appointment WHERE scan_type = $1 AND scan_date = $2`,
+            [scanType, scanDate]
+        );
+
+        if (result.rows.length > 0) {
+            errors.push({ message: "This time slot is already reserved for the selected scan type" });
+            return res.render("take_appointment", { errors });
+        }
+
+        // Find an available radiologist
+        const radiologistResult = await pool.query(
+            `SELECT r.radiologist_id 
+             FROM radiologist r
+             JOIN users u ON r.radiologist_id = u.id
+             WHERE $1::time >= r.start_shift AND $1::time < r.end_shift
+             AND NOT EXISTS (
+                 SELECT 1 FROM take_appointment ta
+                 WHERE ta.radiologist_id = r.radiologist_id AND ta.scan_date = $2
+             )
+             LIMIT 1`,
+            [time, scanDate]
+        );
+
+        if (radiologistResult.rows.length === 0) {
+            errors.push({ message: "No available radiologist found for the selected time" });
+            return res.render("take_appointment", { errors });
+        }
+
+        const radiologistId = radiologistResult.rows[0].radiologist_id;
+
+        // Insert the new reservation
+        await pool.query(
+            `INSERT INTO take_appointment (patient_id, radiologist_id, scan_type, scan_date) VALUES ($1, $2, $3, $4)`,
+            [patientId, radiologistId, scanType, scanDate]
+        );
+
+        req.flash("success_msg", "Your reservation was successful");
+        res.redirect("/take_appointment");
+    } catch (err) {
+        console.error(err);
+        errors.push({ message: "Server error" });
+        res.render("take_appointment", { errors });
+    }
 });
 
 
@@ -272,6 +340,15 @@ app.get('/forms', async (req, res) => {
         const result = await pool.query('SELECT * FROM forms');
         const forms = result.rows;
         res.render('forms', { forms });
+    } catch (err) {
+        throw (err)
+    }
+});
+app.get('/replies', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM forms where user_email=$1 and reply IS NOT NULL', [req.user.email]);
+        const replies = result.rows;
+        res.render('replies', { replies });
     } catch (err) {
         throw (err)
     }
@@ -523,14 +600,14 @@ app.post("/take_appointment", async (req, res) => {
 app.post("/rad_profile", async (req, res) => {
     upload_profile_img(req, res, async (err) => {
         let picture = req.file;
-        // console.log(picture)
+        console.log(picture)
         picture = picture.path
-        // console.log(picture)
+        console.log(picture)
         if (picture != null) {
             picture = picture.replace(/\\/g, '/');
             picture = picture.replace('public', '');
         }
-        // console.log(picture)
+        console.log(picture)
         let { email, fullName, address, age, sex, phone_no, password } = req.body;
         // console.log({
         //     fullName,
