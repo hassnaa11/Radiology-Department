@@ -154,7 +154,10 @@ app.get('/patient', async (req, res) => {
 // radiologist window route
 let msg = '';
 let count = 0;
-app.get('/radiologist', async (req, res) => {
+app.get('/radiologist', passport.authenticate('local', {
+    failureRedirect: '/',
+    failureFlash: true
+}), async (req, res) => {
     if (count == 1) {
         msg = '';
         count--;
