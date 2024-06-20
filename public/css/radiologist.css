@@ -1,8 +1,9 @@
 body {
     width: 95%;
     margin: auto;
+    margin-bottom: 30px;
     padding-top: 2.5em;
-    background: #FFFFFF;
+    background: #f6f6f6;
     display: grid;
     grid-template-columns: 70% 30%;
     grid-template-rows: auto auto auto auto auto;
@@ -102,7 +103,6 @@ a {
 .scans-section {
     width: 85%;
     height: 80%;
-    background-color: #FFFFFF;
     border-radius: 25px;
     grid-area: "scanslist";
     margin-top: -10em;
@@ -134,7 +134,6 @@ a {
     width: fit-content;
     height: 2.5em;
 
-    background: #FFFFFF;
     border-bottom: 5px solid #60acc5;
 }
 
@@ -171,12 +170,13 @@ a {
 }
 
 .scans-section-scrollbar::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: #F8F8F8;
     /* Set the background color of the scrollbar track */
 }
 
 .scans-section-scrollbar::-webkit-scrollbar-thumb {
-    background: #F8F8F8;
+
+    background: #ffffff;
     ;
     /* Set the color of the scrollbar thumb */
 }
@@ -371,7 +371,7 @@ a {
     padding-top: 0.5em;
     width: 90%;
     height: fit-content;
-    background: #F8F8F8;
+    background: white;
     border-radius: 2.5em;
     grid-area: "taskbar";
     margin-top: 3.5em;
@@ -488,12 +488,12 @@ a {
     padding-top: 0.5em;
     width: 75%;
     height: 60%;
-    background: #F8F8F8;
+    background: white;
     border-radius: 40px;
     grid-area: "form";
     margin-top: 3em;
-    padding-bottom: 2em;
-
+    padding-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .contact-form-title {
@@ -1088,4 +1088,15 @@ a {
 
 .send-btn:hover {
     background-color: #b6c1c5;
+}
+
+.replies-btn {
+    text-decoration: underline;
+    color: #015876;
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.replies-btn:hover {
+    color: #4f8ca0;
 }
