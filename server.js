@@ -314,7 +314,7 @@ app.get('/doctor', (req, res) => {
     const scans = req.session.doctorScans;
     const scansNo = req.session.scansNo;
     res.render("doctor.ejs", {
-        job: user.type,
+        password: user.password,
         email: user.email,
         fname: user.fname,
         adress: user.adress,
@@ -332,13 +332,14 @@ app.get('/doctor', (req, res) => {
     })
 });
 app.post("/contact_form", async (req, res) => {
-    const { user_email, why, body } = req.body;
-    console.log(user_email)
+    const user = req.session.user;
+    const { why, body } = req.body;
+    // console.log(user_email)
     console.log(why)
     console.log(body)
     pool.query(
         'insert into forms (user_email, about, body) values($1,$2,$3)',
-        [user_email, why, body],
+        [user.email, why, body],
         (err, contact_form_res) => {
             if (err) {
                 throw err;
@@ -348,16 +349,43 @@ app.post("/contact_form", async (req, res) => {
 });
 
 app.post("/update", async (req, res) => {
-    const { fname, email, adress, job, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
+    // upload_profile_img(req, res, async (err) => {
+    //     let picture2 = req.file;
+    //     console.log(picture2)
+    //     console.log("hey ")
+
+    //     picture2 = picture2.path
+    //     console.log(picture2)
+    //     if (picture2 != null) {
+    //         picture2 = picture2.replace(/\\/g, '/');
+    //         picture2 = picture2.replace('public', '');
+    //         }
+    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2} = req.body;
+    console.log(picture2)
     let newage = parseInt(age)
     let newsalary = parseInt(salary)
     let newphone_no = parseInt(phone_no)
     let newdr_room = parseInt(dr_room)
     const userId = req.user.id;
     console.log(req.body);
+    let hashedPassword = '';
+        if (password === '') {
+            const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [userId]);
+            hashedPassword = oldPasswordResult.rows[0].password;
+        } else {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+        let picture = ''
+        if(picture2 === undefined){
+           const oldPicture = await pool.query(`SELECT picture FROM users WHERE users.id = $1`, [userId]);
+           picture = oldPicture.rows[0].picture;
+           console.log(picture)
+        } else{
+             picture = picture2
+        }
     pool.query(
-        'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6 where id=$7',
-        [fname, email, adress, picture2, newage, newphone_no, userId],
+        'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
+        [fname, email, adress, picture, newage, newphone_no,hashedPassword, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -365,20 +393,20 @@ app.post("/update", async (req, res) => {
         });
 
     pool.query(
-        'update doctor set job=$1 , salary=$2 ,ass_name=$3, special=$4, dr_room=$5, start_time=$6, end_time=$7 where doctor_id=$8',
-        [job, newsalary, ass_name, special, newdr_room, start_time, end_time, userId],
+        'update doctor set salary=$1 ,ass_name=$2, special=$3, dr_room=$4, start_time=$5, end_time=$6 where doctor_id=$7',
+        [newsalary, ass_name, special, newdr_room, start_time, end_time, userId],
         (err) => {
             if (err) {
                 throw err;
             }
         });
 
-    const user = req.session.user;
-    user.type = job,
+        const user = req.session.user;
+        user.password = password,
         user.email = email,
         user.fname = fname,
         user.adress = adress,
-        user.picture = picture2,
+        user.picture = picture,
         user.salary = salary,
         user.age = age,
         user.ass_name = ass_name,
@@ -387,8 +415,9 @@ app.post("/update", async (req, res) => {
         user.special = special,
         user.start_time = start_time,
         user.end_time = end_time
-    res.redirect('/doctor');
-});
+        res.redirect('/doctor');
+    });
+// });
 
 app.post("/write_report", async (req, res) => {
     const { scan_id, dr_id, picIndex, report } = req.body;
@@ -780,7 +809,7 @@ app.post('/login', passport.authenticate('local', {
                                 throw err;
                             }
 
-                            req.session.patient = results.rows[0];
+                            req.session.patient = results.rows;
                             console.log(req.session.patient);
 
                             if (req.user.type === 'admin') {
