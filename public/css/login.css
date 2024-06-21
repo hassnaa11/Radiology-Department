@@ -27,7 +27,8 @@ body {
     background-color: white;
     background-color: rgb(53 68 219 / 56%);
     background-color: transparent;
-    background-color: var(--light-color);
+    /* background-color: var(--light-color); */
+    box-shadow: -11px 8px 10px 0 #00000024;
     margin-left: 150px;
     margin-top: 92px;
     padding: 40px;
@@ -153,7 +154,8 @@ body img {
     width: 300px;
     /* background-color: rgb(233 231 231); */
     /* border-radius: 40px; */
-    background-color: var(--light-color);
+    /* background-color: var(--light-color); */
+    box-shadow: -11px 8px 10px 0 #00000024;
     padding: 40px;
     padding-top: 20px;
     border-left: 3px solid black;
