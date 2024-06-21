@@ -71,6 +71,54 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
+function allowOnly(role) {
+    return function (req, res, next) {
+        if (req.isAuthenticated() && req.user.type === role) {
+            return next();
+        }
+        if (req.user.type === 'admin') {
+            return res.redirect('/admin');
+        } else if (req.user.type === 'doctor') {
+            return res.redirect('/doctor');
+        }
+        else if (req.user.type === 'patient') {
+            return res.redirect('/patient');
+        }
+        else if (req.user.type === 'radiologist') {
+            return res.redirect('/radiologist');
+        }
+        else {
+            return res.redirect('/');
+        }
+    }
+}
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        if (req.user.type === 'admin') {
+            return res.redirect('/admin');
+        } else if (req.user.type === 'doctor') {
+            return res.redirect('/doctor');
+        }
+        else if (req.user.type === 'patient') {
+            return res.redirect('/patient');
+        }
+        else if (req.user.type === 'radiologist') {
+            return res.redirect('/radiologist');
+        }
+        else {
+            return res.redirect('/');
+        }
+    }
+    next();
+}
 
 // routes
 // visitors page route
@@ -78,7 +126,7 @@ app.get('/', (req, res) => {
     res.render("visitors.ejs")
 });
 // sign in route
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render("login.ejs")
 });
 // sign up route
@@ -88,7 +136,7 @@ app.get('/signup', (req, res) => {
 // patient window route
 
 
-app.get('/patient', async (req, res) => {
+app.get('/patient', checkAuthenticated, allowOnly('patient'), async (req, res) => {
     const patientScans = req.session.patient || [];
     let scans_type = await pool.query(
         'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
@@ -219,12 +267,10 @@ app.post("/take_appointment", async (req, res) => {
     }
 });
 
-
-
 // radiologist window route
 let msg = '';
 let count = 0;
-app.get('/radiologist', async (req, res) => {
+app.get('/radiologist', checkAuthenticated, allowOnly('radiologist'), async (req, res) => {
     if (count == 1) {
         msg = '';
         count--;
@@ -318,31 +364,31 @@ app.get('/radiologist', async (req, res) => {
 });
 
 // admin home window route
-app.get('/admin', (req, res) => {
+app.get('/admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("admin.ejs")
 });
 // engineers_admin window route
-app.get('/engineers_admin', (req, res) => {
+app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', (req, res) => {
+app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("doctors_admin.ejs")
 });
 // radiologists_admin window route
-app.get('/radiologists_admin', (req, res) => {
+app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("radiologists_admin.ejs")
 });
 // add_radiologist window route
-app.get('/add_radiologist', (req, res) => {
+app.get('/add_radiologist', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("add_radiologist.ejs")
 });
 // add_doctor window route
-app.get('/add_doctor', (req, res) => {
+app.get('/add_doctor', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("add_doctor.ejs")
 });
 // form window route
-app.get('/forms', async (req, res) => {
+app.get('/forms', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms');
         const forms = result.rows;
@@ -351,7 +397,7 @@ app.get('/forms', async (req, res) => {
         throw (err)
     }
 });
-app.get('/replies', async (req, res) => {
+app.get('/replies', checkAuthenticated, async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms where user_email=$1 and reply IS NOT NULL', [req.user.email]);
         const replies = result.rows;
@@ -360,7 +406,7 @@ app.get('/replies', async (req, res) => {
         throw (err)
     }
 });
-app.get('/patient_report', (req, res) => {
+app.get('/patient_report', checkAuthenticated, allowOnly('patient'), (req, res) => {
     const { scan_id, pic_index } = req.query;
     pool.query(
         'SELECT scans.scan_pics, reports.case_description FROM scans JOIN reports ON scans.scan_id = reports.scan_id WHERE scans.scan_id = $1',
@@ -378,7 +424,7 @@ app.get('/patient_report', (req, res) => {
             }
         })
 });
-app.get('/doctor_scan', async (req, res) => {
+app.get('/doctor_scan', checkAuthenticated, allowOnly('doctor'), async (req, res) => {
     const { scan_id, pic_index } = req.query;
     const result = await pool.query(
         'SELECT scan_pics FROM scans WHERE scan_id = $1',
@@ -393,7 +439,7 @@ app.get('/doctor_scan', async (req, res) => {
     }
 
 });
-app.get('/doctor', (req, res) => {
+app.get('/doctor', checkAuthenticated, allowOnly('doctor'), (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
     const scansNo = req.session.scansNo;
@@ -811,7 +857,7 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
 }), (req, res) => {
     const userId = req.user.id;
