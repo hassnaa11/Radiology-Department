@@ -185,7 +185,7 @@ app.post("/take_appointment", async (req, res) => {
              JOIN users u ON r.radiologist_id = u.id
              WHERE $1::time >= r.start_shift AND $1::time < r.end_shift
              AND NOT EXISTS (
-                 SELECT 1 FROM take_appointment ta
+                 SELECT * FROM take_appointment ta
                  WHERE ta.radiologist_id = r.radiologist_id AND ta.scan_date = $2
              )
              LIMIT 1`,
@@ -427,6 +427,9 @@ app.post("/contact_form", async (req, res) => {
         (err, contact_form_res) => {
             if (err) {
                 throw err;
+            }
+            else {
+                res.redirect('back')
             }
 
         })
@@ -809,6 +812,7 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: true
 }), (req, res) => {
+    console.log("blud");
     const userId = req.user.id;
     pool.query(
         'select users.* , doctor.* from users join doctor on users.id = doctor.doctor_id where users.id=$1',
@@ -819,6 +823,7 @@ app.post('/login', passport.authenticate('local', {
             }
             const user = results.rows[0];
             req.session.user = user;
+            console.log(user);
 
             pool.query(
                 'SELECT * FROM scans WHERE dr_id = $1',
