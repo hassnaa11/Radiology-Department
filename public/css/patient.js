@@ -92,6 +92,57 @@ window.onclick = function (event) {
     }
 }
 
+// Get the delete modal
+var deleteModal = document.getElementById("delete-modal");
+
+// Get the <span> element that closes the modal
+var closeBtns = document.getElementsByClassName("close-btn");
+
+// When the user clicks on <span> (x), close the modal
+for (var i = 0; i < closeBtns.length; i++) {
+    closeBtns[i].onclick = function() {
+        deleteModal.style.display = "none";
+    }
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == deleteModal) {
+        deleteModal.style.display = "none";
+    }
+}
+
+// Attach click event to each reservation-div
+var reservationDivs = document.getElementsByClassName("reservations-div");
+for (var i = 0; i < reservationDivs.length; i++) {
+    reservationDivs[i].onclick = function() {
+        deleteModal.style.display = "block";
+        var scanId = this.getAttribute("data-id");
+        var confirmDeleteBtn = document.getElementById("confirm-delete-btn");
+        confirmDeleteBtn.onclick = function() {
+            // Send a request to delete the appointment
+            fetch('/delete_appointment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ scanId: scanId })
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Reload the page after successful deletion
+                } else {
+                    alert('Failed to delete the appointment');
+                }
+            });
+        }
+    }
+}
+
+// Cancel delete button
+var cancelDeleteBtn = document.getElementById("cancel-delete-btn");
+cancelDeleteBtn.onclick = function() {
+    deleteModal.style.display = "none";
+}
 
 // document.addEventListener("DOMContentLoaded", function () {
 //     document.getElementById("contact-btn").addEventListener("click", openPopup2);

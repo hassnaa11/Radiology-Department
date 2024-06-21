@@ -430,6 +430,10 @@ height: 80px;
 background: #2998C1;
 border: 2px solid #015876;
 }
+
+.reservations-div:hover{
+background: #2eaedd;
+}
   
 .reservations-div p{
 font-family: 'Inter';
@@ -583,6 +587,10 @@ background-color: #8c9192e8;
   cursor: pointer;
   font-family: 'Inter';
   margin-top: 1em;
+}
+
+#confirm-delete-btn, #cancel-delete-btn {
+  margin-top: 10px;
 }
 
 .contact-form {
@@ -1104,5 +1112,6 @@ font-size: 0.77em;
   font-size: 18px;
   text-align: center;
   padding: 15px;
-  margin-top: 40px;
+  position: relative;
+  top:40px;
 }

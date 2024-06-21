@@ -232,6 +232,23 @@ app.post("/take_appointment", async (req, res) => {
     }
 });
 
+app.post('/delete_appointment', async (req, res) => {
+    const { scanId } = req.body;
+
+    try {
+        await pool.query(
+            'DELETE FROM take_appointment WHERE scan_id = $1 AND patient_id = $2',
+            [scanId, req.user.id]
+        );
+        return res.redirect('back')
+        //res.status(200).send({ message: 'Appointment deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        //res.status(500).send({ message: 'Failed to delete appointment' });
+        return res.redirect('back')
+    }
+});
+
 
 
 // radiologist window route

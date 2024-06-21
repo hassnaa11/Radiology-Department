@@ -116,7 +116,7 @@
                 <% for (let i=num_of_appointments; i> 0; i--) { %>
                     <% const now=new Date(); %>
                         <% if(now<scans_date[i-1].scan_date){%>
-                            <div class="reservations-div">
+                            <div class="reservations-div" data-id="<%= scans_id[i - 1].scan_id %>">
                                 <div class="deets-1">
                                     <h3><%=scans_type[i-1].scan_type%></h3>
                                 </div>
@@ -132,6 +132,23 @@
             <button id="create-new-btn">Create New</button>
         </div>
     </section>
+
+    <!-- pop up to delete reserv -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delete Appointment</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this appointment?</p>
+                <form id="delete-form" method="POST" action="/delete_appointment">
+                <button id="confirm-delete-btn">Delete</button>
+                <button id="cancel-delete-btn">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div id="create-new-modal" class="modal">
