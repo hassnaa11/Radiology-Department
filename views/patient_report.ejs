@@ -13,10 +13,12 @@
         <span>Scan & Report</span>
     </div>
     <div class="left">
-        <div>
-            <img src="/images/<%= scan_id %>/<%= selectedPic %>.jpg">
+        <div class="selectedPic" >
+            <%selectedPic = selectedPic.replace( /\\/g, '/' ); %>
+            <%selectedPic=selectedPic.replace('public', '' ); %>
+            <img src="<%= selectedPic %>" class="scan-image">
         </div>
-        <div>
+        <div class="selectedReport">
             <p><%= selectedReport %></p>
         </div>
     </div>

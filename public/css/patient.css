@@ -171,11 +171,9 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 65%;
-
-  width: 95%;
+  gap: 10em;
+  width: 50em;
   height: 2.8em;
-
   background: #FFFFFF;
   border: 2px solid #0C96C5;
   border-radius: 25px;
