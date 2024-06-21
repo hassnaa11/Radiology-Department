@@ -24,15 +24,21 @@
     <section class="profile-block"> <!--PROFILE BLOCK-->
         <div class="profile-head">
             <h2>My Profile</h2>
-            <button class="open-file" onclick="openPopup3()">
-                <span class="file-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
-                        <path stroke-width="5" stroke="black"
-                            d="M41.7322 11.7678L42.4645 12.5H43.5H68.5V64.5H2.5V2.5H32.4645L41.7322 11.7678Z"></path>
-                    </svg>
-                    <span class="file-front"></span>
-                </span>
-            </button>
+            <div class="logout-profile">
+                <button class="open-file" onclick="openPopup3()">
+                    <span class="file-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
+                            <path stroke-width="5" stroke="black"
+                                d="M41.7322 11.7678L42.4645 12.5H43.5H68.5V64.5H2.5V2.5H32.4645L41.7322 11.7678Z">
+                            </path>
+                        </svg>
+                        <span class="file-front"></span>
+                    </span>
+                </button>
+                <a href="/logout">
+                    <img src="/images/logout.png">
+                </a>
+            </div>
 
             <div id="popupContainer3" class="popup-container2">
                 <div class="popup-content profile-input ">

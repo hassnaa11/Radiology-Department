@@ -133,6 +133,15 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
 app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
+// logout route
+app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/login'); // Redirect to login page after logout
+    });
+});
 // patient window route
 let msg_p = '';
 let count_p = 0;
