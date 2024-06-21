@@ -38,16 +38,29 @@ body {
 .left {
     display: grid;
     grid-template-columns: repeat(2, 50%);
-    gap: 50px;
+    /* gap: 50px; */
     padding: 100px;
     padding-top: 60px;
-    width: 100%;
+    width: 1500px;
     height: 100%;
 }
 
-.left div {
+.selectedPic {
     background-color: var(--light-color);
-    height: 480px;
+    height: 800px;
+    width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 0 0 4px 0px #077da66e;
+    transition: 0.4s;
+}
+.selectedReport{
+    margin-left: 300px;
+    background-color: var(--light-color);
+    height:800px;
+    width: 400px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,4 +72,8 @@ body {
 .left div:hover {
     box-shadow: 0 0 8px 1px #077da66e;
     transform: perspective(200px) translateZ(9px);
+}
+.scan-image{
+    width: 90%;
+    height: 90%;
 }

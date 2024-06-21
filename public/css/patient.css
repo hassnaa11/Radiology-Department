@@ -171,11 +171,9 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 65%;
-
-  width: 95%;
+  gap: 20em;
+  width: 40em;
   height: 2.8em;
-
   background: #FFFFFF;
   border: 2px solid #0C96C5;
   border-radius: 25px;
@@ -593,7 +591,7 @@ background-color: #8c9192e8;
   align-items: center;
   padding-top: 0.5em;
   width: 65%;
-  height: 6.2em;
+  height: 7.5em;
   margin-bottom: 2em;
   background: #F8F8F8;
   border-radius: 40px;
@@ -643,7 +641,7 @@ background-color: #8c9192e8;
 .replies-btn {
   text-decoration: underline;
   color: #015876;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   margin-top: 10px;
 }
 
@@ -931,65 +929,76 @@ font-size: 0.77em;
 .profile_photo {
   border-radius: 150px;
   margin-top: 10px;
+  margin-left: 120px;
 }
 
 .close_btn {
-  margin-left: 400px;
+  margin-left: 360px;
   position: absolute;
-  margin-top: 5px;
+  margin-top: 4px;
+  margin-right: 10px;
   font-weight: 700;
   font-size: xx-large;
   height: 50px;
   width: 50px;
   color: #f8f9f9;
   cursor: pointer;
+  z-index: 10001;
 
 }
 
 .line {
   margin-top: 10px;
   margin-bottom: 10px;
+  margin-left: 70px;
   width: 250px;
-  /* Adjust the width as needed */
   height: 2px;
-  /* Adjust the height as needed */
   background-color: #ffffff;
-  /* Color of the line */
   position: relative;
 }
 
 .info {
   font-size: 20px;
   color: #ffffff;
-  text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
-  margin-left: 30px;
+  text-shadow: 2px 4px 4px rgba(25, 26, 27, 0.5);
+  margin-left: 20px;
   height: 35px;
-  font-weight: 300;
-  width: auto;
-
-}
-
-.info-ii {
+  font-weight: 100;
+  width: 60px;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
+  margin-bottom: 10px;
 }
 
-.editable-text {
+.editable-text2 {
   border: none;
   cursor: pointer;
   outline: none;
   resize: none;
   font-family: inherit;
   text-shadow: none;
-  color: #e9ebeb;
-  font-weight: 100;
-  margin-left: 12px;
-  font-size: 18px;
-  border-radius: 15px;
-  border-color: #ffffff;
+  color: #121212;
+  font-weight: 50;
+  margin-left: 150px;
+  margin-top: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  width: 70px;
+  height: 20px;
+  padding-left: 10px;
+  
 
+} 
+
+.file-input {
+  cursor: pointer; 
+  padding-left: 10px;
+  padding-right:260px; /* Add padding for better click area */
+  border-radius: 10px; /* Rounded corners */
+  border: none; /* Remove default border */
+  font-size: 15px;
+  /* transition: background-color 0.3s, color 0.3s, transform 0.3s; */
+  width: 100px;
 }
 
 .editable-text {
@@ -1001,13 +1010,30 @@ font-size: 0.77em;
 .editable-text:hover {
   border: 1px solid #ccc;
 }
+.editable-text {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  text-shadow: none;
+  color: #121212;
+  font-weight: 50;
+  margin-left: 5px;
+  margin-bottom: 0px;
+  font-size: 15px;
+  border-radius: 15px;
+  border-color: #ffffff;
+  width: 280px;
+  height: 20px;
+  padding-left: 10px;
+}
 
 .name {
-  font-size: 25px;
+  font-size: 20px;
   color: #ffffff;
   text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
   margin-top: 6px;
-
 }
 
 .popup-container2 {
@@ -1020,22 +1046,23 @@ font-size: 0.77em;
   z-index: 9999;
   /* Ensure the popup appears on top of other elements */
   backdrop-filter: blur(4px);
+  overflow-y: auto;
 }
 
 /* Styles for the popup content */
 .popup-content {
-  position: relative;
+  /* position: relative; */
   max-width: 400px;
   margin: 15px auto;
   /* Adjust the top and bottom margins to center the popup vertically */
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-  height: 625px;
-  width: 500px;
+  height: 600px;
+  /* width: 600px; */
   background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
   font-family: "Raleway", sans-serif;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   color: #f8f9f9;
@@ -1053,16 +1080,18 @@ font-size: 0.77em;
 }
 
 .btn {
-  margin-top: 30px;
+  margin-top: 0px;
   margin-left: 150px;
   width: 80px;
-  height: 50px;
+  height: 40px;
   background-color: #ffffff;
   color: #315772;
   border-radius: 15px;
   font-size: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+  
+
 }
 
 .btn:hover {

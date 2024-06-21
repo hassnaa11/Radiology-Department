@@ -135,9 +135,6 @@ app.get('/patient', async (req, res) => {
         age: req.user.age,
         sex: req.user.sex,
         phone_no: req.user.phone_no,
-        salary: req.user.salary,
-        start_shift: req.user.start_shift,
-        end_shift: req.user.end_shift,
         password: req.user.password,
         picture: req.user.picture,
         scans_type,
@@ -163,7 +160,10 @@ app.post("/take_appointment", async (req, res) => {
     }
 
     if (errors.length > 0) {
-        return res.render("take_appointment", { errors });
+        console.log("error i gonna render to patient")
+        req.flash('errors', errors);
+        // return res.render("patient.ejs", { errors });
+        return res.redirect('back')
     }
 
     try {
@@ -178,7 +178,9 @@ app.post("/take_appointment", async (req, res) => {
 
         if (result.rows.length > 0) {
             errors.push({ message: "This time slot is already reserved for the selected scan type" });
-            return res.render("take_appointment", { errors });
+            // return res.render("patient.ejs", { errors });
+            req.flash('errors', errors);
+            return res.redirect('back')
         }
 
         // Find an available radiologist
@@ -188,7 +190,7 @@ app.post("/take_appointment", async (req, res) => {
              JOIN users u ON r.radiologist_id = u.id
              WHERE $1::time >= r.start_shift AND $1::time < r.end_shift
              AND NOT EXISTS (
-                 SELECT 1 FROM take_appointment ta
+                 SELECT * FROM take_appointment ta
                  WHERE ta.radiologist_id = r.radiologist_id AND ta.scan_date = $2
              )
              LIMIT 1`,
@@ -197,7 +199,9 @@ app.post("/take_appointment", async (req, res) => {
 
         if (radiologistResult.rows.length === 0) {
             errors.push({ message: "No available radiologist found for the selected time" });
-            return res.render("take_appointment", { errors });
+            // return res.render("patient.ejs", { errors });
+            req.flash('errors', errors);
+            return res.redirect('back')
         }
 
         const radiologistId = radiologistResult.rows[0].radiologist_id;
@@ -209,11 +213,13 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         req.flash("success_msg", "Your reservation was successful");
-        res.redirect("/take_appointment");
+        res.redirect("/patient");
     } catch (err) {
         console.error(err);
         errors.push({ message: "Server error" });
-        res.render("take_appointment", { errors });
+        // res.render("patient.ejs", { errors });
+        req.flash('errors', errors);
+        return res.redirect('back')
     }
 });
 
@@ -287,11 +293,16 @@ app.get('/radiologist', async (req, res) => {
     scan_pics = scan_pics.rows;
     // console.log(scan_pics.rows);
 
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const fname = capitalize(req.user.fname);
+    const lname = capitalize(req.user.lname);
+
     res.render("radiologist.ejs", {
         type: req.user.type,
         email: req.user.email,
-        fname: req.user.fname,
-        lname: req.user.lname,
+        fname: fname,
+        lname: lname,
         address: req.user.address,
         age: req.user.age,
         sex: req.user.sex,
@@ -676,10 +687,15 @@ app.get('/doctor', (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
     const scansNo = req.session.scansNo;
+
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const fname = capitalize(req.user.fname);
+
     res.render("doctor.ejs", {
         password: user.password,
         email: user.email,
-        fname: user.fname,
+        fname: fname,
         adress: user.adress,
         picture: user.picture,
         salary: user.salary,
@@ -707,6 +723,9 @@ app.post("/contact_form", async (req, res) => {
             if (err) {
                 throw err;
             }
+            else {
+                res.redirect('back')
+            }
 
         })
 });
@@ -723,7 +742,7 @@ app.post("/update", async (req, res) => {
     //         picture2 = picture2.replace(/\\/g, '/');
     //         picture2 = picture2.replace('public', '');
     //         }
-    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2} = req.body;
+    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     console.log(picture2)
     let newage = parseInt(age)
     let newsalary = parseInt(salary)
@@ -732,23 +751,23 @@ app.post("/update", async (req, res) => {
     const userId = req.user.id;
     console.log(req.body);
     let hashedPassword = '';
-        if (password === '') {
-            const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [userId]);
-            hashedPassword = oldPasswordResult.rows[0].password;
-        } else {
-            hashedPassword = await bcrypt.hash(password, 10);
-        }
-        let picture = ''
-        if(picture2 === undefined){
-           const oldPicture = await pool.query(`SELECT picture FROM users WHERE users.id = $1`, [userId]);
-           picture = oldPicture.rows[0].picture;
-           console.log(picture)
-        } else{
-             picture = picture2
-        }
+    if (password === '') {
+        const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [userId]);
+        hashedPassword = oldPasswordResult.rows[0].password;
+    } else {
+        hashedPassword = await bcrypt.hash(password, 10);
+    }
+    let picture = ''
+    if (picture2 === undefined) {
+        const oldPicture = await pool.query(`SELECT picture FROM users WHERE users.id = $1`, [userId]);
+        picture = oldPicture.rows[0].picture;
+        console.log(picture)
+    } else {
+        picture = picture2
+    }
     pool.query(
         'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
-        [fname, email, adress, picture, newage, newphone_no,hashedPassword, userId],
+        [fname, email, adress, picture, newage, newphone_no, hashedPassword, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -764,8 +783,8 @@ app.post("/update", async (req, res) => {
             }
         });
 
-        const user = req.session.user;
-        user.password = password,
+    const user = req.session.user;
+    user.password = password,
         user.email = email,
         user.fname = fname,
         user.adress = adress,
@@ -778,8 +797,8 @@ app.post("/update", async (req, res) => {
         user.special = special,
         user.start_time = start_time,
         user.end_time = end_time
-        res.redirect('/doctor');
-    });
+    res.redirect('/doctor');
+});
 // });
 
 app.post("/write_report", async (req, res) => {
@@ -1088,6 +1107,7 @@ app.post('/login', passport.authenticate('local', {
     failureRedirect: '/',
     failureFlash: true
 }), (req, res) => {
+    console.log("blud");
     const userId = req.user.id;
     pool.query(
         'select users.* , doctor.* from users join doctor on users.id = doctor.doctor_id where users.id=$1',
@@ -1098,6 +1118,7 @@ app.post('/login', passport.authenticate('local', {
             }
             const user = results.rows[0];
             req.session.user = user;
+            console.log(user);
 
             pool.query(
                 'SELECT * FROM scans WHERE dr_id = $1',
@@ -1106,7 +1127,7 @@ app.post('/login', passport.authenticate('local', {
                     if (err) {
                         throw err;
                     }
-                    req.session.scansNo= scanResults.rows.length;
+                    req.session.scansNo = scanResults.rows.length;
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(

@@ -10,7 +10,7 @@ html {
 
 body {
     margin-top: 0;
-    background-image: url("/images/bac.jpeg");
+    background-image: url("/images/pic.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'arial';
@@ -28,13 +28,17 @@ body {
     background-color: rgb(53 68 219 / 56%);
     background-color: transparent;
     /* background-color: var(--light-color); */
-    margin-left: 200px;
+    box-shadow: -11px 8px 10px 0 #00000024;
+    margin-left: 150px;
     margin-top: 92px;
     padding: 40px;
-    width: 370px;
+    width: 310px;
     height: calc(75vh - 75px);
-    border-radius: 20px;
+    /* border-radius: 20px; */
     position: relative;
+    border-left: 3px solid black;
+    /* border-bottom: 3px solid black; */
+    /* border-bottom-left-radius: 3px solid black; */
 }
 
 .container * {
@@ -100,6 +104,8 @@ input:nth-of-type(2) {
     height: 45px;
     background-color: var(--main-color);
     background-color: var(--light-color);
+    background-color: rgb(144, 200, 231);
+    background-color: rgb(85, 162, 210);
     color: white;
     color: black;
     border: none;
@@ -122,7 +128,7 @@ a:first-of-type {
 
 body {
     font-family: sans-serif, "consolas";
-    /* background-image: url(/images/bac.png); */
+    background-image: url(/images/pic.jpg);
     /* background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%); */
     /* background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 50%, #ededed 80%, #f6f6f6 100%); */
     ;
@@ -142,14 +148,17 @@ body img {
 }
 
 .signUpForm {
-    margin-left: 210px;
-    margin-top: 20px;
-    height: 585px;
+    margin-left: 150px;
+    margin-top: 50px;
+    height: 560px;
     width: 300px;
-    background-color: rgb(255, 249, 249, 0.7);
-    border-radius: 40px;
-    background-color: white;
+    /* background-color: rgb(233 231 231); */
+    /* border-radius: 40px; */
+    /* background-color: var(--light-color); */
+    box-shadow: -11px 8px 10px 0 #00000024;
     padding: 40px;
+    padding-top: 20px;
+    border-left: 3px solid black;
 }
 
 label {
@@ -172,7 +181,9 @@ input {
 input[type="submit"] {
     width: 130px;
     height: 40px;
-    background-color: var(--main-color);
+    /* background-color: var(--main-color); */
+    background-color: rgb(85, 162, 210);
+    ;
     color: white;
     padding-left: 5px;
     margin-left: 80px;
