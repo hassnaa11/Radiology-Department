@@ -918,6 +918,7 @@ a {
     z-index: 9999;
     /* Ensure the popup appears on top of other elements */
     backdrop-filter: blur(4px);
+    overflow-y: auto;
 }
 
 /* Styles for the popup content */
