@@ -593,7 +593,7 @@ background-color: #8c9192e8;
   align-items: center;
   padding-top: 0.5em;
   width: 65%;
-  height: 6.2em;
+  height: 7.5em;
   margin-bottom: 2em;
   background: #F8F8F8;
   border-radius: 40px;
@@ -643,7 +643,7 @@ background-color: #8c9192e8;
 .replies-btn {
   text-decoration: underline;
   color: #015876;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   margin-top: 10px;
 }
 
