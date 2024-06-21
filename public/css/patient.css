@@ -171,11 +171,9 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 65%;
-
-  width: 95%;
+  gap: 10em;
+  width: 50em;
   height: 2.8em;
-
   background: #FFFFFF;
   border: 2px solid #0C96C5;
   border-radius: 25px;
@@ -949,7 +947,7 @@ font-size: 0.77em;
 }
 
 .info {
-  font-size: 15px;
+  font-size: 20px;
   color: #ffffff;
   text-shadow: 2px 4px 4px rgba(25, 26, 27, 0.5);
   margin-left: 20px;
@@ -957,7 +955,7 @@ font-size: 0.77em;
   font-weight: 100;
   width: 60px;
   display: flex;
-  /* margin-bottom: 5px; */
+  margin-bottom: 10px;
 }
 
 .editable-text2 {
@@ -974,18 +972,17 @@ font-size: 0.77em;
   font-size: 15px;
   border-radius: 10px;
   background-color: #ffffff;
-  width: 50px;
+  width: 70px;
   height: 20px;
-  padding-left: 30px;
+  padding-left: 10px;
   
 
 } 
 
 .file-input {
-  
   cursor: pointer; 
   padding-left: 10px;
-  padding-right:200px; /* Add padding for better click area */
+  padding-right:260px; /* Add padding for better click area */
   border-radius: 10px; /* Rounded corners */
   border: none; /* Remove default border */
   font-size: 15px;
@@ -1016,7 +1013,7 @@ font-size: 0.77em;
   font-size: 15px;
   border-radius: 15px;
   border-color: #ffffff;
-  width: 180px;
+  width: 280px;
   height: 20px;
   padding-left: 10px;
 }
@@ -1042,18 +1039,18 @@ font-size: 0.77em;
 
 /* Styles for the popup content */
 .popup-content {
-  position: relative;
+  /* position: relative; */
   max-width: 400px;
   margin: 15px auto;
   /* Adjust the top and bottom margins to center the popup vertically */
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-  height: 625px;
-  width: 500px;
+  height: 600px;
+  /* width: 600px; */
   background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
   font-family: "Raleway", sans-serif;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: center;
   color: #f8f9f9;
@@ -1071,16 +1068,18 @@ font-size: 0.77em;
 }
 
 .btn {
-  margin-top: 30px;
+  margin-top: 0px;
   margin-left: 150px;
   width: 80px;
-  height: 50px;
+  height: 40px;
   background-color: #ffffff;
   color: #315772;
   border-radius: 15px;
   font-size: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+  
+
 }
 
 .btn:hover {
