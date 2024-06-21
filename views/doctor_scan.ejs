@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan</title>
+    <link rel="stylesheet" href="/css/doctor_scan.css">
+</head>
+
+<body>
+    <div class="top-side">
+        <span>Scan Image</span>
+    </div>
+    <div class="left">
+        <% if (selectedPic) { %>
+            <%selectedPic = selectedPic.replace( /\\/g, '/' ); %>
+            <%selectedPic=selectedPic.replace('public', '' ); %>
+            <div>
+            <img src="<%=selectedPic %>" class="scan-image" alt="Scan Image">
+        </div>
+        <% } else { %>
+            <p>No image available</p>
+        <% } %>
+        <!-- <% console.log(selectedPic) %>
+        <img src="<%= selectedPic %>" class="scan-image"> -->
+    </div>
+</body>
+
+</html>

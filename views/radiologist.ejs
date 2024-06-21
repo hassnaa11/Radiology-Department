@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/radiologist.css" rel="stylesheet">
+    <title> profile </title>
+</head>
+
+<body>
+    <section class="header">
+        <img class="logo" src="/images/logo2.jpg"></img>
+        <div class="search">
+            <input placeholder="Search..." type="text">
+            <button type="submit">
+                <p class="go">Go</p>
+            </button>
+        </div>
+    </section>
+
+
+    <section class="profile-block"> <!--PROFILE BLOCK-->
+        <div class="profile-head">
+            <h2>My Profile</h2>
+            <button class="open-file" onclick="openPopup3()">
+                <span class="file-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
+                        <path stroke-width="5" stroke="black"
+                            d="M41.7322 11.7678L42.4645 12.5H43.5H68.5V64.5H2.5V2.5H32.4645L41.7322 11.7678Z"></path>
+                    </svg>
+                    <span class="file-front"></span>
+                </span>
+            </button>
+
+            <div id="popupContainer3" class="popup-container2">
+                <div class="popup-content profile-input ">
+                    <!-- Content for the popup window -->
+                    <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="200"
+                        height="200">
+                    <form action="/rad_profile" method="POST" enctype="multipart/form-data">
+                        <div>
+                            <label for="fName">Name:</label>
+                            <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                        </div>
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" placeholder="<%=email %>" required>
+                        </div>
+                        <div>
+                            <label for="fName">Address:</label>
+                            <input type="text" name="address" placeholder="<%=address%>" required>
+                        </div>
+                        <div>
+                            <label for="fName">Age:</label>
+                            <input type="number" name="age" placeholder="<%=age%>" required>
+                        </div>
+                        <div>
+                            <label for="fName">Sex:</label>
+                            <input type="text" name="sex" placeholder="<%=sex%>" required>
+                        </div>
+                        <div>
+                            <label for="fName">Phone:</label>
+                            <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
+                        </div>
+                        <div>
+                            <label for="fName">Salary:</label>
+                            <input type="number" placeholder="<%=salary%>" readonly>
+                        </div>
+                        <div>
+                            <label for="fName">Start Shift:</label>
+                            <input type="number" placeholder="<%=start_shift%>" readonly>
+                        </div>
+                        <div>
+                            <label>End Shift:</label>
+                            <input type="number" placeholder="<%=end_shift%>" readonly>
+                        </div>
+                        <div>
+                            <label>Change Password:</label>
+                            <input type="password" name="password" placeholder="new password" maxlength="12">
+                        </div>
+                        <div>
+                            <label>Picture:</label>
+                            <input type="file" id="fileInput" name="picture" accept="image/*" required>
+                        </div>
+                        <div>
+                            <input class="submit-profile-btn" type="submit" value="save">
+                        </div>
+                    </form>
+                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="profile-body">
+            <img id="profile-photo" name="picture" src="<%=picture %>" class="profile-pic" width="230" height="230">
+            <div class="profile-details">
+                <h2>Dr. <%= fname + " " + lname %>
+                </h2>
+                <p>Radiologist</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="good-day-section">
+        <h1>Good Day, Dr. <%= fname %>
+        </h1>
+    </section>
+
+
+    <section class="upcoming-bar">
+        <div class="upcoming-bar-title">
+            <h2> Upcoming Scans </h>
+        </div>
+
+        <div class="upcoming-bar-elements" id="upcoming-bar-elements">
+            <% let num_of_appointments=patients_id.length; %>
+                <% for (let i=num_of_appointments; i> 0; i--) { %>
+                    <% const now=new Date(); %>
+                        <% if(now<scans_date[i-1].scan_date){%>
+                            <div class="upcoming-div">
+                                <div class="deets-1">
+                                    <h3>
+                                        <%=scans_type[i-1].scan_type%>
+                                    </h3>
+                                    <p>Patient #<%=patients_id[i-1].patient_id%>
+                                    </p>
+                                </div>
+                                <div class="deets-2">
+                                    <p><%=scans_date[i-1].scan_date.toLocaleString()%></p>
+                                </div>
+                            </div>
+                            <%};%>
+                                <%};%>
+        </div>
+    </section>
+
+
+
+
+    <section class="scans-section"> <!--SCANS SECTION BELOW GOOD DAY-->
+        <div class="error_msg" id="error-message">
+            <%= typeof msg !='undefined' ? msg : '' %>
+        </div>
+        <div class="scans-section-header"> <!--SCANS SECTION HEADER-->
+            <div class="scans-button">
+                <h3>Scans</h3>
+            </div>
+            <div class="viewmore-button">
+                <h3><a class="contact-form-button" onclick="openPopup_upload_scan()"
+                        style="width: 150px; height: 45px;">Upload Scan</a></h3>
+                <div id="popupContainer_upload_scan" class="popup-container2" style=" padding-top:200px;">
+                    <div class="popup-content" style=" height: 140px;">
+                        <div class="close_btn" onclick="closePopup_upload_scan()">&times;</div>
+                        <form class="profile-input" id="uploadForm" action="/upload_scan" method="POST"
+                            enctype="multipart/form-data">
+                            <br>
+                            <div>
+                                <label>Scan ID:</label>
+                                <input type="number" name="scan_id" min="1" placeholder="scan id" required>
+                            </div>
+                            <div>
+                                <label>Select Folder:</label>
+                                <input type="file" id="scanFolderInput" name="scan_folder" webkitdirectory required>
+                            </div>
+                            <input class="submit-profile-btn upload" type="submit" value="upload"
+                                onclick="closePopup_upload_scan()">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="scans-section-scrollbar">
+            <% for (let i=scans_no.length; i> 0; i--) { %>
+                <div class="scan-block">
+                    <div class="scan-code">
+                        <a onclick="openPopup_show_scan(<%= i - 1 %>)">Scan #<%= scans_no[i-1].scan_id %></a>
+                        <div id="popupContainer_show_scan_<%= i - 1 %>" class="popup-container2">
+                            <div class="out-content">
+                                <div class="popup-content-show-scan">
+                                    <div class="top-show-scan">
+                                        <div class="close_btn" onclick="closePopup_show_scan(<%= i - 1 %>)">&times;
+                                        </div>
+                                        <p>Scan #<%= scans_no[i-1].scan_id %>
+                                        </p>
+                                    </div>
+                                    <div class="pics-show-scan">
+                                        <% let pics=scan_pics[i-1].scan_pics; %>
+                                            <% if (pics !=null) { %>
+                                                <% for (let j=0; j < pics.length; j++) { %>
+                                                    <div>
+                                                        <%pics[j]=pics[j].replace( /\\/g, '/' ); %>
+                                                            <%pics[j]=pics[j].replace('public', '' ); %>
+                                                                <img src="<%= pics[j] %>" alt="">
+                                                    </div>
+                                                    <% } %>
+                                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="send-to-btn" onclick="openPopup4()" width="100px" height="50px">Send
+                        To</a>
+                </div>
+                <div id="popupContainer4" class="popup-container2" style=" padding-top:200px;">
+                    <div class="popup-content" style=" height: 120px;">
+                        <div class="close_btn" onclick="closePopup4()">&times;</div>
+                        <form class="profile-input" action="/send_to_doctor" method="POST">
+                            <br>
+                            <div>
+                                <label>Email:</label>
+                                <input type="email" name="doc_email" placeholder="doctor email" required>
+                            </div>
+                            <div>
+                                <label>Scan ID:</label>
+                                <input input type="number" name="scan_to_doc" min="1" max="10000" placeholder="scan id"
+                                    required>
+                            </div>
+                            <input class="send-btn" type="submit" value="send">
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </section>
+
+    <section class="contact-form"> <!--Task Bar BLOCK-->
+        <h2 class="contact-form-title">
+            Got any requests?
+        </h2>
+
+        <button onclick="openPopup_contact_form()" class="contact-form-button"> Contact Us</button>
+        <div id="popupContainer_contact_form" class="popup">
+            <div class="close-btn" onclick="closePopup_contact_form()">&times;</div>
+            <form class="form" action="/rad_send_form" method="POST">
+                <div class="form-element">
+                    <p>You make this form for:</p>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="report" name="why" value="Scan Report" required>
+                    <label for="report">Scan Report</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="complaint" name="why" value="Complaint">
+                    <label for="complaint">Complaint</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="inquiry" name="why" value="Inquiry">
+                    <label for="inquiry">Inquiry</label>
+                </div>
+                <div class="form-element">
+                    <input type="text" class="form-text" name="body" id="write" placeholder="Write your form here"
+                        required>
+                </div>
+                <div class="form-element">
+                    <button id="send">Send</button>
+                    <!-- <input type="submit" value="send"> -->
+                </div>
+            </form>
+        </div>
+        <a class="replies-btn" href="replies">Check messages</a>
+
+    </section>
+
+
+    <script src="/css/patient.js">
+
+    </script>
+</body>
+
+</html>

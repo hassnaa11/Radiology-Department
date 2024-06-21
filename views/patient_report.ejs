@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan & Report</title>
+    <link rel="stylesheet" href="/css/patient_report.css">
+</head>
+
+<body>
+    <div class="top-side">
+        <span>Scan & Report</span>
+    </div>
+    <div class="left">
+        <div class="selectedPic" >
+            <%selectedPic = selectedPic.replace( /\\/g, '/' ); %>
+            <%selectedPic=selectedPic.replace('public', '' ); %>
+            <img src="<%= selectedPic %>" class="scan-image">
+        </div>
+        <div class="selectedReport">
+            <p><%= selectedReport %></p>
+        </div>
+    </div>
+</body>
+
+</html>

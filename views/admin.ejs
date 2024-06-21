@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/css/admin.css" rel="stylesheet">
+    <title> Home </title>
+    <!-- <style>
+        .circle1 {
+            animation: anim1 1s linear forwards;
+            stroke-dasharray: 280;
+            stroke-dashoffset: 280;
+        }
+
+        @keyframes anim1 {
+            100% {
+                stroke-dashoffset: 154;
+            }
+        }
+    </style> -->
+</head>
+
+<body>
+
+    <div class="left-side">
+        <span class="logo">ProHealth</span>
+        <img class="left_photo" src="/images/background2.png">
+    </div>
+
+    <div class="top-side">
+        <a href="forms"><button class="forms">forms</button></a>
+        <a onclick="openPopup2()" style="cursor: pointer;">
+            <img src="/images/profile.png">
+        </a>
+        <div id="popupContainer2" class="popup-container2">
+            <div class="popup-content">
+                <!-- Content for the popup window -->
+                <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/malee.png" width="200"
+                    height="200">
+                <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
+                    Abdelazeem</div>
+
+                <div class="line"></div>
+                <div class="container_ifo">
+
+                    <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
+                            Emanm@gmail.com</span> </div>
+                    <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
+                  <div class=" info-ii">
+                            <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
+                                    id="displayText"> 50,000</span> </div>
+                    </div>
+                    <div class="info-ii">
+                        <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
+                                id="displayText"></span>
+                            25 </span> </div>
+                    </div>
+                    <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
+                            id="displayText">01090089066</span> </div>
+                    <div class="info-ii">
+                        <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
+                                id="displayText">7AM</span> </div>
+                        <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text"
+                                id="displayText"> 4PM </span> </div>
+                    </div>
+                    <div class="info"> photo: <input type="file"> </div>
+
+
+                    <button class="btn"> Save Info</button>
+                </div>
+
+                <div onclick="closePopup2()" class="close_btn"> &times; </div>
+            </div>
+        </div>
+        <a href="visitors-page">
+            <img src="/images/logout.png">
+        </a>
+    </div>
+    <div class="right-side">
+        <div class="statistics rect">
+            <div class="total scans">
+                <p><span>Scans</span> <br>2247 scan</p>
+            </div>
+            <div class="total income">
+                <p><span>Income</span> <br>107890 EURO</p>
+            </div>
+            <div class="total cost">
+                <p><span>Cost</span> <br>3090 EURO</p>
+            </div>
+        </div>
+
+        <div class="doctors rect">
+            <img src="/images/doctor1.jpg" alt="">
+            <a href="/doctors_admin">
+                <p class="title-rect">Doctors</p>
+            </a>
+            <div class="skill">
+                <div class="outer">
+                    <div class="inner">
+                        <div id="number">45%</div>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                    <defs>
+                        <linearGradient id="GradientColor">
+                            <stop offset="0%" stop-color="#e91e63" />
+                            <stop offset="100%" stop-color="#673ab7" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle1" cx="54.5" cy="54.5" r="44" stroke-linecap="round" />
+
+                </svg>
+                <p>orthopedist</p>
+            </div>
+            <div class="skill">
+                <div class="outer">
+                    <div class="inner">
+                        <div id="number">30%</div>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                    <defs>
+                        <linearGradient id="GradientColor">
+                            <stop offset="0%" stop-color="#e91e63" />
+                            <stop offset="100%" stop-color="#673ab7" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle2" cx="54.5" cy="54.5" r="44" stroke-linecap="round" />
+                </svg>
+                <p>oncologist</p>
+            </div>
+
+            <div class="skill">
+                <div class="outer">
+                    <div class="inner">
+                        <div id="number">25%</div>
+                    </div>
+                </div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                    <defs>
+                        <linearGradient id="GradientColor">
+                            <stop offset="0%" stop-color="#e91e63" />
+                            <stop offset="100%" stop-color="#673ab7" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle3" cx="54.5" cy="54.5" r="44" stroke-linecap="round" />
+                </svg>
+                <p>neurologist</p>
+            </div>
+        </div>
+
+        <div class="radiologists rect">
+            <a href="/radiologists_admin">
+                <p class="title-rect">Radiologists</p>
+            </a>
+            <img src="/images/rad4.jpg" class="backimg">
+            <p>Total Females: 13 <br>Total Males: 20 </p>
+        </div>
+
+        <div class="engineers rect">
+            <a href="/engineers_admin">
+                <p class="title-rect">Engineers & Machines</p>
+            </a>
+            <div class="slideshow-container">
+                <div class="slideshow">
+                    <img src="/images/machine2.jpg" alt="Image 2" width="250px" height="300px">
+                    <img src="/images/machine7.jpg" alt="Image 1" width="250px" height="300px">
+                    <img src="/images/engineer1.jpg" alt="Image 3" width="250px" height="300px">
+                    <img src="/images/engineer2.jpg" alt="Image 4" width="250px" height="300px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/css/patient.js">
+    </script>
+</body>

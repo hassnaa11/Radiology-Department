@@ -1,0 +1,571 @@
+:root {
+    --main-color: #0C96C5;
+    --light-color: #f6f6f6;
+    --light-color2: #ededed;
+}
+
+body {
+    font-family: 'arial';
+    background-color: var(--light-color);
+}
+
+* {
+    transition-property: p, box-shadow, color, font-size;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-in;
+}
+
+.left-side {
+    position: absolute;
+    top: 35px;
+    left: 80px;
+    height: calc(100vh - 90px);
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    img {
+        transition: 0.6s;
+    }
+}
+
+.left-side img:hover {
+    transform: perspective(200px) translateZ(8px);
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.top-side {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    width: 700px;
+    height: 60px;
+    display: flex;
+    justify-content: right;
+    gap: 30px;
+}
+
+.forms {
+    position: absolute;
+    left: 0px;
+    background-color: var(--main-color);
+    color: white;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s background-color ease-in;
+}
+
+.forms:hover {
+    background-color: #077da6;
+}
+
+.right-side {
+    position: absolute;
+    top: 90px;
+    right: 50px;
+    bottom: 50px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 15px;
+    height: calc(100vh - 130px);
+    width: 700px;
+}
+
+.rect {
+    position: relative;
+    background-color: white;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 0 6px 0px #7a797924;
+}
+
+.title-rect {
+    position: absolute;
+    top: 75px;
+    left: 220px;
+    width: 400px;
+    margin: 0;
+    height: 60px;
+    font-weight: bold;
+    font-size: 28px;
+    color: black;
+    z-index: -1;
+}
+
+.rect:hover {
+    box-shadow: 0px 0px 10px 1px #000000d6;
+    opacity: 1;
+    background-color: #000000f5;
+    transform: perspective(200px) translateZ(9px);
+
+    .title-rect {
+        z-index: 10;
+        color: white;
+    }
+
+    .skill {
+        opacity: 0.5;
+    }
+}
+
+.statistics {
+    grid-column: span 3;
+    grid-row: span 1;
+    display: flex;
+    justify-content: space-around;
+    overflow: visible;
+}
+
+.total::before {
+    content: "";
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 65px;
+    height: 65px;
+    background-color: var(--light-color);
+    top: -5px;
+    left: -5px;
+    border-radius: 50%;
+    z-index: 2;
+    border: black 1px solid;
+    transition: 0.4s;
+}
+
+.total.scans::before {
+    background-image: url(/images/scans.png);
+}
+
+.total.income::before {
+    background-image: url(/images/income-80.png);
+}
+
+.total.cost::before {
+    background-image: url(/images/cost.png);
+}
+
+.total::after {
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 149px;
+    background-color: var(--main-color);
+    top: 0px;
+    left: 27px;
+    z-index: 1;
+}
+
+.total.income::after {
+    height: 102px;
+}
+
+.statistics .total {
+    position: relative;
+    width: 150px;
+    height: 50px;
+    line-height: 1.5;
+    font-size: 14px;
+    font-weight: 600;
+    padding-top: 5px;
+    padding-left: 70px;
+    margin-top: 30px;
+    background-color: var(--light-color);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    box-shadow: inset 0 0 8px 0px #077da640;
+}
+
+.statistics .total.income {
+    align-self: center;
+}
+
+.statistics div span {
+    font-size: 17px;
+    color: var(--main-color);
+    font-weight: 800;
+}
+
+.statistics .total p {
+    margin: 0;
+    transition: 0.4s;
+}
+
+.statistics:hover {
+    box-shadow: none;
+    background-color: white;
+    box-shadow: 0 0 6px 0px #7a797924;
+    transform: translateZ(0px);
+}
+
+.statistics .total:hover::before {
+    transform: perspective(200px) translateZ(20px);
+    box-shadow: 0px 0px 6px 0px #077da6;
+}
+
+.statistics .total:hover {
+    p {
+        font-size: 10px;
+        transform: perspective(200px) translateZ(-10px) translateX(10px);
+    }
+
+    span {
+        font-size: 14px;
+    }
+}
+
+.doctors {
+    grid-column: span 2;
+    grid-row: span 1;
+    display: flex;
+    justify-content: center;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+}
+
+.doctors:hover {
+    img {
+        z-index: 5;
+    }
+}
+
+.doctors .title-rect {
+    left: 170px;
+}
+
+.radiologists {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.radiologists .title-rect {
+    left: 32px;
+}
+
+.radiologists.rect:hover {
+    img {
+        opacity: 0.4;
+    }
+}
+
+.engineers {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+.right-side a img {
+    position: absolute;
+    right: 10px;
+}
+
+.slideshow-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-radius: 15px;
+}
+
+.engineers.rect:hover {
+    .slideshow-container {
+        opacity: 0.4;
+    }
+}
+
+.slideshow {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    animation: slide 8s infinite;
+}
+
+.slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex: 0 0 100%;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    12.5% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-100%);
+    }
+
+    37.5% {
+        transform: translateX(-100%);
+    }
+
+    50% {
+        transform: translateX(-200%);
+    }
+
+    62.5% {
+        transform: translateX(-200%);
+    }
+
+    75% {
+        transform: translateX(-300%);
+    }
+
+    87.5% {
+        transform: translateX(-300%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.skill {
+    margin: 15px;
+    margin-top: 10px;
+    height: 160px;
+    position: relative;
+}
+
+.outer {
+    height: 78px;
+    width: 78px;
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+        -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+}
+
+.inner {
+    height: 82px;
+    width: 82px;
+    border-radius: 50%;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+        inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
+        -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+        0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+        0px 12px 10px -10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#number {
+    font-weight: 600px;
+    color: #555;
+
+}
+
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 280;
+    stroke-dashoffset: 280;
+}
+
+.circle1 {
+    animation: 1s anim1 linear forwards;
+}
+
+.circle2 {
+    animation: 1s anim2 linear forwards;
+}
+
+.circle3 {
+    animation: 1s anim3 linear forwards;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@keyframes anim1 {
+    100% {
+        stroke-dashoffset: 154;
+    }
+}
+
+@keyframes anim2 {
+    100% {
+        stroke-dashoffset: 196;
+    }
+}
+
+@keyframes anim3 {
+    100% {
+        stroke-dashoffset: 210;
+    }
+}
+
+.skill p {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile_photo {
+    border-radius: 150px;
+    margin-top: 10px;
+}
+
+.close_btn {
+    margin-left: 400px;
+    position: absolute;
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: xx-large;
+    height: 50px;
+    width: 50px;
+    color: #f8f9f9;
+    cursor: pointer;
+
+}
+
+.line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 250px;
+    /* Adjust the width as needed */
+    height: 2px;
+    /* Adjust the height as needed */
+    background-color: #ffffff;
+    /* Color of the line */
+    position: relative;
+}
+
+.info {
+    font-size: 20px;
+    color: #ffffff;
+    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+    margin-left: 30px;
+    height: 35px;
+    font-weight: 300;
+    width: auto;
+
+}
+
+.info-ii {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.editable-text {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    text-shadow: none;
+    color: #e9ebeb;
+    font-weight: 100;
+    margin-left: 12px;
+    font-size: 18px;
+    border-radius: 15px;
+    border-color: #ffffff;
+
+}
+
+.editable-text {
+    cursor: pointer;
+    padding: 2px 5px;
+    border: 1px solid transparent;
+}
+
+.editable-text:hover {
+    border: 1px solid #ccc;
+}
+
+.name {
+    font-size: 25px;
+    color: #ffffff;
+    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+    margin-top: 6px;
+
+}
+
+.popup-container2 {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    /* Ensure the popup appears on top of other elements */
+    backdrop-filter: blur(4px);
+}
+
+/* Styles for the popup content */
+.popup-content {
+    position: relative;
+    max-width: 400px;
+    margin: 15px auto;
+    /* Adjust the top and bottom margins to center the popup vertically */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 625px;
+    width: 500px;
+    background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
+    font-family: "Raleway", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #f8f9f9;
+}
+
+#inputText {
+    width: auto;
+}
+
+.container_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.btn {
+    margin-top: 30px;
+    margin-left: 150px;
+    width: 80px;
+    height: 50px;
+    background-color: #ffffff;
+    color: #315772;
+    border-radius: 15px;
+    font-size: 15px;
+    transition: transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+}
+
+.btn:hover {
+    background-color: #c8d6de;
+    transform: translateY(-5px);
+}

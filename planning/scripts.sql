@@ -1,16 +1,16 @@
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    username VARCHAR(30) UNIQUE NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(20) NOT NULL,
-    type VARCHAR(10) NOT NULL, -- admin or patient or doctor or radiologist
+    password VARCHAR(80) NOT NULL,
+    type VARCHAR(12) NOT NULL, -- admin or patient or doctor or radiologist
     fname VARCHAR(20) NOT NULL,
     mname VARCHAR(20) NOT NULL,
     lname VARCHAR(20) NOT NULL,
-    phone_no INT[] UNIQUE,
+    phone_no INT UNIQUE,
     age INT,
     sex VARCHAR(6),
-    address VARCHAR(30)
+    address VARCHAR(30),
+    picture TEXT
 );
 
 CREATE TABLE admin( -- can access everything and edit. inherited from users 
@@ -22,40 +22,49 @@ CREATE TABLE patient( -- inherited from users
     emergency_phone INT[],
     medical_history TEXT
 );
-
 CREATE TABLE doctor( -- inherited from users 
     doctor_id INT PRIMARY KEY REFERENCES users (id),
+    job varchar(50),
     salary INT,
-    room_no INT,
-    specialization VARCHAR(40),
-    assistant_name VARCHAR(40),
-    start_shift TIME,
-    end_shift TIME
+    dr_room INT,
+    special VARCHAR(40),
+    ass_name VARCHAR(40),
+    start_shift VARCHAR(20),
+    end_shift VARCHAR(20)
 );
 
 CREATE TABLE radiologist( -- inherited from users 
     radiologist_id INT PRIMARY KEY REFERENCES users (id),
     salary INT,
     start_shift TIME,
-    end_shift TIME,
-    radiation_index INT
+    end_shift TIME
 );
 
-CREATE TABLE report( 
-    report_no SERIAL PRIMARY KEY,
-    doctor_id INT REFERENCES doctor (doctor_id),
+CREATE TABLE take_appointment( -- relation between patient and radiologist
+    scan_id SERIAL PRIMARY KEY,
     patient_id INT REFERENCES patient (patient_id),
     radiologist_id INT REFERENCES radiologist (radiologist_id),
-    scan_folder TEXT UNIQUE,
-    report_date TIMESTAMP,
-    case_description TEXT,
-    radiology_procedure VARCHAR(20)
+    scan_type VARCHAR(20) NOT NULL,
+    scan_date TIMESTAMP UNIQUE NOT NULL
 );
 
-CREATE TABLE scans( -- table contains scan folder path, array of pictures paths in the folder and report number 
-    scan_folder TEXT PRIMARY KEY REFERENCES report (scan_folder),
-    scan_pics TEXT[],
-    report_no INT REFERENCES report (report_no)
+Create table scans( 
+scan_id INT REFERENCES take_appointment (scan_id),
+patient_id int references patient(patient_id), 
+scan_folder varchar(300) , 
+scan_pics text[], 
+radiologist_id int references radiologist(radiologist_id), 
+dr_id int references doctor(doctor_id), 
+unique(scan_folder) 
+);
+
+Create table reports( 
+report_no bigserial primary key, 
+scan_id int references scans(scan_id), 
+dr_id int references doctor(doctor_id), 
+report_date timestamp, 
+radiology_procedure varchar(100), 
+case_description  text[] 
 );
 
 CREATE TABLE billing( -- some information about billing for patient 
@@ -90,12 +99,12 @@ CREATE TABLE technician_engineer( -- some information about engineers
     end_shift TIME
 );
 
-CREATE TABLE contact_form( -- form for complains or questions for patients or doctors or radiologists 
-    form_no SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users (id),
-    form_type VARCHAR(20) NOT NULL,
-    user_type VARCHAR(10) NOT NULL,
-    form_description TEXT NOT NULL
+CREATE TABLE forms( -- form for complains or questions for patients or doctors or radiologists
+    form_id bigserial primary key,
+    user_email varchar(400) references users(email),
+    about varchar(200),
+    body text;
+    reply text
 );
 
 CREATE TABLE patient_has_doctor( -- relation between patient and doctor 
@@ -113,9 +122,5 @@ CREATE TABLE works_on( -- relation between engineer and machine
     eng_id INT REFERENCES technician_engineer (eng_id)
 );
 
-CREATE TABLE take_appointment( -- relation between patient and radiologist
-    patient_id INT REFERENCES patient (patient_id),
-    radiologist_id INT REFERENCES radiologist (radiologist_id),
-    scan_type VARCHAR(20) NOT NULL,
-    scan_date TIMESTAMP UNIQUE NOT NULL
-);
+
+
