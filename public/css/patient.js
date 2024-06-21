@@ -98,23 +98,41 @@ window.onclick = function (event) {
 //     // const form = document.getElementById('updateForm');
 //     // const popupContainer = document.getElementById('popupContainer3');
 
-//     function openPopup2() {
-//         document.getElementById("popupContainer2").style.display = "block";
-//         document.getElementById("popupContainer2").classList.add("active");
-//         document.body.classList.add("blur-background");
-//     }
-//     // form.addEventListener('submit', function (event) {
-//     //     event.preventDefault();
-//     //     closePopup3();
-//     // });
-// });
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('updateForm');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        closePopup3();
+    });
+});
 
-// // function closePopup2() {
-// //     document.getElementById("popupContainer2").style.display = "none";
-// //     document.getElementById("popupContainer2").classList.remove("active");
-// //     document.body.classList.remove("blur-background");
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("contact-btn").addEventListener("click", openPopup2);
+    const closeButton = document.querySelector(".close-button");
+    closeButton.addEventListener("click", closePopup2);
+    const contactForm = document.getElementById("contactForm");
+    contactForm.addEventListener("submit", function (event) {
+        // Allow the form to be submitted normally
+        closePopup2();
+        setTimeout(function () {
+            window.location.reload();
+        }, 100); // 100ms delay
+    });
 
-// // }
+});
+
+function openPopup2() {
+    document.getElementById("popupContainer2").style.display = "block";
+    document.getElementById("popupContainer2").classList.add("active");
+    document.body.classList.add("blur-background");
+}
+
+function closePopup2() {
+    document.getElementById("popupContainer2").style.display = "none";
+    document.getElementById("popupContainer2").classList.remove("active");
+    document.body.classList.remove("blur-background");
+    // window.location.reload();
+}
 
 function openPopup3() {
     document.getElementById("popupContainer3").style.display = "block";
@@ -159,7 +177,6 @@ function saveText(inputElement) {
 document.addEventListener("DOMContentLoaded", function () {
     const showLoginLinks = document.querySelectorAll(".show-login");
     const closeBtn = document.querySelector(".close-btn");
-
     showLoginLinks.forEach(function (link) {
         link.addEventListener("click", function (event) {
             event.preventDefault(); // Prevent default link behavior
@@ -264,9 +281,9 @@ document.getElementById('updateForm').addEventListener("submit", async (event) =
         });
 });
 
-function closePopup3() {
-    document.getElementById("popupContainer3").style.display = "none";
-}
+// function closePopup3() {
+//     document.getElementById("popupContainer3").style.display = "none";
+// }
 
 function openPopup4() {
     document.getElementById("popupContainer4").style.display = "block";

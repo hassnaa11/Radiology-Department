@@ -40,7 +40,7 @@
                 <div class="popup-content">
                     <!-- Content for the popup window -->
                     <div onclick="closePopup3()" class="close_btn"> &times; </div>
-                    <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="150"
+                    <img class="profile_photo" id="picture2" name="picture" src="/images/profilepic.jpeg" width="150"
                         height="150">
                     <form id="updateForm">
                         <div class="name" id="fname">
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="profile-body">
-            <img id="profile-photo" name="picture" src="/images/<%=picture %>" class="profile-pic" width="230"
+            <img id="profile-photo" name="picture" src="/images/profilepic.jpeg" class="profile-pic" width="230"
                 height="230">
             <div class="profile-details">
                 <h2>Dr. <%= fname + " " + lname %>
@@ -180,9 +180,12 @@
         <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
             <% scans.forEach((scan, scanIndex) => { %>
             <% scan.scan_pics.forEach((pic, picIndex) => { %>
-        <div class="scan-block"> <!--A SEPARATE BLOCK -->
+         <div class="scan-block"> <!--A SEPARATE BLOCK -->
             <div class="scan-code">
-                <h3><%= pic %></h3>
+                <%pic = pic.replace( /\\/g, '' ); %>
+                <%pic=pic.replace('public', '' ); %>
+                <%pic=pic.replace('uploads', '' ); %>
+                <h3> Scan Number: <%= scanIndex + 1 %> <br> <%= pic %></h3>
             </div> <!--E3MELEEHOM ANCHOR BOTH-->
             <div class="send-button">
                 <h3><a href="/patient_report?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Open</a></h3>
