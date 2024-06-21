@@ -319,23 +319,284 @@ app.get('/engineers_admin', (req, res) => {
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', (req, res) => {
-    res.render("doctors_admin.ejs")
+app.get('/doctors_admin', async(req, res) => {
+    try {
+        // SQL query to select all data from adminDoctors table joined with users table
+        let result = await pool.query(`
+            SELECT 
+                doctor.*, 
+                users.fname,
+                users.lname, 
+                users.email, 
+                users.address, 
+                users.phone_no,
+                users.age,
+                users.sex,
+                users.password,
+                users.type
+            FROM 
+                doctor 
+            JOIN 
+                users 
+            ON 
+                doctor.doctor_id = users.id
+        `);
+        // Get the rows from the result
+        const doctors = result.rows;
+        // Render the doctors view with the fetched data
+        res.render("doctors_admin.ejs", { doctors });
+    } catch (err) {
+        // Log detailed error information to the console
+        console.error('Error retrieving doctors data:', err.message, err.stack);
+        // Send an error message to the client
+        res.send('Error retrieving doctors data');
+    }
+    
 });
 // radiologists_admin window route
-app.get('/radiologists_admin', (req, res) => {
-    res.render("radiologists_admin.ejs")
+app.get('/radiologists_admin', async (req, res) => {
+    try {
+        const radiologistsResult = await pool.query(`
+            SELECT 
+                r.*, 
+                u.fname, 
+                u.lname,
+                u.email, 
+                u.address, 
+                u.phone_no,
+                u.age,
+                u.sex,
+                u.type,
+                u.password,
+                u.picture,
+                s.scan_id,
+                s.scan_folder,
+                s.scan_pics
+            FROM 
+                radiologist r
+            JOIN 
+                users u ON r.radiologist_id = u.id
+            LEFT JOIN
+                scans s ON r.radiologist_id = s.radiologist_id
+        `);
+
+        // Group scans by radiologist
+        const radiologists = radiologistsResult.rows.reduce((acc, row) => {
+            const {
+                radiologist_id,
+                fname,
+                lname,
+                email,
+                address,
+                phone_no,
+                age,
+                sex,
+                type,
+                password,
+                salary,
+                start_shift,
+                end_shift,
+                scan_id,
+                scan_folder,
+                scan_pics
+            } = row;
+
+            // Check if radiologist already exists in the accumulator
+            let radiologist = acc.find(r => r.radiologist_id === radiologist_id);
+            if (!radiologist) {
+                radiologist = {
+                    radiologist_id,
+                    fname,
+                    lname,
+                    email,
+                    address,
+                    phone_no,
+                    age,
+                    sex,
+                    type,
+                    password,
+                    salary,
+                    start_shift,
+                    end_shift,
+                    scans: []
+                };
+                acc.push(radiologist);
+            }
+
+            // Push scans to the radiologist's scans array
+            if (scan_id) {
+                radiologist.scans.push({
+                    scan_id,
+                    scan_folder,
+                    scan_pics
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Render the view with radiologists data
+        res.render('radiologists_admin.ejs', { radiologists });
+    } catch (err) {
+        console.error('Error retrieving radiologist data:', err.message, err.stack);
+        res.send('Error retrieving radiologist data');
+    }
+});
+app.get('/scan_img', async (req, res) => {
+    const { scan_id, pic_index } = req.query;
+
+    // Validate query parameters
+    if (!scan_id || !pic_index) {
+        return res.status(400).send('Missing scan_id or pic_index');
+    }
+
+    if (isNaN(scan_id) || isNaN(pic_index)) {
+        return res.status(400).send('Invalid scan_id or pic_index');
+    }
+
+    try {
+        const result = await pool.query(
+            'SELECT scan_folder, scan_pics FROM scans WHERE scan_id = $1',
+            [scan_id]
+        );
+
+        if (result.rows.length > 0) {
+            const { scan_folder, scan_pics } = result.rows[0];
+
+            if (pic_index < 0 || pic_index >= scan_pics.length) {
+                return res.status(400).send('Invalid pic_index');
+            }
+
+            const selectedPic = scan_pics[pic_index];
+            console.log(selectedPic);
+            res.render('scan_img', { scan_folder, selectedPic });
+        } else {
+            res.status(404).send('Scan not found');
+        }
+    } catch (error) {
+        console.error('Error retrieving scan details:', error.message);
+        res.status(500).send('Error retrieving scan details');
+    }
 });
 // add_radiologist window route
 app.get('/add_radiologist', (req, res) => {
     res.render("add_radiologist.ejs")
 });
+
+app.post('/add_radiologist', async (req, res) => {
+    let { name, password, address, email, start_shift, end_shift, sex, age, major, salary, phone_no, picture } = req.body;
+    let type = 'radiologist'
+    console.log({
+        name,
+        email,
+        type,
+        start_shift,
+        end_shift,
+        major,
+        salary
+    });
+    
+
+    
+    const [fname, mname, lname] = name.split(' ');
+    let hashedPassword = await bcrypt.hash(password, 10);
+
+    pool.query(
+        `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, phone_no, picture) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        RETURNING id`,
+        [fname, mname, lname, email, hashedPassword, type, address, age, sex, phone_no, picture],
+        (err, results) => {
+            if (err) {
+                throw err;
+            }
+
+            const userId = results.rows[0].id;
+
+            pool.query(
+                `INSERT INTO radiologist (radiologist_id, salary, start_shift, end_shift)
+                VALUES ($1, $2, $3, $4)`,
+                [userId, salary, start_shift, end_shift],
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    req.flash('success_msg', 'Doctor added successfully.');
+                    res.redirect('/doctors_admin');
+                }
+            );
+        }
+    );
+});
+
 // add_doctor window route
 app.get('/add_doctor', (req, res) => {
     res.render("add_doctor.ejs")
 });
+
+app.post('/add_doctor', async (req, res) => {
+    let { name, password, adress, email, asisName, start, end_shift, room, sex, age, salary, major, picture, phone_no } = req.body;
+    let type = 'doctor';
+
+    // Initialize an array to hold error messages
+    let errors = [];
+
+    // Split the name into parts and check if it contains at least three parts
+    const nameParts = name.split(' ');
+    
+    if (nameParts.length < 3) {
+        errors.push({ message: 'Please enter your full name (first, middle, and last name).' });
+    }
+    const [fname, mname, lname] = nameParts;
+
+    try {
+        // Check for existing email and phone number in the users table
+        const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (emailCheck.rows.length > 0) {
+            errors.push({ message: "This email is already in use." });
+        }
+
+        const phoneCheck = await pool.query('SELECT * FROM users WHERE phone_no = $1', [phone_no]);
+        if (phoneCheck.rows.length > 0) {
+            errors.push({ message: "This phone number is already in use." });
+        }
+
+
+
+        if (errors.length > 0) {
+            res.render("add_doctor.ejs", { errors });
+        }
+        let hashedPassword = await bcrypt.hash(password, 10);
+        // Insert the new user
+        const result = await pool.query(
+            `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, picture, phone_no) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING id`,
+            [fname, mname, lname, email, hashedPassword, type, adress, age, sex, picture, phone_no]
+        );
+
+        const userId = result.rows[0].id;
+        
+
+        // Insert into doctor table
+        await pool.query(
+            `INSERT INTO doctor (doctor_id, ass_name, start_shift, end_shift, dr_room, special, salary)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [userId, asisName, start, end_shift, room, major, salary]
+            
+        );
+
+        req.flash("success_msg", "Doctor added successfully.");
+        res.redirect("");
+        
+    } catch (err) {
+        console.error('Error adding doctor:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
 // form window route
-app.get('/forms', async (req, res) => {
+app.get('/forms', async(req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms');
         const forms = result.rows;
@@ -344,6 +605,31 @@ app.get('/forms', async (req, res) => {
         throw (err)
     }
 });
+
+app.post('/forms', async (req, res) => {
+    const { remail, write } = req.body;
+
+    try {
+        const result = await pool.query(
+            'UPDATE forms SET reply = $1 WHERE user_email = $2 RETURNING *',
+            [write, remail]
+        );
+
+        if (result.rowCount > 0) {
+            req.flash('success_msg', 'Reply added successfully');
+        } else {
+            req.flash('error_msg', 'No form found for the given email');
+        }
+
+        res.redirect('/forms');
+    } catch (err) {
+        console.error('Error adding reply:', err);
+        req.flash('error_msg', 'Failed to add reply. Please try again later.');
+        res.redirect('/forms');
+    }
+    
+});
+
 app.get('/replies', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms where user_email=$1 and reply IS NOT NULL', [req.user.email]);
@@ -832,7 +1118,7 @@ app.post('/login', passport.authenticate('local', {
                          WHERE users.id = $1`,
                         [userId],
                         (err, results) => {
-                            if (err) {
+                            if(err){
                                 throw err;
                             }
 
