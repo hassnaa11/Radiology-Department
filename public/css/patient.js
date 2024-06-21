@@ -76,23 +76,27 @@ var btn = document.getElementById("create-new-btn");
 var span = document.getElementsByClassName("close-btn")[0];
 
 // When the user clicks the button, open the modal 
-btn.onclick = function() {
+btn.onclick = function () {
     modal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+span.onclick = function () {
     modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
 
 
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.getElementById("contact-btn").addEventListener("click", openPopup2);
+//     // const form = document.getElementById('updateForm');
+//     // const popupContainer = document.getElementById('popupContainer3');
 
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById('updateForm');
@@ -107,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeButton = document.querySelector(".close-button");
     closeButton.addEventListener("click", closePopup2);
     const contactForm = document.getElementById("contactForm");
-    contactForm.addEventListener("submit", function(event) {
+    contactForm.addEventListener("submit", function (event) {
         // Allow the form to be submitted normally
         closePopup2();
         setTimeout(function () {
@@ -326,15 +330,6 @@ function closePopup_upload_scan() {
     document.body.classList.remove("blur-background");
 }
 
-
-// contact form 
-document.querySelector('form').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevents the default form submission behavior
-    const selectedReason = document.querySelector('input[name="why"]:checked').value;
-    console.log('Selected reason:', selectedReason);
-});
-
-
 //show scan in radiologist page
 function openPopup_show_scan(index) {
     document.getElementById("popupContainer_show_scan_" + index).style.display = "block";
@@ -355,3 +350,22 @@ function closePopup4() {
     document.getElementById("popupContainer4").style.display = "none";
     document.body.classList.remove("blur-background");
 }
+
+
+// contact form radiologist 
+function openPopup_contact_form() {
+    document.getElementById("popupContainer_contact_form").style.display = "block";
+    document.getElementById("popupContainer_contact_form").classList.add("active");
+    document.body.classList.add("blur-background");
+}
+
+function closePopup_contact_form() {
+    document.getElementById("popupContainer_contact_form").style.display = "none";
+    document.getElementById("popupContainer_contact_form").classList.remove("active");
+    document.body.classList.remove("blur-background");
+}
+document.querySelector('form').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevents the default form submission behavior
+    const selectedReason = document.querySelector('input[name="why"]:checked').value;
+    console.log('Selected reason:', selectedReason);
+});

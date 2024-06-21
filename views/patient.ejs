@@ -18,7 +18,9 @@
         <img class="logo" src="/images/logo2.jpg"></img>
         <div class="search">
             <input placeholder="Search..." type="text">
-            <button type="submit"><p class="go">Go</p></button>
+            <button type="submit">
+                <p class="go">Go</p>
+            </button>
         </div>
     </section>
 
@@ -44,31 +46,42 @@
                         height="150">
                     <form id="updateForm">
                         <div class="name" id="fname">
-                            <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>" placeholder="fname" class="editable-text2">
+                            <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>"
+                                placeholder="fname" class="editable-text2">
                         </div>
                         <div class="line"></div>
                         <div class="container_ifo">
-                        <div class="info" id="email" >
-                            Email:<input type="text" name="email" value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email" class="editable-text">
-                        </div>
-                        <div class="info" id="address">
-                            Address:<input type="text" name="adress" value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address" class="editable-text">
-                        </div>
-                        <div class="info" id="age">
-                            Age:  <input type="number" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>" placeholder="age" class="editable-text">
-                        </div>
-                        <div class="info" id="sex">
-                           sex: <input type="text" name="sex" value="<%= typeof sex !== 'undefined' ? sex : 0 %>" placeholder="<%=sex%>" class="editable-text">
-                        </div>
-                        <div class="info" id="phone_no" style="white-space: nowrap;">
-                            Phone Number: <input type="number" name="phone_no" value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no" class="editable-text">
-                        </div>
-                        <div class="info" id="password" style="white-space: nowrap;">
-                            Change Password: <input type="number" name="password" placeholder="new password" maxlength="12" class="editable-text">
-                        </div>
-                        <div class="info" id="picture">
-                          Photo:  <input type="file" id="fileInput" name="picture" accept="image/*" class="file-input" required >
-                        </div>
+                            <div class="info" id="email">
+                                Email:<input type="text" name="email"
+                                    value="<%= typeof email !== 'undefined' ? email : '' %>" placeholder="email"
+                                    class="editable-text">
+                            </div>
+                            <div class="info" id="address">
+                                Address:<input type="text" name="adress"
+                                    value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address"
+                                    class="editable-text">
+                            </div>
+                            <div class="info" id="age">
+                                Age: <input type="number" name="age" value="<%= typeof age !== 'undefined' ? age : 0 %>"
+                                    placeholder="age" class="editable-text">
+                            </div>
+                            <div class="info" id="sex">
+                                sex: <input type="text" name="sex" value="<%= typeof sex !== 'undefined' ? sex : 0 %>"
+                                    placeholder="<%=sex%>" class="editable-text">
+                            </div>
+                            <div class="info" id="phone_no" style="white-space: nowrap;">
+                                Phone Number: <input type="number" name="phone_no"
+                                    value="<%= typeof phone_no !== 'undefined' ? phone_no : 0 %>" placeholder="phone_no"
+                                    class="editable-text">
+                            </div>
+                            <div class="info" id="password" style="white-space: nowrap;">
+                                Change Password: <input type="number" name="password" placeholder="new password"
+                                    maxlength="12" class="editable-text">
+                            </div>
+                            <div class="info" id="picture">
+                                Photo: <input type="file" id="fileInput" name="picture" accept="image/*"
+                                    class="file-input" required>
+                            </div>
                             <input class="btn" type="submit" value="save Info">
                         </div>
                     </form>
@@ -89,7 +102,8 @@
 
 
     <section class="good-day-section">
-        <h1>Good Day, <%= fname + " " + lname %></h1>
+        <h1>Good Day, <%= fname + " " + lname %>
+        </h1>
     </section>
 
 
@@ -103,12 +117,16 @@
                     <% const now=new Date(); %>
                         <% if(now<scans_date[i-1].scan_date){%>
                             <div class="reservations-div">
-                                <div class="deets-1">  <h3><%=scans_type[i-1].scan_type%></h3>  </div>
-                                <div class="deets-2">  <p><%=scans_date[i-1].scan_date.toLocaleString()%></p></div>
+                                <div class="deets-1">
+                                    <h3><%=scans_type[i-1].scan_type%></h3>
+                                </div>
+                                <div class="deets-2">
+                                    <p><%=scans_date[i-1].scan_date.toLocaleString()%></p>
+                                </div>
                             </div>
                             <%};%>
                                 <%};%>
-            
+
         </div>
         <div class="create-new">
             <button id="create-new-btn">Create New</button>
@@ -116,57 +134,57 @@
     </section>
 
     <!-- Modal -->
-<div id="create-new-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Create New Reservation</h2>
-            <span class="close-btn">&times;</span>
+    <div id="create-new-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Reservation</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <form id="create-new-form" method="POST" action="/take_appointment">
+                <label for="scan-type">Scan Type:</label>
+                <select id="scan-type" name="scanType">
+                    <option value="xray">X-Ray</option>
+                    <option value="mri">MRI</option>
+                    <option value="ct">CT Scan</option>
+                </select>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date">
+                <label for="time">Time:</label>
+                <select id="time" name="time">
+                    <option value="08:00">08:00 AM</option>
+                    <option value="08:30">08:30 AM</option>
+                    <option value="09:00">09:00 AM</option>
+                    <option value="09:30">09:30 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="10:30">10:30 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="11:30">11:30 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="12:30">12:30 PM</option>
+                    <option value="13:00">01:00 PM</option>
+                    <option value="13:30">01:30 PM</option>
+                    <option value="14:00">02:00 PM</option>
+                    <option value="14:30">02:30 PM</option>
+                    <option value="15:00">03:00 PM</option>
+                    <option value="15:30">03:30 PM</option>
+                    <option value="16:00">04:00 PM</option>
+                    <option value="16:30">04:30 PM</option>
+                    <option value="17:00">05:00 PM</option>
+                    <option value="17:30">05:30 PM</option>
+                    <option value="18:00">06:00 PM</option>
+                    <option value="18:30">06:30 PM</option>
+                    <option value="19:00">07:00 PM</option>
+                    <option value="19:30">07:30 PM</option>
+                    <option value="20:00">08:00 PM</option>
+                    <option value="20:30">08:30 PM</option>
+                    <option value="21:00">09:00 PM</option>
+                    <option value="21:30">09:30 PM</option>
+                    <option value="22:00">10:00 PM</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
         </div>
-        <form id="create-new-form" method="POST" action="/take_appointment">
-            <label for="scan-type">Scan Type:</label>
-            <select id="scan-type" name="scan-type">
-                <option value="xray">X-Ray</option>
-                <option value="mri">MRI</option>
-                <option value="ct">CT Scan</option>
-            </select>
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date">
-            <label for="time">Time:</label>
-            <select id="time" name="time">
-                <option value="08:00">08:00 AM</option>
-                <option value="08:30">08:30 AM</option>
-                <option value="09:00">09:00 AM</option>
-                <option value="09:30">09:30 AM</option>
-                <option value="10:00">10:00 AM</option>
-                <option value="10:30">10:30 AM</option>
-                <option value="11:00">11:00 AM</option>
-                <option value="11:30">11:30 AM</option>
-                <option value="12:00">12:00 PM</option>
-                <option value="12:30">12:30 PM</option>
-                <option value="13:00">01:00 PM</option>
-                <option value="13:30">01:30 PM</option>
-                <option value="14:00">02:00 PM</option>
-                <option value="14:30">02:30 PM</option>
-                <option value="15:00">03:00 PM</option>
-                <option value="15:30">03:30 PM</option>
-                <option value="16:00">04:00 PM</option>
-                <option value="16:30">04:30 PM</option>
-                <option value="17:00">05:00 PM</option>
-                <option value="17:30">05:30 PM</option>
-                <option value="18:00">06:00 PM</option>
-                <option value="18:30">06:30 PM</option>
-                <option value="19:00">07:00 PM</option>
-                <option value="19:30">07:30 PM</option>
-                <option value="20:00">08:00 PM</option>
-                <option value="20:30">08:30 PM</option>
-                <option value="21:00">09:00 PM</option>
-                <option value="21:30">09:30 PM</option>
-                <option value="22:00">10:00 PM</option>
-            </select>
-            <button type="submit">Submit</button>
-        </form>
     </div>
-</div>
 
 
 
@@ -178,59 +196,62 @@
             </div>
         </div>
         <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            <% scans.forEach((scan, scanIndex) => { %>
-            <% scan.scan_pics.forEach((pic, picIndex) => { %>
-         <div class="scan-block"> <!--A SEPARATE BLOCK -->
-            <div class="scan-code">
-                <%pic = pic.replace( /\\/g, '' ); %>
-                <%pic=pic.replace('public', '' ); %>
-                <%pic=pic.replace('uploads', '' ); %>
-                <h3> Scan Number: <%= scanIndex + 1 %> <br> <%= pic %></h3>
-            </div> <!--E3MELEEHOM ANCHOR BOTH-->
-            <div class="send-button">
-                <h3><a href="/patient_report?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Open</a></h3>
-            </div>
+            <% scans.forEach((scan, scanIndex)=> { %>
+                <% scan.scan_pics.forEach((pic, picIndex)=> { %>
+                    <div class="scan-block"> <!--A SEPARATE BLOCK -->
+                        <div class="scan-code">
+                            <%pic=pic.replace( /\\/g, '' ); %>
+                                <%pic=pic.replace('public', '' ); %>
+                                    <%pic=pic.replace('uploads', '' ); %>
+                                        <h3> Scan Number: <%= scanIndex + 1 %> <br>
+                                                <%= pic %>
+                                        </h3>
+                        </div> <!--E3MELEEHOM ANCHOR BOTH-->
+                        <div class="send-button">
+                            <h3><a href="/patient_report?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Open</a>
+                            </h3>
+                        </div>
+                    </div>
+                    <% }); %>
+                        <% }); %>
         </div>
-        <% }); %>
-        <% }); %>
-    </div> 
 
 
-           </section>
+    </section>
 
     <section class="contact-form"> <!--Task Bar BLOCK-->
-            <h2 class="contact-form-title">
-                Got any requests?
-            </h2>
-    
-            <button class="contact-form-button" id="contact-btn"> Contact Us</button>
-            <div id="popupContainer2" class="popup">
-                <div class="close-btn" onclick="closePopup2()">&times;</div>
-                <form class="form" action="/contact_form" method="POST">
-                    <div class="form-element">
-                        <p>You make this form for:</p>
-                    </div>
-                    <div class="form-element">
-                        <input type="radio" id="complaint" name="why" value="Complaint">
-                        <label for="complaint">Complaint</label>
-                    </div>
-                    <div class="form-element">
-                        <input type="radio" id="inquiry" name="why" value="Inquiry">
-                        <label for="inquiry">Inquiry</label>
-                    </div>
-                    <div class="form-element">
-                        <input type="text" class="form-text" name="body" id="write" placeholder="Write your form here"
-                            required>
-                    </div>
-                    <div class="form-element">
-                        <button id="send">Send</button>
-                        <!-- <input type="submit" value="send"> -->
-                    </div>
-                </form>
-            </div>
-            <a class="replies-btn" href="replies">Check messages</a>
-    
-        </section>
+        <h2 class="contact-form-title">
+            Got any requests?
+        </h2>
+
+        <button onclick="openPopup_contact_form()" class="contact-form-button"> Contact Us</button>
+        <div id="popupContainer_contact_form" class="popup">
+            <div class="close-btn" onclick="closePopup_contact_form()">&times;</div>
+            <form class="form" action="/rad_send_form" method="POST">
+                <div class="form-element">
+                    <p>You make this form for:</p>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="complaint" name="why" value="Complaint">
+                    <label for="complaint">Complaint</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="inquiry" name="why" value="Inquiry">
+                    <label for="inquiry">Inquiry</label>
+                </div>
+                <div class="form-element">
+                    <input type="text" class="form-text" name="body" id="write" placeholder="Write your form here"
+                        required>
+                </div>
+                <div class="form-element">
+                    <button id="send">Send</button>
+                    <!-- <input type="submit" value="send"> -->
+                </div>
+            </form>
+        </div>
+        <a class="replies-btn" href="replies">Check messages</a>
+
+    </section>
 
     <script src="/css/patient.js">
     </script>

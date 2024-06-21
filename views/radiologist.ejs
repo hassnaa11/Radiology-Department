@@ -237,9 +237,9 @@
             Got any requests?
         </h2>
 
-        <button class="contact-form-button" id="contact-btn"> Contact Us</button>
-        <div id="popupContainer2" class="popup">
-            <div class="close-btn" onclick="closePopup2()">&times;</div>
+        <button onclick="openPopup_contact_form()" class="contact-form-button"> Contact Us</button>
+        <div id="popupContainer_contact_form" class="popup">
+            <div class="close-btn" onclick="closePopup_contact_form()">&times;</div>
             <form class="form" action="/rad_send_form" method="POST">
                 <div class="form-element">
                     <p>You make this form for:</p>
