@@ -142,15 +142,21 @@
             </div>
             <form id="create-new-form" method="POST" action="/take_appointment">
                 <label for="scan-type">Scan Type:</label>
-                <select id="scan-type" name="scanType">
-                    <option value="xray">X-Ray</option>
-                    <option value="mri">MRI</option>
-                    <option value="ct">CT Scan</option>
+                <select id="scan-type" name="scanType" required>
+                    <option value="X-Ray">X-Ray</option>
+                    <option value="MRI">MRI</option>
+                    <option value="CT">CT Scan</option>
+                    <option value="Ultrasound">Ultrasound</option>
+                    <option value="Mammography">Mammography</option>
+                    <option value="DEXA">DEXA scan</option>
+                    <option value="Echo">Echocardiograph</option>
+                    <option value="Doppler">Doppler</option>
+
                 </select>
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date">
+                <input type="date" id="date" name="date" required>
                 <label for="time">Time:</label>
-                <select id="time" name="time">
+                <select id="time" name="time" required>
                     <option value="08:00">08:00 AM</option>
                     <option value="08:30">08:30 AM</option>
                     <option value="09:00">09:00 AM</option>
