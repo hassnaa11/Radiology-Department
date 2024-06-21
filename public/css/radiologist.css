@@ -486,8 +486,9 @@ a {
     flex-direction: column;
     align-items: center;
     padding-top: 0.5em;
-    width: 75%;
-    height: 60%;
+    width: 65%;
+    height: 6.2em;
+    margin-bottom: 2em;
     background: white;
     border-radius: 40px;
     grid-area: "form";
@@ -513,8 +514,8 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50%;
-    height: 43%;
+    width: 47%;
+    height: 33px;
     color: #FFFFFF;
     background: #60acc5;
     border: 2px solid #015876;

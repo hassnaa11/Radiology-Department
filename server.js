@@ -163,7 +163,7 @@ app.post("/take_appointment", async (req, res) => {
     }
 
     if (errors.length > 0) {
-        return res.render("take_appointment", { errors });
+        return res.render("patient.ejs", { errors });
     }
 
     try {
@@ -178,7 +178,7 @@ app.post("/take_appointment", async (req, res) => {
 
         if (result.rows.length > 0) {
             errors.push({ message: "This time slot is already reserved for the selected scan type" });
-            return res.render("take_appointment", { errors });
+            return res.render("patient.ejs", { errors });
         }
 
         // Find an available radiologist
@@ -197,7 +197,7 @@ app.post("/take_appointment", async (req, res) => {
 
         if (radiologistResult.rows.length === 0) {
             errors.push({ message: "No available radiologist found for the selected time" });
-            return res.render("take_appointment", { errors });
+            return res.render("patient.ejs", { errors });
         }
 
         const radiologistId = radiologistResult.rows[0].radiologist_id;
@@ -209,11 +209,11 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         req.flash("success_msg", "Your reservation was successful");
-        res.redirect("/take_appointment");
+        res.redirect("/patient");
     } catch (err) {
         console.error(err);
         errors.push({ message: "Server error" });
-        res.render("take_appointment", { errors });
+        res.render("patient.ejs", { errors });
     }
 });
 
@@ -287,11 +287,16 @@ app.get('/radiologist', async (req, res) => {
     scan_pics = scan_pics.rows;
     // console.log(scan_pics.rows);
 
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const fname = capitalize(req.user.fname);
+    const lname = capitalize(req.user.lname);
+
     res.render("radiologist.ejs", {
         type: req.user.type,
         email: req.user.email,
-        fname: req.user.fname,
-        lname: req.user.lname,
+        fname: fname,
+        lname: lname,
         address: req.user.address,
         age: req.user.age,
         sex: req.user.sex,
@@ -390,10 +395,15 @@ app.get('/doctor', (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
     const scansNo = req.session.scansNo;
+
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
+    const fname = capitalize(req.user.fname);
+   
     res.render("doctor.ejs", {
         password: user.password,
         email: user.email,
-        fname: user.fname,
+        fname: fname,
         adress: user.adress,
         picture: user.picture,
         salary: user.salary,
@@ -542,56 +552,6 @@ app.post("/write_report", async (req, res) => {
     } catch (err) {
         console.error('Error during report submission:', err);
         res.status(500).send('Server error');
-    }
-});
-
-app.post("/take_appointment", async (req, res) => {
-    let { scanType, date, time } = req.body;
-    console.log(scanType);
-    console.log({
-        scanType,
-        date,
-        time
-    });
-
-    let errors = [];
-
-    // Validate the input
-    if (!scanType || !date || !time) {
-        errors.push({ message: "Please fill in all fields" });
-    }
-
-    if (errors.length > 0) {
-        res.render("take_appointment.ejs", { errors });
-    } else {
-        try {
-            // Combine date and time into a single timestamp string
-            const scanDate = `${date} ${time}:00`;
-
-            // Check if the scan type, date, and time are already reserved
-            const result = await pool.query(
-                `SELECT * FROM take_appointment WHERE scan_type = $1 AND scan_date = $2`,
-                [scanType, scanDate]
-            );
-
-            if (result.rows.length > 0) {
-                errors.push({ message: "This time slot is already reserved for the selected scan type" });
-                res.render("reserve", { errors });
-            } else {
-                // Insert the new reservation
-                await pool.query(
-                    `INSERT INTO take_appointment (scan_type, scan_date) VALUES ($1, $2)`,
-                    [scanType, scanDate]
-                );
-
-                req.flash("success_msg", "Your reservation was successful");
-                res.redirect("/take_appointment");
-            }
-        } catch (err) {
-            console.error(err);
-            errors.push({ message: "Server error" });
-            res.render("take_appointment.ejs", { errors });
-        }
     }
 });
 
