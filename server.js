@@ -161,6 +161,7 @@ app.post("/take_appointment", async (req, res) => {
 
     if (errors.length > 0) {
         console.log("error i gonna render to patient")
+        req.flash('errors', errors);
         // return res.render("patient.ejs", { errors });
         return res.redirect('back')
     }
@@ -178,6 +179,7 @@ app.post("/take_appointment", async (req, res) => {
         if (result.rows.length > 0) {
             errors.push({ message: "This time slot is already reserved for the selected scan type" });
             // return res.render("patient.ejs", { errors });
+            req.flash('errors', errors);
             return res.redirect('back')
         }
 
@@ -198,6 +200,7 @@ app.post("/take_appointment", async (req, res) => {
         if (radiologistResult.rows.length === 0) {
             errors.push({ message: "No available radiologist found for the selected time" });
             // return res.render("patient.ejs", { errors });
+            req.flash('errors', errors);
             return res.redirect('back')
         }
 
@@ -215,6 +218,7 @@ app.post("/take_appointment", async (req, res) => {
         console.error(err);
         errors.push({ message: "Server error" });
         // res.render("patient.ejs", { errors });
+        req.flash('errors', errors);
         return res.redirect('back')
     }
 });
