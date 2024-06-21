@@ -1,78 +1,61 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-
-
     <link href="/css/doctors_admin.css" rel="stylesheet">
-
-    <title> profile </title>
-
-
+    <title>Profile</title>
 </head>
-
-
 <body class="edit-window">
     <div class="edit-box">
-        <div class="title-edit"> Add Doctor</div>
-
-
-
+        <div class="title-edit">Add Doctor</div>
+        <p id="errMessage">
+            <% if(typeof errors !='undefined' ){ %>
+                <% errors.forEach(error=>{ %>
+                    <p id="errMessage">
+                        <%= error.message %>
+                    </p>
+                <% }) %>
+            <% } %>
+        </p>
         <div class="edit-box2">
-            <form class="txt-boxes">
+            <form class="txt-boxes" method="POST" action="/add_doctor">
                 <label>Name:</label>
-                <input class="input-box" type="text" id="name" name="name">
-                <label>ID:</label>
-                <input class="input-box" type="number" id="ID" name="ID">
-
-                <label>Adress:</label>
-                <input type="text" class="input-box">
-
-                <label>email:</label>
-                <input type="email" class="input-box">
-                <label>Asistant Name:</label>
-                <input class="input-box" type="text">
-                <label>Start-Shift:</label>
-                <input class="input-box" type="time" id="start" name="start">
-                <label>End-Shift:</label>
-                <input class="input-box" type="time" id="end" name="end">
-
-                <label>DR-Room:</label>
-                <input class="input-box" type="text" id="room" name="room">
+                <input class="input-box" type="text" id="name" name="name" required>
+                <label>Password:</label>
+                <input class="input-box" type="text" id="password" name="password" required>
+                <label>Address:</label>
+                <input type="text" class="input-box" id="adress" name="adress" required>
+                <label>Email:</label>
+                <input type="email" class="input-box" id="email" name="email" required>
+                <label>Phone number:</label>
+                <input class="input-box" type="text" id="phone_no" name="phone_no" required>
+                <label>Assistant Name:</label>
+                <input class="input-box" type="text" id="asisName" name="asisName" required>
+                <label>Start Shift:</label>
+                <input class="input-box" type="time" id="start" name="start" required>
+                <label>End Shift:</label>
+                <input class="input-box" type="time" id="end_shift" name="end_shift" required>
+                <label>Doctor Room:</label>
+                <input class="input-box" type="text" id="room" name="room" required>
                 <label>Sex:</label>
                 <div>
-                    <input type="radio" id="male" name="sex" value="male">
-                    <label for="male"> <img src="/images/Dr icon.png  " alt="Logo 1" class="logo"></label>
-                    <input type="radio" id="female" name="sex" value="female">
-                    <label for="female"> <img src="/images/drr.png  " alt="Logo 1" class="logo"></label>
+                    <input type="radio" id="male" name="sex" value="male" required>
+                    <label for="male"><img src="/images/Dr_icon.png" alt="Logo 1" class="logo"></label>
+                    <input type="radio" id="female" name="sex" value="female" required>
+                    <label for="female"><img src="/images/drr.png" alt="Logo 1" class="logo"></label>
                 </div>
-                <label for="text">Age:</label>
-                <input type="text" class="input-box">
-
-                <label for=instagram">Specialaization:</label>
-                <input class="input-box">
-                <label for=instagram">salary:</label>
-                <input class="input-box">
-                <label> photo:</label>
-                <input type="file" id="image-input" accept="image/*">
-                <button class="edit-btn2"> Add</button>
+                <label>Age:</label>
+                <input type="text" class="input-box" id="age" name="age" required>
+                <label>Specialization:</label>
+                <input class="input-box" id="major" name="major" required>
+                <label>Salary:</label>
+                <input class="input-box" id="salary" name="salary" required>
+                <label>Photo:</label>
+                <input type="file" id="image-input" name="picture" accept="image/*" required>
+                <button class="edit-btn2" type="submit">Add</button>
             </form>
-
-
-
         </div>
     </div>
-
-
-
-    <script src="javascript.js"></script>
 </body>
-
-
-
 </html>
