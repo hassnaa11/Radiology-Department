@@ -93,6 +93,10 @@
                 <p>Patient</p>
             </div>
         </div>
+        
+        <div class="error_msg" id="error-message">
+            <%= typeof msg_p !='undefined' ? msg_p : '' %>
+        </div>
     </section>
 
 
@@ -133,7 +137,7 @@
     <div id="create-new-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Create New Reservation</h2>
+                <h2>Create New Appointment</h2>
                 <span class="close-btn">&times;</span>
             </div>
             <form id="create-new-form" method="POST" action="/take_appointment">

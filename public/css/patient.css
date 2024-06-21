@@ -86,7 +86,7 @@ a {
   background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
   border-radius: 30px;
   grid-area: "welcome";
-  margin-top: -4em;
+  margin-top: -6em;
 }
 
 .good-day-section h1 {
@@ -105,7 +105,7 @@ a {
   background-color: #FFFFFF;
   border-radius: 25px;
   grid-area: "scanslist";
-  margin-top: -10em;
+  margin-top: -12em;
 }
 
 .scans-section-header {
@@ -425,7 +425,7 @@ justify-content: center;
 gap: 1em;
 
 width: 90%;
-height: 70px;
+height: 80px;
 
 background: #2998C1;
 border: 2px solid #015876;
@@ -1097,4 +1097,12 @@ font-size: 0.77em;
 .btn:hover {
   background-color: #c8d6de;
   transform: translateY(-5px);
+}
+
+.error_msg {
+  color: red;
+  font-size: 18px;
+  text-align: center;
+  padding: 15px;
+  margin-top: 40px;
 }

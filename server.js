@@ -87,8 +87,16 @@ app.get('/signup', (req, res) => {
 });
 // patient window route
 
-
+let msg_p = '';
+let count_p = 0;
 app.get('/patient', async (req, res) => {
+    if (count_p == 1) {
+        msg_p = '';
+        count_p--;
+    }
+    if (msg_p != '') {
+        count_p++;
+    }
     const patientScans = req.session.patient || [];
     let scans_type = await pool.query(
         'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
@@ -141,7 +149,8 @@ app.get('/patient', async (req, res) => {
         scans_date,
         scans_id,
         //reports_no,
-        scans: patientScans
+        scans: patientScans,
+        msg_p
     })
 });
 
@@ -156,12 +165,12 @@ app.post("/take_appointment", async (req, res) => {
 
     // Validate the input
     if (!scanType || !date || !time) {
-        errors.push({ message: "Please fill in all fields" });
+        msg_p='error bro';
     }
 
     if (errors.length > 0) {
-        console.log("error i gonna render to patient")
-        req.flash('errors', errors);
+        msg_p='This slot has already been reserved';
+        //req.flash('errors', errors);
         // return res.render("patient.ejs", { errors });
         return res.redirect('back')
     }
@@ -177,9 +186,9 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         if (result.rows.length > 0) {
-            errors.push({ message: "This time slot is already reserved for the selected scan type" });
+            msg_p='This slot has already been reserved';
             // return res.render("patient.ejs", { errors });
-            req.flash('errors', errors);
+            //req.flash('errors', errors);
             return res.redirect('back')
         }
 
@@ -198,9 +207,9 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         if (radiologistResult.rows.length === 0) {
-            errors.push({ message: "No available radiologist found for the selected time" });
+            msg_p='There will be no available radiologists at this date. Please choose another time.';
             // return res.render("patient.ejs", { errors });
-            req.flash('errors', errors);
+            //req.flash('errors', errors);
             return res.redirect('back')
         }
 
