@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const closeButton = document.querySelector(".rclose-btn");
-
     if (closeButton) {
         closeButton.addEventListener("click", closePopup);
     }
