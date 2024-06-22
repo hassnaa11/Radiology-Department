@@ -11,6 +11,7 @@
 <body>
     <div class="top-side">
         <span>Forms & Complains</span>
+<<<<<<< HEAD
         
     </div>
     <div class="left">
@@ -24,11 +25,24 @@
                 </div>
             <% }%> 
         <% }) %> 
+=======
+        <button id="form2" class="reply">Reply to</button>
+    </div>
+    <div class="left">
+        <% forms.forEach(form => { %>
+            <div>
+             <p class="left-item">From: <span class="left-item-span"><%= form.user_email %></span></p>
+             <p class="left-item">About: <span class="left-item-span"><%= form.about %></span></p>
+             <p class="left-item">Body: <span class="left-item-span"><%= form.body %></span></p>
+            </div>
+            <% }) %>
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     </div>
 
     <div id="replypopup" class="reply-popup">
         <div class="rclose-btn" onclick="closePopup()">&times;</div>
         <div class="rform">
+<<<<<<< HEAD
             <form id="replyForm" class="rform-element" method="POST" action="/forms">
                 <div class="rform-element">
                     <input type="hidden" id="formId" name="formId">
@@ -50,3 +64,23 @@
 </body>
 
 </html>
+=======
+            <div class="rform-element">
+                <label for="reply">Reply to</label>
+                <input type="text" id="remail" placeholder="write email you replying to">
+            </div>
+            <div class="rform-element">
+                <input type="text" class="rform-text" id="write" placeholder="Write your reply here">
+            </div>
+            <div class="rform-element">
+                <button id="send">Send</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/css/forms.js"></script>
+</body>
+
+</html>
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc

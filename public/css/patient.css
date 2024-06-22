@@ -8,11 +8,19 @@ body {
   grid-template-rows: auto auto auto auto auto;
   justify-items: center;
   grid-template-areas:
+<<<<<<< HEAD
     "header profile"
     "welcome profile"
     "welcome taskbar"
     "scansbox form"
     "scansbox"
+=======
+      "header profile"
+      "welcome profile"
+      "welcome taskbar"
+      "scansbox form"
+      "scansbox"
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   ;
 }
 
@@ -69,10 +77,17 @@ a {
   transition: .9s ease;
 }
 
+<<<<<<< HEAD
 .go {
   position: relative;
   top: -0.7em;
   left: 0em;
+=======
+.go{
+  position: relative;
+  top: -0.7em;
+  left:0em;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 
@@ -86,7 +101,11 @@ a {
   background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
   border-radius: 30px;
   grid-area: "welcome";
+<<<<<<< HEAD
   margin-top: -6em;
+=======
+  margin-top: -4em;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 .good-day-section h1 {
@@ -105,7 +124,11 @@ a {
   background-color: #FFFFFF;
   border-radius: 25px;
   grid-area: "scanslist";
+<<<<<<< HEAD
   margin-top: -12em;
+=======
+  margin-top: -10em;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 .scans-section-header {
@@ -117,7 +140,11 @@ a {
   padding: auto 1em;
 }
 
+<<<<<<< HEAD
 .scans-button {
+=======
+.scans-button{
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   box-sizing: border-box;
   width: 7em;
   height: 3.5em;
@@ -171,8 +198,13 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+<<<<<<< HEAD
   gap: 20em;
   width: 40em;
+=======
+  gap: 10em;
+  width: 50em;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   height: 2.8em;
   background: #FFFFFF;
   border: 2px solid #0C96C5;
@@ -241,8 +273,13 @@ a {
 
 .open-file {
   background-color: #F8F8F8;
+<<<<<<< HEAD
   width: 40px;
   height: 40px;
+=======
+  width: 11%;
+  height: 65%;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   display: flex;
   align-items: center;
   justify-content: center;
@@ -252,6 +289,7 @@ a {
   border-radius: 10px;
 }
 
+<<<<<<< HEAD
 .logout-profile {
   width: 130px;
   display: flex;
@@ -260,6 +298,8 @@ a {
 }
 
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .file-wrapper {
   width: 70%;
   margin-right: 25%;
@@ -299,6 +339,7 @@ a {
 }
 
 .popup-content label {
+<<<<<<< HEAD
   text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
 }
 
@@ -326,6 +367,34 @@ a {
 
 .submit-profile-btn:hover {
   background-color: #b6c1c5;
+=======
+text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+}
+
+.profile-input input {
+border-radius: 10px;
+padding: 4px;
+margin-bottom: 12px;
+margin-left: 10px;
+border: none;
+}
+
+.profile-input form {
+margin-top: 20px;
+}
+
+.submit-profile-btn {
+width: 100px;
+height: 40px;
+margin-left: 115px !important;
+font-weight: bold;
+transition: 0.3s;
+cursor: pointer;
+}
+
+.submit-profile-btn:hover {
+background-color: #b6c1c5;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 
@@ -372,6 +441,7 @@ a {
 }
 
 
+<<<<<<< HEAD
 .reservations-bar {
   display: flex;
   flex-direction: column;
@@ -495,6 +565,122 @@ a {
   margin-bottom: 1.8em;
   margin-top: 1.2em;
   text-align: center;
+=======
+.reservations-bar{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-top:0.5em;
+width: 90%;
+height: fit-content;
+background: #F8F8F8;
+border-radius: 2.5em;
+grid-area: "taskbar";
+margin-top: 3.3em;
+}
+
+.reservations-title {
+width:90%;
+display:flex;
+justify-content: space-evenly;
+row-gap: 3em;
+align-items: center;
+padding: 0 1em;
+margin-bottom: -0.4em;
+}
+
+.reservations-title h2 {
+text-align: center;
+font-size: 1.9rem;
+font-family: 'Inter';
+}
+
+.reservations-elements{
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 0.2em;
+gap: 1em;
+overflow-y: auto;
+width: 75%;
+height: 11em;
+}
+  
+  
+.reservations-elements::-webkit-scrollbar {
+width: 0.6em; /* Set the width of the scrollbar */
+}
+
+.reservations-elements::-webkit-scrollbar-track {
+background: #ffffff; /* Set the background color of the scrollbar track */
+}
+
+.reservations-elements::-webkit-scrollbar-thumb {
+background: #c7c1c1;; /* Set the color of the scrollbar thumb */
+} 
+  
+  
+.reservations-div{
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 1em;
+
+width: 90%;
+height: 70px;
+
+background: #2998C1;
+border: 2px solid #015876;
+}
+  
+.reservations-div p{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 1rem;
+color: #FFFFFF;
+}
+
+.deets-1,.deets-2{
+display: flex;
+flex-direction: row;
+margin-top: -0.6em;
+justify-content:space-between;
+margin-right:0.7em;
+margin-left:0.6em;
+
+}
+
+.deets-2 p{
+margin-top: -1.1em;
+color: #0c1518;
+}
+
+
+.reservations-div p{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 500;
+font-size: 1rem;
+color: #FFFFFF;
+}
+
+.reservations-div h3{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+text-decoration:underline ;
+color:#162463;
+margin-top:1.3em;
+}
+
+.create-new {
+width: 75%;
+margin-bottom: 1.8em;
+margin-top:1.2em;
+text-align: center;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 #create-new-btn {
@@ -508,8 +694,13 @@ a {
   font-size: 1rem;
 }
 
+<<<<<<< HEAD
 #create-new-btn:hover {
   background-color: #8c9192e8;
+=======
+#create-new-btn:hover{
+background-color: #8c9192e8;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 /* Modal CSS */
@@ -522,8 +713,13 @@ a {
   width: 100%;
   height: 100%;
   overflow: auto;
+<<<<<<< HEAD
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+=======
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   padding-top: 60px;
 }
 
@@ -557,6 +753,7 @@ a {
   margin-bottom: 1em;
 }
 
+<<<<<<< HEAD
 .popup .close-btnn {
   position: absolute;
   top: 10px;
@@ -567,6 +764,8 @@ a {
   cursor: pointer;
 }
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .close-btn {
   color: #aaa;
   float: right;
@@ -594,9 +793,13 @@ a {
   margin-top: 1em;
 }
 
+<<<<<<< HEAD
 #create-new-form select,
 #create-new-form input,
 #create-new-form button {
+=======
+#create-new-form select, #create-new-form input, #create-new-form button {
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   width: calc(100% - 1em);
   padding: 0.5em;
   font-family: 'Inter';
@@ -615,11 +818,14 @@ a {
   margin-top: 1em;
 }
 
+<<<<<<< HEAD
 #confirm-delete-btn,
 #cancel-delete-btn {
   margin-top: 10px;
 }
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .contact-form {
   display: flex;
   flex-direction: column;
@@ -684,13 +890,20 @@ a {
   color: #4f8ca0;
 }
 
+<<<<<<< HEAD
 @media (max-width:420px) {
   body {
     display: grid;
+=======
+@media (max-width:420px){
+  body{
+    display:grid;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     grid-template-columns: 414px;
     grid-template-rows: auto auto auto auto auto auto auto;
     justify-items: center;
     grid-template-areas:
+<<<<<<< HEAD
       "welcome"
       "header"
       "profile"
@@ -866,12 +1079,174 @@ a {
     height: 2em;
     font-size: 0.77em;
   }
+=======
+    "welcome"
+    "header"
+    "profile"
+    "taskbar"
+    "scansbox"
+    "form";
+    overflow-x:hidden;
+}
+
+.header{
+  width: 414px; 
+}
+.logo{
+  width: 3.3em;
+  height: 3.2em;}
+.search input[type="text"]{
+  width:17em;
+  height: 2em;
+}
+.search button[type="submit"]{
+height:2.2em;
+width:2em;
+}
+
+.go{
+  position: relative;
+  top: -1.5em;
+  left:-0.6em;
+  font-size: 0.8em;
+}
+
+.good-day-section h1{
+   font-size: 2rem;
+}
+.good-day-section{
+  height:10em;
+  margin-top: -4em;
+}
+.scans-section{
+  margin-top:-10em;
+  
+}
+.scan-block{
+gap:3.9em;
+height:1.9em;
+}
+.scans-section-scrollbar{
+  height: 11em;
+}
+.scans-section-header{
+  gap:5.5em;
+}
+.viewmore-button h3,.scans-button h3{
+  font-size: 1.1em;
+}
+.reservations-bar{
+  position: relative;
+  left:-22em;
+  top:21em;
+  width:18em;
+  height: 13.5em;
+
+}
+.reservations-div{
+  height:2.6em;
+  width:12em;
+  font-size: 1em;
+  margin-bottom: -0.6em;
+}
+
+.reservations-elements{
+  overflow-x: hidden;
+  height:10em;
+}
+.reservations-title h2{
+  font-size: 1.3em;
+  margin-bottom: em;
+  margin-top: 0.3em;
+
+}
+
+
+.deets-1, .deets-2{
+font-size: 0.7em;
+}
+
+.deets-1 h3{
+  margin-top: 1.8em;
+}
+.deets-2{
+  margin-top: -0.9em;
+}
+
+.profile-head{
+  position:relative;
+  left:-28em;
+  top:50em;
+  width:9.5em;
+  height: 3em;
+  border: 5px solid #0C96C5;
+}
+
+
+.profile-head h2{
+margin-left: 0.4em;
+font-size: 1.2rem;
+}
+  
+.open-file {
+  height: 1.5em;
+  width:1.5em;
+  margin-right: 0.5em;
+}
+
+.profile-body{
+  position:relative;
+  left:-28em;
+  top:50em;
+  width:10em;
+  height: 4.8em;
+  border: 5px solid #AEDBEE;
+}
+  
+.profile-pic{
+width: 2em;
+height: 90%;
+background: #631515;
+object-fit: cover;
+}
+
+.profile-details h2{
+font-weight: 800;
+font-size: 0.9rem;
+
+}
+  
+.profile-details p{
+font-size: 0.6rem;
+margin-bottom: 0;
+}
+
+.contact-form{
+position:relative;
+left:-16em;
+top:22.5em;
+width:9em;
+height: 3.3em;
+
+}
+
+.contact-form-title{
+font-size: 0.9em;
+}
+  
+  
+.contact-form-button{
+height: 2em;
+font-size: 0.77em;
+}
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 
 }
 
 
 @media (max-width:1000px) {
   body {
+<<<<<<< HEAD
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto auto;
@@ -882,6 +1257,18 @@ a {
       "taskbar profile"
       "scansbox form"
     ;
+=======
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto auto;
+      justify-items: center;
+      grid-template-areas:
+          "header header"
+          "welcome welcome"
+          "taskbar profile"
+          "scansbox form"
+      ;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   }
 }
 
@@ -1037,6 +1424,7 @@ a {
   width: 70px;
   height: 20px;
   padding-left: 10px;
+<<<<<<< HEAD
 
 
 }
@@ -1050,6 +1438,18 @@ a {
   /* Rounded corners */
   border: none;
   /* Remove default border */
+=======
+  
+
+} 
+
+.file-input {
+  cursor: pointer; 
+  padding-left: 10px;
+  padding-right:260px; /* Add padding for better click area */
+  border-radius: 10px; /* Rounded corners */
+  border: none; /* Remove default border */
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
   font-size: 15px;
   /* transition: background-color 0.3s, color 0.3s, transform 0.3s; */
   width: 100px;
@@ -1064,7 +1464,10 @@ a {
 .editable-text:hover {
   border: 1px solid #ccc;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .editable-text {
   border: none;
   cursor: pointer;
@@ -1101,7 +1504,10 @@ a {
   z-index: 9999;
   /* Ensure the popup appears on top of other elements */
   backdrop-filter: blur(4px);
+<<<<<<< HEAD
   overflow-y: auto;
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 /* Styles for the popup content */
@@ -1145,13 +1551,18 @@ a {
   font-size: 15px;
   transition: transform 0.3s ease;
   box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 
 }
 
 .btn:hover {
   background-color: #c8d6de;
   transform: translateY(-5px);
+<<<<<<< HEAD
 }
 
 .error_msg {
@@ -1161,4 +1572,6 @@ a {
   padding: 15px;
   position: relative;
   top: 40px;
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }

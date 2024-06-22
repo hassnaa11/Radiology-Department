@@ -500,6 +500,7 @@ svg {
 }
 
 
+<<<<<<< HEAD
 
 
  
@@ -543,6 +544,8 @@ svg {
 
 
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .edit-window {
     background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
     /* background: linear-gradient(to right, #eef8fc, #daebf0, #bcd4ed, #98adc7, #5685be, #316590, #315772); */
@@ -559,7 +562,11 @@ svg {
 
 .edit-box {
     width: 400px;
+<<<<<<< HEAD
     height: 750px;
+=======
+    height: 700px;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -655,6 +662,7 @@ svg {
     border-radius: 15px;
     border-width: 1px;
     ;
+<<<<<<< HEAD
 }
 .scans-btn{
     background-color:  #477697;
@@ -748,4 +756,6 @@ font-family: "Raleway",sans-serif;
 }
 .title-scans{
     margin-left: 100px;
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }

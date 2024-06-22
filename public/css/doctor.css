@@ -226,7 +226,11 @@ a {
     transform: translate(-50%, -50%) scale(1);
 }
 
+<<<<<<< HEAD
 .popup .close-btn8 {
+=======
+.popup .close-btn {
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     position: absolute;
     top: 5px;
     right: 10px;
@@ -346,8 +350,13 @@ a {
 
 .open-file {
     background-color: #F8F8F8;
+<<<<<<< HEAD
     width: 40px;
     height: 40px;
+=======
+    width: 11%;
+    height: 65%;
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     display: flex;
     align-items: center;
     justify-content: center;
@@ -357,6 +366,7 @@ a {
     border-radius: 10px;
 }
 
+<<<<<<< HEAD
 .logout-profile {
     width: 130px;
     display: flex;
@@ -365,6 +375,8 @@ a {
 }
 
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .file-wrapper {
     width: 70%;
     margin-right: 25%;
@@ -627,8 +639,12 @@ a {
     padding-bottom: 2em;
 
 }
+<<<<<<< HEAD
 
 .contact-form-check {
+=======
+.contact-form-check{
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     margin-top: 10px;
     font-family: 'Inter';
     font-weight: 600;
@@ -937,6 +953,7 @@ a {
     font-size: 15px;
     border-radius: 10px;
     background-color: #ffffff;
+<<<<<<< HEAD
     width: 60px;
     height: 20px;
     padding-left: 17px;
@@ -954,6 +971,22 @@ a {
     /* Rounded corners */
     border: none;
     /* Remove default border */
+=======
+    width: 50px;
+    height: 20px;
+    padding-left: 30px;
+    
+
+ } 
+
+.file-input {
+    
+    cursor: pointer; 
+    padding-left: 10px;
+    padding-right:200px; /* Add padding for better click area */
+    border-radius: 10px; /* Rounded corners */
+    border: none; /* Remove default border */
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     font-size: 15px;
     /* transition: background-color 0.3s, color 0.3s, transform 0.3s; */
     width: 100px;
@@ -968,7 +1001,10 @@ a {
 .editable-text:hover {
     border: 1px solid #ccc;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .editable-text {
     border: none;
     cursor: pointer;
@@ -1005,7 +1041,10 @@ a {
     z-index: 9999;
     /* Ensure the popup appears on top of other elements */
     backdrop-filter: blur(4px);
+<<<<<<< HEAD
     overflow-y: auto;
+=======
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 /* Styles for the popup content */
@@ -1049,7 +1088,11 @@ a {
     font-size: 15px;
     transition: transform 0.3s ease;
     box-shadow: 0px 4px 6px rgba(46, 96, 109, 0.1);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 
 }
 

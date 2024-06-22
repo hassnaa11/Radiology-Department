@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+<<<<<<< HEAD
     const closeButton = document.querySelector(".rclose-btn");
     if (closeButton) {
         closeButton.addEventListener("click", closePopup);
@@ -22,12 +23,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
         console.log("Form not found with id:", id);
+=======
+    document.getElementById("form2").addEventListener("click", openPopup);
+    document.querySelector(".rclose-btn").addEventListener("click", closePopup);
+
+    function openPopup() {
+        document.getElementById("replypopup").style.display = "block";
+        document.getElementById("replypopup").classList.add("active");
+        document.body.classList.add("blur-background");
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     }
 
     function closePopup() {
         document.getElementById("replypopup").style.display = "none";
         document.getElementById("replypopup").classList.remove("active");
         document.body.classList.remove("blur-background");
+<<<<<<< HEAD
     }
 });
 
+=======
+
+    }
+});
+>>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
