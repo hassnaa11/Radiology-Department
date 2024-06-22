@@ -2,9 +2,8 @@ CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(80) NOT NULL,
-    type VARCHAR(12) NOT NULL, -- admin or patient or doctor or radiologist
+    type VARCHAR(10) NOT NULL, -- admin or patient or doctor or radiologist
     fname VARCHAR(20) NOT NULL,
-    mname VARCHAR(20) NOT NULL,
     lname VARCHAR(20) NOT NULL,
     phone_no INT UNIQUE,
     age INT,
@@ -49,22 +48,22 @@ CREATE TABLE take_appointment( -- relation between patient and radiologist
 );
 
 Create table scans( 
-scan_id INT REFERENCES take_appointment (scan_id),
-patient_id int references patient(patient_id), 
-scan_folder varchar(300) , 
-scan_pics text[], 
-radiologist_id int references radiologist(radiologist_id), 
-dr_id int references doctor(doctor_id), 
-unique(scan_folder) 
+    scan_id INT REFERENCES take_appointment (scan_id),
+    patient_id int references patient(patient_id), 
+    scan_folder varchar(300) , 
+    scan_pics text[], 
+    radiologist_id int references radiologist(radiologist_id), 
+    dr_id int references doctor(doctor_id), 
+    unique(scan_folder) 
 );
 
 Create table reports( 
-report_no bigserial primary key, 
-scan_id int references scans(scan_id), 
-dr_id int references doctor(doctor_id), 
-report_date timestamp, 
-radiology_procedure varchar(100), 
-case_description  text[] 
+    report_no bigserial primary key, 
+    scan_id INT REFERENCES take_appointment (scan_id), 
+    dr_id int references doctor(doctor_id), 
+    report_date timestamp, 
+    radiology_procedure varchar(100), 
+    case_description  text[] 
 );
 
 CREATE TABLE billing( -- some information about billing for patient 
@@ -103,8 +102,7 @@ CREATE TABLE forms( -- form for complains or questions for patients or doctors o
     form_id bigserial primary key,
     user_email varchar(400) references users(email),
     about varchar(200),
-    body text;
-    reply text
+    body text
 );
 
 CREATE TABLE patient_has_doctor( -- relation between patient and doctor 
