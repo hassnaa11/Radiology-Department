@@ -185,12 +185,20 @@ function closePopup2() {
     // window.location.reload();
 }
 
+<<<<<<< HEAD
 function openPopup_profile() {
+=======
+function openPopup3() {
+>>>>>>> 59147d30172466d65cd440d40dcd8dfe03f698c0
     document.getElementById("popupContainer3").style.display = "block";
     document.body.classList.add("blur-background");
 }
 
+<<<<<<< HEAD
 function closePopup_profile() {
+=======
+function closePopup3() {
+>>>>>>> 59147d30172466d65cd440d40dcd8dfe03f698c0
     // Hide the popup container
     document.getElementById("popupContainer3").style.display = "none";
     // Remove the blur effect from the background
