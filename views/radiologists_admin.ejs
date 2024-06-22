@@ -23,73 +23,29 @@
         <img src="/images/radiologist.jpg" width="550px" height="400px" class="radiologist_img">
         <div class="radiologist_table">
             <div class="navbar">
-<<<<<<< HEAD
                 <div class="title">Our Radiologists</div>
             </div>
 
             <div class="section bars active">
                 <% radiologists.forEach(function(radiologist) { %>
                     <div onclick="openPopup( '<%= radiologist.radiologist_id %>')">
-                        <% if (radiologist.sex === 'male') { %>
+                        <% if (radiologist.sex==='male' ) { %>
                             <img src="/images/Dr icon.png" alt="Male Doctor Image" class="logo" name="sex" value="male">
-                        <% } else { %>
-                            <img src="/images/drr.png" alt="Female Doctor Image" class="logo" name="sex" value="female">
-                        <% } %>
-                
-                        <p> Dr. <%= radiologist.fname %> <%= radiologist.lname %></p>
-                        <button class="scans-btn" id="scans-btn" onclick="toggleScans('<%= radiologist.radiologist_id %>')">Scans</button>
+                            <% } else { %>
+                                <img src="/images/drr.png" alt="Female Doctor Image" class="logo" name="sex"
+                                    value="female">
+                                <% } %>
+
+                                    <p> Dr. <%= radiologist.fname %>
+                                            <%= radiologist.lname %>
+                                    </p>
+                                    <button class="scans-btn" id="scans-btn"
+                                        onclick="toggleScans('<%= radiologist.radiologist_id %>')">Scans</button>
                     </div>
-                <% }); %>
-                
+                    <% }); %>
+
             </div>
             <button class="Add_btn" id="ADD">Add</button>
-=======
-                <div class="title"> Our Radiologist </div>
-            </div>
-
-            <div class="section bars active">
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png  " alt="Logo 1" class="logo">
-                    <p> Dr. Ahmed Hassan</p>
-                    <p>Abdominal</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p> Dr. Nouran Yasser</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p>Dr. Habiba Mohamed</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png" alt="Logo 2" class="logo">
-                    <p> Dr. Moamen Hefny </p>
-                    <p>Musculoskeletal</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 1" class="logo">
-                    <p> Dr. Nariman Ahmed</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png" alt="Logo 1" class="logo">
-                    <p> Dr.Omar Ashraf </p>
-                    <p> Musculoskeletal</p>
-                </div>
-
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p> Dr. Halla Ahmed </p>
-                    <p>Cardiovascular</p>
-                </div>
-            </div>
-            <button class="Add_btn" id="ADD"> Add </button>
-
-
-
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 
             <div class="slideshow-container">
                 <div class="slideshow">
@@ -106,7 +62,6 @@
                             <div class="number" id="number">65%</div>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="220px" height="220px">
                         <defs>
                             <linearGradient id="GradientColor">
@@ -115,90 +70,76 @@
                             </linearGradient>
                         </defs>
                         <circle class="circle1" cx="115" cy="100" r="80" stroke-linecap="round" />
-=======
-
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="220px" height=220px">
-                        <defs>
-                            <linearGradient id="GradientColor">
-                                <stop offset="0%" stop-color="   #b9ddde" />
-                                <stop offset="100%" stop-color=" #315772" />
-                            </linearGradient>
-                        </defs>
-                        <circle class="circle1" cx="115" cy="100" r="80" stroke-linecap="round" />
-
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
                     </svg>
                     <p class="svg_caption">women</p>
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
     </div>
 
     <div id="popupContainer" class="popup-container">
         <div class="popup-content">
-            <img class="profile_photo" id="picture2" name="picture" src="" width="170"
-                        height="170">
+            <img class="profile_photo" id="picture2" name="picture" src="" width="170" height="170">
             <!-- Form elements with value attributes -->
-            <form action="/update_rad" method="POST"  id="radiologistForm">
-            
-                <input type="hidden" id="radiologist_id" name="radiologist_id" >
-                
-               <div>
+            <form action="/update_rad" method="POST" id="radiologistForm">
+
+                <input type="hidden" id="radiologist_id" name="radiologist_id">
+
+                <div>
                     <label for="fullName">Full Name:</label>
                     <input type="text" id="fullname" name="fullname">
                 </div>
-                
+
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" >
+                    <input type="email" id="email" name="email">
                 </div>
-                
+
                 <div>
                     <label for="address">Address:</label>
                     <input type="text" id="address" name="address">
                 </div>
-                
+
                 <div>
                     <label for="age">Age:</label>
                     <input type="number" id="age" name="age">
                 </div>
-                
+
                 <div>
                     <label for="sex">Sex:</label>
                     <input type="text" id="sex" name="sex">
                 </div>
-                
+
                 <div>
                     <label for="phone_no">Phone:</label>
                     <input type="text" id="phone_no" name="phone_no">
                 </div>
-                
+
                 <div>
                     <label for="salary">Salary:</label>
                     <input type="number" id="salary" name="salary">
                 </div>
-                
+
                 <div>
                     <label for="start_shift">Start Shift:</label>
                     <input type="text" id="start_shift" name="start_shift">
                 </div>
-                
+
                 <div>
                     <label for="end_shift">End Shift:</label>
-                    <input type="text" id="end_shift" name="end_shift" >
+                    <input type="text" id="end_shift" name="end_shift">
                 </div>
-                
+
                 <div>
                     <label for="password">Change Password:</label>
                     <input type="password" id="password" name="password" maxlength="12">
                 </div>
-                
+
                 <div>
                     <label for="picture">Picture:</label>
                     <input type="file" id="picture" name="picture" accept="image/*">
                 </div>
-                
+
                 <div class="submit-profile-btn">
                     <input type="submit" value="Update">
                 </div>
@@ -209,123 +150,57 @@
 
     <div id="scanspopup" class="popup-scans">
         <div class="scans-content">
-         <div class="cont">
-            <h2 class="title-scans"> Radiologist’ Scans</h2>
-          <!-- Content for the popup window -->
-          <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            
-            <% radiologists.forEach(function(radiologist) { %>
-                <div id="scans_<%= radiologist.radiologist_id %>" class="scans-container">
-                    <% if (radiologist.scans.length > 0) { %>
-                        <% radiologist.scans.forEach(function(scan, scanIndex) { %>
-                            <% scan.scan_pics.forEach((pic, picIndex) => { %>
-                                <div class="scan-block">
-                                    <div class="scan-code">
-                                        <%pic = pic.replace(/\\/g, '');%>
-                                        <%pic = pic.replace('public', '');%>
-                                        <%pic = pic.replace('upload', '');%>
-                                        <h3><a href="/scan_img?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Scan<%= pic %></a></h3>
-                                    </div>
-                                </div>
-                    <% }) %>
-                    <% }); %>
-                    <% } else { %>
-                        <div class="scan-block">
-                            <div class="scan-code">
-                                <p>No scans available for this radiologist.</p>
-                            </div>
+            <div class="cont">
+                <h2 class="title-scans"> Radiologist’ Scans</h2>
+                <!-- Content for the popup window -->
+                <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
+
+                    <% radiologists.forEach(function(radiologist) { %>
+                        <div id="scans_<%= radiologist.radiologist_id %>" class="scans-container">
+                            <% if (radiologist.scans.length> 0) { %>
+                                <% radiologist.scans.forEach(function(scan, scanIndex) { %>
+                                    <% scan.scan_pics.forEach((pic, picIndex)=> { %>
+                                        <div class="scan-block">
+                                            <div class="scan-code">
+                                                <%pic=pic.replace(/\\/g, '' );%>
+                                                    <%pic=pic.replace('public', '' );%>
+                                                        <%pic=pic.replace('upload', '' );%>
+                                                            <h3><a
+                                                                    href="/scan_img?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Scan
+                                                                    <%= pic %></a></h3>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <div class="scan-block">
+                                                        <div class="scan-code">
+                                                            <p>No scans available for this radiologist.</p>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
                         </div>
-                    <% } %>
+                        <% }); %>
                 </div>
-            <% }); %>
-        </div>
-         
-     
-             
-           </div>
-          
-          <div  id="close-scans" class="close_btn"> &times; </div>
-        </div>
-    </div>  
-        
-    
-        
-    <textarea id="radiologistsData" style="display:none;"><%= JSON.stringify(radiologists) %></textarea>
-   
-
-    <script src="/css/admin.js" defer></script>
-    
-=======
 
 
 
-
-
-
-    </div>
-    </div>
-    <div id="popupContainer" class="popup-container">
-        <div class="popup-content">
-            <!-- Content for the popup window -->
-            <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/profile photo.jpeg"
-                width="200" height="200">
-            <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                Abdelazeem</div>
-
-            <div class="line"></div>
-            <div class="container_ifo">
-
-                <div class="info"> Email: <span onclick="editText(this)" class="editable-text"> Emanm@gmail.com</span>
-                </div>
-                <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-         <div class=" info-ii">
-                        <div class="info"> Job: <span class="editable-text" onclick="editText(this)" id="displayText">
-                                Doctor </span> </div>
-                        <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
-                                id="displayText"> 50,000</span> </div>
-                </div>
-                <div class="info-ii">
-                    <div class="info"> Age: <span class="editable-text" onclick="editText(this)" id="displayText"> 25
-                        </span> </div>
-                    <div class="info"> Asistant Name: <span onclick="editText(this)" class="editable-text"
-                            id="displayText"> Rawan </span> </div>
-                </div>
-                <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                        id="displayText">01090089066</span> </div>
-                <div class="info"> Specialaization: <span class="editable-text" onclick="editText(this)"
-                        id="displayText"> Cardiovascular </span> </div>
-                <div class="info"> Doctor room: <span onclick="editText(this)" class="editable-text" id="displayText">
-                        3103</span> </div>
-                <div class="info-ii">
-                    <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
-                            id="displayText">7AM</span> </div>
-                    <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text" id="displayText">
-                            4PM </span> </div>
-                </div>
-                <div class="info"> photo: <input type="file"> </div>
-
-
-                <button class="btn"> Save Info</button>
             </div>
 
-            <div onclick="closePopup()" class="close_btn"> &times; </div>
+            <div id="close-scans" class="close_btn"> &times; </div>
         </div>
-
-    </div>
     </div>
 
-    <script src="/css/profile.js"></script>
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+
+
+    <textarea id="radiologistsData" style="display:none;"><%= JSON.stringify(radiologists) %></textarea>
+
+
+    <script src="/css/admin.js" defer></script>
+
 
 
 
 </body>
 
-<<<<<<< HEAD
-=======
-
-
-
-
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 </html>

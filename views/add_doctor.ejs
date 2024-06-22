@@ -20,61 +20,39 @@
 <body class="edit-window">
     <div class="edit-box">
         <div class="title-edit"> Add Doctor</div>
-<<<<<<< HEAD
         <p id="errMessage">
-            <% if(typeof errors != 'undefined'){ %> <% errors.forEach(error=>{ %> 
-            <p id="errMessage"><%= error.message %></p>
-            <% }) %> <% } %>
-         </p>
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+            <% if(typeof errors !='undefined' ){ %>
+                <% errors.forEach(error=>{ %>
+                    <p id="errMessage">
+                        <%= error.message %>
+                    </p>
+                    <% }) %>
+                        <% } %>
+        </p>
 
 
 
         <div class="edit-box2">
-<<<<<<< HEAD
             <form class="txt-boxes" method="POST" action="/add_doctor">
                 <label>Name:</label>
-                <input class="input-box" type="text" id="name" name="name"  required>
+                <input class="input-box" type="text" id="name" name="name" required>
                 <label>password:</label>
-                <input class="input-box" type="text" id="password" name="password"  required>
+                <input class="input-box" type="text" id="password" name="password" required>
 
                 <label>Address:</label>
                 <input type="text" class="input-box" id="address" name="address" required>
 
                 <label>email:</label>
-                <input type="email" class="input-box" id="email" name="email"  required>
+                <input type="email" class="input-box" id="email" name="email" required>
                 <label>Asistant Name:</label>
-                <input class="input-box" type="text" id="assistant_name" name="assistant_name"  required>
+                <input class="input-box" type="text" id="assistant_name" name="assistant_name" required>
                 <label>Start-Shift:</label>
-                <input class="input-box" type="time" id="start_shift" name="start_shift"  required>
+                <input class="input-box" type="time" id="start_shift" name="start_shift" required>
                 <label>End-Shift:</label>
-                <input class="input-box" type="time" id="end_shift" name="end_shift"  required>
+                <input class="input-box" type="time" id="end_shift" name="end_shift" required>
 
                 <label>DR-Room:</label>
-                <input class="input-box" type="text" id="room_no" name="room_no"  required>
-=======
-            <form class="txt-boxes">
-                <label>Name:</label>
-                <input class="input-box" type="text" id="name" name="name">
-                <label>ID:</label>
-                <input class="input-box" type="number" id="ID" name="ID">
-
-                <label>Adress:</label>
-                <input type="text" class="input-box">
-
-                <label>email:</label>
-                <input type="email" class="input-box">
-                <label>Asistant Name:</label>
-                <input class="input-box" type="text">
-                <label>Start-Shift:</label>
-                <input class="input-box" type="time" id="start" name="start">
-                <label>End-Shift:</label>
-                <input class="input-box" type="time" id="end" name="end">
-
-                <label>DR-Room:</label>
-                <input class="input-box" type="text" id="room" name="room">
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+                <input class="input-box" type="text" id="room_no" name="room_no" required>
                 <label>Sex:</label>
                 <div>
                     <input type="radio" id="male" name="sex" value="male">
@@ -83,7 +61,6 @@
                     <label for="female"> <img src="/images/drr.png  " alt="Logo 1" class="logo"></label>
                 </div>
                 <label for="text">Age:</label>
-<<<<<<< HEAD
                 <input type="text" class="input-box" id="age" name="age">
 
                 <label for=specialazation">Specialaization:</label>
@@ -94,16 +71,6 @@
                 <input class="input-box" id="phone_no" name="phone_no">
                 <label> photo:</label>
                 <input type="file" id="image-input" accept="image/*" name="picture">
-=======
-                <input type="text" class="input-box">
-
-                <label for=instagram">Specialaization:</label>
-                <input class="input-box">
-                <label for=instagram">salary:</label>
-                <input class="input-box">
-                <label> photo:</label>
-                <input type="file" id="image-input" accept="image/*">
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
                 <button class="edit-btn2"> Add</button>
             </form>
 

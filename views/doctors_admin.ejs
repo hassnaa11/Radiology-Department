@@ -7,10 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-<<<<<<< HEAD
-    
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+
 
     <link href="/css/doctors_admin.css" rel="stylesheet">
 
@@ -31,57 +28,23 @@
             </div>
 
             <div class="section bars active">
-<<<<<<< HEAD
-               <% doctors.forEach(function(doctor) { %>
-                    <div onclick="openPopup( '<%= doctor.doctor_id %>')" >
-                        <% if (doctor.sex === 'male') { %>
+                <% doctors.forEach(function(doctor) { %>
+                    <div onclick="openPopup( '<%= doctor.doctor_id %>')">
+                        <% if (doctor.sex==='male' ) { %>
                             <img src="/images/Dr icon.png" alt="Male Doctor Image" class="logo" name="sex" value="male">
-                        <% } else { %>
-                            <img src="/images/drr.png" alt="Female Doctor Image" class="logo" name="sex" value="female">
-                        <% } %>
-                
-                        <p> Dr. <%= doctor.fname %> <%=doctor.lname %> </p>
-                        <p> <%= doctor.specialization%> </p>
-                    </div>
-                <% }); %>
-=======
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png  " alt="Logo 1" class="logo">
-                    <p> Dr. Ahmed Hassan</p>
-                    <p>Abdominal</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p> Dr. Nouran Yasser</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p>Dr. Habiba Mohamed</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png" alt="Logo 2" class="logo">
-                    <p> Dr. Moamen Hefny </p>
-                    <p>Musculoskeletal</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 1" class="logo">
-                    <p> Dr. Nariman Ahmed</p>
-                    <p>Cardiovascular</p>
-                </div>
-                <div onclick="openPopup()">
-                    <img src="/images/Dr icon.png" alt="Logo 1" class="logo">
-                    <p> Dr.Omar Ashraf </p>
-                    <p></p>
-                </div>
+                            <% } else { %>
+                                <img src="/images/drr.png" alt="Female Doctor Image" class="logo" name="sex"
+                                    value="female">
+                                <% } %>
 
-                <div onclick="openPopup()">
-                    <img src="/images/drr.png" alt="Logo 2" class="logo">
-                    <p> Dr. Halla Ahmed </p>
-                    <p>Cardiovascular</p>
-                </div>
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+                                    <p> Dr. <%= doctor.fname %>
+                                            <%=doctor.lname %>
+                                    </p>
+                                    <p>
+                                        <%= doctor.specialization%>
+                                    </p>
+                    </div>
+                    <% }); %>
             </div>
             <button class="Add_btn" id="ADD_btn"> ADD Doctor </button>
 
@@ -101,11 +64,9 @@
                 <div class="skill">
                     <div class="outer">
                         <div class="inner">
-<<<<<<< HEAD
-                            <div class="number" id="number"> <%= Math.round(women_percentage) %>%</div>
-=======
-                            <div class="number" id="number">65%</div>
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+                            <div class="number" id="number">
+                                <%= Math.round(women_percentage) %>%
+                            </div>
                         </div>
                     </div>
 
@@ -117,10 +78,7 @@
                             </linearGradient>
                         </defs>
                         <circle class="circle1" cx="115" cy="100" r="80" stroke-linecap="round" />
-<<<<<<< HEAD
-                        
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
+
 
                     </svg>
                     <p class="svg_caption">women</p>
@@ -138,81 +96,80 @@
     </div>
     <div id="popupContainer" class="popup-container">
         <div class="popup-content">
-<<<<<<< HEAD
             <!--<img class="profile_photo" id="picture2" name="picture" src="" width="200"
                         height="200">-->
             <!-- Form elements with value attributes -->
-            <form  action="/edit_doctor" method="POST"  id="doctorForm">
-                <input type="hidden" id="doctor_id" name="doctor_id" >
-                
-               <div>
+            <form action="/edit_doctor" method="POST" id="doctorForm">
+                <input type="hidden" id="doctor_id" name="doctor_id">
+
+                <div>
                     <label for="fullName">Full Name:</label>
                     <input type="text" id="fullname" name="fullname">
                 </div>
-                
+
                 <div>
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" >
+                    <input type="email" id="email" name="email">
                 </div>
-                
+
                 <div>
                     <label for="address">Address:</label>
                     <input type="text" id="address" name="address">
                 </div>
-                
+
                 <div>
                     <label for="age">Age:</label>
                     <input type="number" id="age" name="age">
                 </div>
-                
+
                 <div>
                     <label for="sex">Sex:</label>
                     <input type="text" id="sex" name="sex">
                 </div>
-                
+
                 <div>
                     <label for="phone_no">Phone:</label>
                     <input type="text" id="phone_no" name="phone_no">
                 </div>
-                
+
                 <div>
                     <label for="salary">Salary:</label>
                     <input type="number" id="salary" name="salary">
                 </div>
-                
+
                 <div>
                     <label for="start_shift">Start Shift:</label>
                     <input type="text" id="start_shift" name="start_shift">
                 </div>
-                
+
                 <div>
                     <label for="end_shift">End Shift:</label>
-                    <input type="text" id="end_shift" name="end_shift" >
+                    <input type="text" id="end_shift" name="end_shift">
                 </div>
                 <div>
                     <label for="assistant_name">assistant_name:</label>
                     <input type="text" id="assistant_name" name="assistant_name"" >
                 </div>
                 <div>
-                    <label for="specialization">specialization:</label>
-                    <input type="text" id="specialization" name="specialization" >
+                    <label for=" specialization">specialization:</label>
+                    <input type="text" id="specialization" name="specialization">
                 </div>
                 <div>
                     <label for="room_no">room_no:</label>
-                    <input type="number" id="room_no" name="room_no" >
+                    <input type="number" id="room_no" name="room_no">
                 </div>
-                
+
                 <div>
                     <label for="password">Change Password:</label>
                     <input type="password" id="password" name="password" maxlength="12">
                 </div>
-                
+
                 <div>
                     <label for="picture">Picture:</label>
                     <input type="file" id="picture" name="picture" accept="image/*">
                 </div>
                 <button class="scans-btn" id="scans-btn" onclick="openScanss()">Scans</button>
-                
+
                 <div>
                     <input type="submit" value="Update">
                 </div>
@@ -223,79 +180,30 @@
 
     <div id="scanspopup" class="popup-scans">
         <div class="scans-content">
-         <div class="cont">
-            <h2 class="title-scans"> Radiologist’ Scans</h2>
-          <!-- Content for the popup window -->
-          <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            
-              
-                   
-               
-        
-            
-          
-        </div>
-         
-     
-             
-           </div>
-          
-          <div  id="close-scans" class="close_btn"> &times; </div>
+            <div class="cont">
+                <h2 class="title-scans"> Radiologist’ Scans</h2>
+                <!-- Content for the popup window -->
+                <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+            <div id="close-scans" class="close_btn"> &times; </div>
         </div>
     </div>
-    
+
 </body>
 <textarea id="doctorsData" style="display:none;"><%= JSON.stringify(doctors) %></textarea>
 <script src="/css/profile2.js" defer></script>
-=======
-            <!-- Content for the popup window -->
-            <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/profile photo.jpeg"
-                width="200" height="200">
-            <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                Abdelazeem</div>
-
-            <div class="line"></div>
-            <div class="container_ifo">
-
-                <div class="info"> Email: <span onclick="editText(this)" class="editable-text"> Emanm@gmail.com</span>
-                </div>
-                <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-        <div class=" info-ii">
-                        <div class="info"> Job: <span class="editable-text" onclick="editText(this)" id="displayText">
-                                Doctor </span> </div>
-                        <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
-                                id="displayText"> 50,000</span> </div>
-                </div>
-                <div class="info-ii">
-                    <div class="info"> Age: <span class="editable-text" onclick="editText(this)" id="displayText"> 25
-                        </span> </div>
-                    <div class="info"> Asistant Name: <span onclick="editText(this)" class="editable-text"
-                            id="displayText"> Rawan </span> </div>
-                </div>
-                <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                        id="displayText">01090089066</span> </div>
-                <div class="info"> Specialaization: <span class="editable-text" onclick="editText(this)"
-                        id="displayText"> Cardiovascular </span> </div>
-                <div class="info"> Doctor room: <span onclick="editText(this)" class="editable-text" id="displayText">
-                        3103</span> </div>
-                <div class="info-ii">
-                    <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
-                            id="displayText">7AM</span> </div>
-                    <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text" id="displayText">
-                            4PM </span> </div>
-                </div>
-                <div class="info"> photo: <input type="file"> </div>
-
-                <button class="btn"> Save Info</button>
-            </div>
-
-            <div onclick="closePopup()" class="close_btn"> &times; </div>
-
-        </div>
-</body>
-
-<script src="/css/profile.js"></script>
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 
 
 
