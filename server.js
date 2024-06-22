@@ -1254,7 +1254,7 @@ app.post("/updateFormDoctor", async (req, res) => {
         picture = picture2
     }
     pool.query(
-        'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
+        'update users set fname=$1 , email=$2 , address=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
         [fname, email, adress, picture, newage, newphone_no, hashedPassword, userId],
         (err) => {
             if (err) {
