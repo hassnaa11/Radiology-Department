@@ -144,6 +144,59 @@ cancelDeleteBtn.onclick = function () {
     deleteModal.style.display = "none";
 }
 
+// document.addEventListener("DOMContentLoaded", function () {
+//     document.getElementById("contact-btn").addEventListener("click", openPopup2);
+//     // const form = document.getElementById('updateForm');
+//     // const popupContainer = document.getElementById('popupContainer3');
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById('updateForm');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        closePopup3();
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("contact-btn").addEventListener("click", openPopup2);
+    const closeButton = document.querySelector(".close-button");
+    closeButton.addEventListener("click", closePopup2);
+    const contactForm = document.getElementById("contactForm");
+    contactForm.addEventListener("submit", function (event) {
+        // Allow the form to be submitted normally
+        closePopup2();
+        setTimeout(function () {
+            window.location.reload();
+        }, 100); // 100ms delay
+    });
+
+});
+
+function openPopup2() {
+    document.getElementById("popupContainer2").style.display = "block";
+    document.getElementById("popupContainer2").classList.add("active");
+    document.body.classList.add("blur-background");
+}
+
+function closePopup2() {
+    document.getElementById("popupContainer2").style.display = "none";
+    document.getElementById("popupContainer2").classList.remove("active");
+    document.body.classList.remove("blur-background");
+    // window.location.reload();
+}
+
+function openPopup3() {
+    document.getElementById("popupContainer3").style.display = "block";
+    document.body.classList.add("blur-background");
+}
+
+function closePopup3() {
+    // Hide the popup container
+    document.getElementById("popupContainer3").style.display = "none";
+    // Remove the blur effect from the background
+    document.body.classList.remove("blur-background");
+}
+
 function editText(element) {
     const currentText = element.innerText;
     const input = document.createElement('input');
@@ -167,6 +220,121 @@ function saveText(inputElement) {
     const newText = inputElement.value;
     console.log(newText)
 }
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const showLoginLinks = document.querySelectorAll(".show-login");
+    const closeBtn = document.querySelector(".close-btn");
+    showLoginLinks.forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default link behavior
+            const scanId = parseInt(this.getAttribute('data-scan-id'));
+            const drId = parseInt(this.getAttribute('data-dr-id'));
+            const picIndex = parseInt(this.getAttribute('data-pic-index'));
+            console.log(scanId)
+            console.log(drId)
+            console.log(picIndex)
+            openPopup(scanId, drId, picIndex);
+        });
+    });
+
+    closeBtn.addEventListener("click", closePopup);
+
+    function openPopup(scanId, drId, picIndex) {
+        document.getElementById("popupContainer").style.display = "block";
+        document.getElementById("popupContainer").classList.add("active");
+        document.getElementById('scanId').value = scanId;
+        document.getElementById('drId').value = drId;
+        document.getElementById('picIndex').value = picIndex;
+        document.body.classList.add("blur-background");
+    }
+
+    function closePopup() {
+        document.getElementById("popupContainer").style.display = "none";
+        document.getElementById("popupContainer").classList.remove("active");
+        document.body.classList.remove("blur-background");
+    }
+});
+
+// document.getElementById('updateForm').addEventListener("submit", async (event) => {
+//     event.preventDefault(); // Prevent default form submission
+//     const form = document.getElementById('updateForm');
+//     const formData = new FormData(form);
+
+//     let file;
+//     const fileInput = document.getElementById('picture2');
+//     if (fileInput.files[0]) {
+//         file = fileInput.files[0].name;
+//     }
+
+//     console.log(file);
+//     const formDataObject = {};
+//     formData.forEach((value, key) => {
+//         formDataObject[key] = value;
+//     });
+
+//     // Convert FormData to a plain object
+
+
+//     // Add Base64 string to the form data object
+//     formDataObject.picture2 = file;
+
+//     fetch('/update', {
+//         method: 'POST',
+//         body: JSON.stringify(formDataObject),
+//         headers: {
+//             'Content-Type': 'application/json'
+//         }
+//     })
+//         .then(response => response.text())
+//         .then(data => {
+//             console.log('Server response:', data); // Log server response
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// });
+
+document.getElementById('updateForm').addEventListener("submit", async (event) => {
+    event.preventDefault(); // Prevent default form submission
+    const form = document.getElementById('updateForm');
+    const formData = new FormData(form);
+
+    const fileInput = document.getElementById('picture2');
+    let file;
+    if (fileInput.files[0]) {
+        file = fileInput.files[0].name;
+    }
+    console.log(file);
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    formDataObject.picture2 = file;
+
+    fetch('/update', {
+        method: 'POST',
+        body: JSON.stringify(formDataObject),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log('Server response:', data); // Log server response
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
+// function closePopup3() {
+//     document.getElementById("popupContainer3").style.display = "none";
+// }
 
 function openPopup4() {
     document.getElementById("popupContainer4").style.display = "block";
