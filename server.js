@@ -1049,18 +1049,18 @@ app.get('/forms', checkAuthenticated, allowOnly('admin'), async (req, res) => {
 });
 
 app.post('/forms', async (req, res) => {
-    const { remail, write } = req.body;
+    const { formId, remail, write } = req.body;
 
     try {
         const result = await pool.query(
-            'UPDATE forms SET reply = $1 WHERE user_email = $2 RETURNING *',
-            [write, remail]
+            'UPDATE forms SET reply = $1 WHERE form_id = $2 AND user_email = $3 RETURNING *',
+            [write, formId, remail]
         );
 
         if (result.rowCount > 0) {
             req.flash('success_msg', 'Reply added successfully');
         } else {
-            req.flash('error_msg', 'No form found for the given email');
+            req.flash('error_msg', 'No form found for the given email and form ID');
         }
 
         res.redirect('/forms');
@@ -1069,7 +1069,6 @@ app.post('/forms', async (req, res) => {
         req.flash('error_msg', 'Failed to add reply. Please try again later.');
         res.redirect('/forms');
     }
-
 });
 
 app.get('/replies', checkAuthenticated, async (req, res) => {
