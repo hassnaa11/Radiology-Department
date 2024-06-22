@@ -271,13 +271,8 @@ a {
 
 .open-file {
     background-color: #F8F8F8;
-<<<<<<< HEAD
     width: 40px;
     height: 40px;
-=======
-    width: 11%;
-    height: 65%;
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,7 +282,6 @@ a {
     border-radius: 10px;
 }
 
-<<<<<<< HEAD
 .logout-profile {
     width: 130px;
     display: flex;
@@ -295,8 +289,6 @@ a {
     justify-content: end;
 }
 
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .file-wrapper {
     width: 70%;
     margin-right: 25%;
@@ -933,10 +925,7 @@ a {
     z-index: 9999;
     /* Ensure the popup appears on top of other elements */
     backdrop-filter: blur(4px);
-<<<<<<< HEAD
     overflow-y: auto;
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
 
 /* Styles for the popup content */
