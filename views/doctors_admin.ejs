@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
+    
 
     <link href="/css/doctors_admin.css" rel="stylesheet">
 
@@ -27,21 +28,18 @@
             </div>
 
             <div class="section bars active">
-                <% doctors.forEach(doctor => { %>
-                    <div onclick="openPopup('<%= doctor.doctor_id %>')">
-                        
+               <% doctors.forEach(function(doctor) { %>
+                    <div onclick="openPopup( '<%= doctor.doctor_id %>')" >
                         <% if (doctor.sex === 'male') { %>
                             <img src="/images/Dr icon.png" alt="Male Doctor Image" class="logo" name="sex" value="male">
                         <% } else { %>
                             <img src="/images/drr.png" alt="Female Doctor Image" class="logo" name="sex" value="female">
                         <% } %>
-                        <p>Dr. <%= doctor.fname %>  <%= doctor.lname %></p>
-                        <p><%= doctor.major %></p>
+                
+                        <p> Dr. <%= doctor.fname %> <%=doctor.lname %> </p>
+                        <p> <%= doctor.specialization%> </p>
                     </div>
                 <% }); %>
-
-
-
             </div>
             <button class="Add_btn" id="ADD_btn"> ADD Doctor </button>
 
@@ -61,7 +59,7 @@
                 <div class="skill">
                     <div class="outer">
                         <div class="inner">
-                            <div class="number" id="number">65%</div>
+                            <div class="number" id="number"> <%= Math.round(women_percentage) %>%</div>
                         </div>
                     </div>
 
@@ -73,6 +71,7 @@
                             </linearGradient>
                         </defs>
                         <circle class="circle1" cx="115" cy="100" r="80" stroke-linecap="round" />
+                        
 
                     </svg>
                     <p class="svg_caption">women</p>
@@ -90,14 +89,15 @@
     </div>
     <div id="popupContainer" class="popup-container">
         <div class="popup-content">
-            <!-- Content for the popup window -->
-            <img class="profile_photo" id="picture2" name="picture" src="" width="170"
-            height="170">
-            <input type="hidden" id="radiologist_id" name="radiologist_id">
+            <!--<img class="profile_photo" id="picture2" name="picture" src="" width="200"
+                        height="200">-->
+            <!-- Form elements with value attributes -->
+            <form  action="/edit_doctor" method="POST"  id="doctorForm">
+                <input type="hidden" id="doctor_id" name="doctor_id" >
                 
-                <div>
+               <div>
                     <label for="fullName">Full Name:</label>
-                    <input type="text" id="Name" name="Name">
+                    <input type="text" id="fullname" name="fullname">
                 </div>
                 
                 <div>
@@ -139,6 +139,18 @@
                     <label for="end_shift">End Shift:</label>
                     <input type="text" id="end_shift" name="end_shift" >
                 </div>
+                <div>
+                    <label for="assistant_name">assistant_name:</label>
+                    <input type="text" id="assistant_name" name="assistant_name"" >
+                </div>
+                <div>
+                    <label for="specialization">specialization:</label>
+                    <input type="text" id="specialization" name="specialization" >
+                </div>
+                <div>
+                    <label for="room_no">room_no:</label>
+                    <input type="number" id="room_no" name="room_no" >
+                </div>
                 
                 <div>
                     <label for="password">Change Password:</label>
@@ -149,14 +161,43 @@
                     <label for="picture">Picture:</label>
                     <input type="file" id="picture" name="picture" accept="image/*">
                 </div>
+                <button class="scans-btn" id="scans-btn" onclick="openScanss()">Scans</button>
                 
                 <div>
-                    <input type="submit" value="Save">
+                    <input type="submit" value="Update">
                 </div>
+            </form>
+            <div onclick="closePopup()" class="close_btn">&times;</div>
         </div>
-            <div onclick="closePopup()" class="close_btn"> &times; </div>
+    </div>
+
+    <div id="scanspopup" class="popup-scans">
+        <div class="scans-content">
+         <div class="cont">
+            <h2 class="title-scans"> Radiologist’ Scans</h2>
+          <!-- Content for the popup window -->
+          <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
+            
+              
+                   
+               
+        
+            
+          
         </div>
-        <script id="doctorsData" type="application/json"><%- JSON.stringify(doctors) %></script>
-        <script src="/css/profile2.js"></script>        
+         
+     
+             
+           </div>
+          
+          <div  id="close-scans" class="close_btn"> &times; </div>
+        </div>
+    </div>
+    
 </body>
+<textarea id="doctorsData" style="display:none;"><%= JSON.stringify(doctors) %></textarea>
+<script src="/css/profile2.js" defer></script>
+
+
+
 </html>

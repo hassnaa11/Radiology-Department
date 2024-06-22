@@ -73,7 +73,7 @@
                 <div onclick="closePopup2()" class="close_btn"> &times; </div>
             </div>
         </div>
-        <a href="/logout">
+        <a href="visitors-page">
             <img src="/images/logout.png">
         </a>
     </div>
@@ -82,11 +82,11 @@
             <div class="total scans">
                 <p><span>Scans</span> <br>2247 scan</p>
             </div>
-            <div class="total income">
-                <p><span>Income</span> <br>107890 EURO</p>
+            <div class="Number of Radiologists">
+                <p><span><%=radiologistsno %></span> <br> radiologists </p>
             </div>
-            <div class="total cost">
-                <p><span>Cost</span> <br>3090 EURO</p>
+            <div class="Number of Doctors">
+                <p><span><%=total_doctors  %></span> <br>doctors</p>
             </div>
         </div>
 
@@ -98,7 +98,7 @@
             <div class="skill">
                 <div class="outer">
                     <div class="inner">
-                        <div id="number">45%</div>
+                        <div id="number"> <%=Math.round(orthopedist_percentage)%>%</div>
                     </div>
                 </div>
 
@@ -117,7 +117,7 @@
             <div class="skill">
                 <div class="outer">
                     <div class="inner">
-                        <div id="number">30%</div>
+                        <div id="number"><%=Math.round(oncologist_percentage)%>%</div>
                     </div>
                 </div>
 
@@ -136,7 +136,7 @@
             <div class="skill">
                 <div class="outer">
                     <div class="inner">
-                        <div id="number">25%</div>
+                        <div id="number"><%=Math.round(neurologist_percentage)%>%</div>
                     </div>
                 </div>
 
@@ -178,3 +178,4 @@
     <script src="/css/patient.js">
     </script>
 </body>
+</html>
