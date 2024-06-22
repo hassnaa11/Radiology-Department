@@ -500,10 +500,9 @@ svg {
 }
 
 
-<<<<<<< HEAD
 
 
- 
+
 
 .popup-container .popup-content label {
     text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
@@ -544,8 +543,6 @@ svg {
 
 
 
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 .edit-window {
     background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
     /* background: linear-gradient(to right, #eef8fc, #daebf0, #bcd4ed, #98adc7, #5685be, #316590, #315772); */
@@ -562,11 +559,7 @@ svg {
 
 .edit-box {
     width: 400px;
-<<<<<<< HEAD
     height: 750px;
-=======
-    height: 700px;
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -662,15 +655,16 @@ svg {
     border-radius: 15px;
     border-width: 1px;
     ;
-<<<<<<< HEAD
 }
-.scans-btn{
-    background-color:  #477697;
-        height: 30px;
-        width:60px;
-        border-radius: 15px;
-        color:white;
+
+.scans-btn {
+    background-color: #477697;
+    height: 30px;
+    width: 60px;
+    border-radius: 15px;
+    color: white;
 }
+
 .popup-scans {
     display: none;
     position: fixed;
@@ -679,50 +673,54 @@ svg {
     width: 100%;
     height: 100%;
     /* Semi-transparent black background */
-    z-index: 9999; /* Ensure the popup appears on top of other elements */
+    z-index: 9999;
+    /* Ensure the popup appears on top of other elements */
     backdrop-filter: blur(4px);
-  }
-  
+}
 
-  /* Styles for the popup content */
-  .scans-content {
+
+/* Styles for the popup content */
+.scans-content {
     position: relative;
     max-width: 400px;
-    margin: 80px auto; /* Adjust the top and bottom margins to center the popup vertically */
+    margin: 80px auto;
+    /* Adjust the top and bottom margins to center the popup vertically */
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     height: 500px;
     width: 500px;
-    background:linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
-font-family: "Raleway",sans-serif;
+    background: linear-gradient(35deg, #2385a8 0%, #AEDBEE 100%);
+    font-family: "Raleway", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-   
+
     color: #f8f9f9;
-  }
-  
-  .scan-code{
+}
+
+.scan-code {
     color: #8eb6d3;
     background-color: white;
     width: 150px;
     height: 50px;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(248, 252, 255, 0.281); 
+    box-shadow: 0 4px 8px rgba(248, 252, 255, 0.281);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
-  .scan-block{
+}
+
+.scan-block {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 
-  }
-  .scans-section-scrollbar::-webkit-scrollbar {
+}
+
+.scans-section-scrollbar::-webkit-scrollbar {
     width: 1em;
     margin-top: 20px;
     height: 10em;
@@ -730,7 +728,7 @@ font-family: "Raleway",sans-serif;
 }
 
 .scans-section-scrollbar::-webkit-scrollbar-track {
-    background:  #9ec7e3;
+    background: #9ec7e3;
     /* Set the background color of the scrollbar track */
 }
 
@@ -739,8 +737,9 @@ font-family: "Raleway",sans-serif;
     ;
     /* Set the color of the scrollbar thumb */
 }
-.scans-section-scrollbar{
-   
+
+.scans-section-scrollbar {
+
     padding-top: 1em;
     gap: 1em;
     overflow-y: auto;
@@ -748,14 +747,14 @@ font-family: "Raleway",sans-serif;
     position: relative;
     width: 100%;
     height: 60%;
-   
+
 }
-.cont{
+
+.cont {
     width: 100%;
-   
+
 }
-.title-scans{
+
+.title-scans {
     margin-left: 100px;
-=======
->>>>>>> 592a56954b4c5e91d49425f5386dc90596e725bc
 }
