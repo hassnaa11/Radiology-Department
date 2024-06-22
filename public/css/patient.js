@@ -185,12 +185,12 @@ function closePopup2() {
     // window.location.reload();
 }
 
-function openPopup3() {
+function openPopup_profile() {
     document.getElementById("popupContainer3").style.display = "block";
     document.body.classList.add("blur-background");
 }
 
-function closePopup3() {
+function closePopup_profile() {
     // Hide the popup container
     document.getElementById("popupContainer3").style.display = "none";
     // Remove the blur effect from the background
@@ -409,6 +409,7 @@ function openPopup_contact_form() {
     document.getElementById("popupContainer_contact_form").classList.add("active");
     document.body.classList.add("blur-background");
 }
+
 function closePopup_contact_form() {
     document.getElementById("popupContainer_contact_form").style.display = "none";
     document.getElementById("popupContainer_contact_form").classList.remove("active");

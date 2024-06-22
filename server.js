@@ -434,7 +434,7 @@ app.get('/doctors_admin', async (req, res) => {
                 doctor.doctor_id = users.id
             LEFT JOIN scans ON scans.dr_id = doctor.doctor_id
         `);
-        
+
 
         const doctors = doctorsResult.rows.reduce((acc, row) => {
             const {
@@ -519,8 +519,8 @@ app.get('/doctors_admin', async (req, res) => {
 });
 
 app.get('/reports_dr_admin', async (req, res) => {
-    
-    
+
+
 
     try {
         const scanResult = await pool.query(`
@@ -540,16 +540,16 @@ app.get('/reports_dr_admin', async (req, res) => {
             ON 
                 doctor.doctor_id = scans.dr_id
         `);
-        
-        const scans =scanResult.rows
+
+        const scans = scanResult.rows
 
         if (scans === 0) {
             return res.status(404).send("Scan not found");
         }
 
-        
 
-        res.render("reports_dr_admin.ejs", { scans});
+
+        res.render("reports_dr_admin.ejs", { scans });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
@@ -558,7 +558,7 @@ app.get('/reports_dr_admin', async (req, res) => {
 
 
 
-app.get('/admin', async (req, res) => {
+app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
         // Query to get doctors' information
         const doctorsResult = await pool.query(`
@@ -588,10 +588,10 @@ app.get('/admin', async (req, res) => {
                 (SELECT COUNT(*) FROM users JOIN radiologist ON users.id=radiologist.radiologist_id) AS radiologistsno
                 
         `);
-       
-        
 
-        const { total_doctors, orthopedist_count, oncologist_count, neurologist_count , radiologistsno} = statsResult.rows[0];
+
+
+        const { total_doctors, orthopedist_count, oncologist_count, neurologist_count, radiologistsno } = statsResult.rows[0];
         const doctors = doctorsResult.rows;
 
         // Calculate percentages
@@ -600,7 +600,7 @@ app.get('/admin', async (req, res) => {
         const neurologist_percentage = (neurologist_count / total_doctors) * 100;
 
         // Render the template with the required data
-        res.render("admin.ejs", { doctors,total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno});
+        res.render("admin.ejs", { doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
@@ -699,7 +699,7 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
         }, []);
 
         // Render the view with radiologists data
-        res.render('radiologists_admin.ejs', { radiologists , women_percentage});
+        res.render('radiologists_admin.ejs', { radiologists, women_percentage });
     } catch (err) {
         console.error('Error retrieving radiologist data:', err.message, err.stack);
         res.send('Error retrieving radiologist data');
@@ -724,7 +724,7 @@ app.get('/scan_img', async (req, res) => {
         );
 
         if (result.rows.length > 0) {
-            const {  scan_pics } = result.rows[0];
+            const { scan_pics } = result.rows[0];
 
             if (pic_index < 0 || pic_index >= scan_pics.length) {
                 return res.status(400).send('Invalid pic_index');
@@ -732,7 +732,7 @@ app.get('/scan_img', async (req, res) => {
 
             const selectedPic = scan_pics[pic_index];
             console.log(selectedPic);
-            res.render('scan_img', {  selectedPic });
+            res.render('scan_img', { selectedPic });
         } else {
             res.status(404).send('Scan not found');
         }
@@ -747,12 +747,12 @@ app.get('/add_radiologist', checkAuthenticated, allowOnly('admin'), (req, res) =
 });
 
 app.post('/add_radiologist', async (req, res) => {
-    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no} = req.body;
+    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no } = req.body;
     let type = 'doctor'
     const parts = name.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
-    
+
     const phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
     console.log({
         fname,
@@ -768,7 +768,7 @@ app.post('/add_radiologist', async (req, res) => {
         `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no) 
         VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9)
         RETURNING id`,
-        [ email, hashedPassword, type, fname,lname, address, age, sex,phoneNumbers],
+        [email, hashedPassword, type, fname, lname, address, age, sex, phoneNumbers],
         (err, results) => {
             if (err) {
                 throw err;
@@ -778,7 +778,7 @@ app.post('/add_radiologist', async (req, res) => {
             pool.query(
                 `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary)
                 VALUES ($1, $2, $3, $4)`,
-                [userId,  start_shift, end_shift, salary],
+                [userId, start_shift, end_shift, salary],
                 (err) => {
                     if (err) {
                         throw err;
@@ -904,12 +904,12 @@ app.get('/doctors_admin', async (req, res) => {
     }
 });
 app.post('/add_doctor', async (req, res) => {
-    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no, assistant_name,specialization,room_no } = req.body;
+    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no, assistant_name, specialization, room_no } = req.body;
     let type = 'doctor'
     const parts = name.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
-    
+
     const phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
     console.log({
         fname,
@@ -925,7 +925,7 @@ app.post('/add_doctor', async (req, res) => {
         `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no) 
         VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9)
         RETURNING id`,
-        [ email, hashedPassword, type, fname,lname, address, age, sex,phoneNumbers],
+        [email, hashedPassword, type, fname, lname, address, age, sex, phoneNumbers],
         (err, results) => {
             if (err) {
                 throw err;
@@ -935,7 +935,7 @@ app.post('/add_doctor', async (req, res) => {
             pool.query(
                 `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary,assistant_name,room_no,specialization)
                 VALUES ($1, $2, $3, $4,$5,$6,$7)`,
-                [userId,  start_shift, end_shift, salary,assistant_name,room_no,specialization],
+                [userId, start_shift, end_shift, salary, assistant_name, room_no, specialization],
                 (err) => {
                     if (err) {
                         throw err;
@@ -950,8 +950,8 @@ app.post('/add_doctor', async (req, res) => {
 
 
 app.get('/reports_dr_admin', async (req, res) => {
-    
-    
+
+
 
     try {
         const scanResult = await pool.query(`
@@ -971,16 +971,16 @@ app.get('/reports_dr_admin', async (req, res) => {
             ON 
                 doctor.doctor_id = scans.dr_id
         `);
-        
-        const scans =scanResult.rows
+
+        const scans = scanResult.rows
 
         if (scans === 0) {
             return res.status(404).send("Scan not found");
         }
 
-        
 
-        res.render("reports_dr_admin.ejs", { scans});
+
+        res.render("reports_dr_admin.ejs", { scans });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
@@ -1017,8 +1017,8 @@ app.get('/admin', async (req, res) => {
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'oncologist') AS oncologist_count,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'neurologist') AS neurologist_count
         `);
-        
-        
+
+
 
         const { total_doctors, orthopedist_count, oncologist_count, neurologist_count } = statsResult.rows[0];
         const doctors = doctorsResult.rows;
@@ -1029,7 +1029,7 @@ app.get('/admin', async (req, res) => {
         const neurologist_percentage = (neurologist_count / total_doctors) * 100;
 
         // Render the template with the required data
-        res.render("admin.ejs", { doctors,total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage});
+        res.render("admin.ejs", { doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
@@ -1160,8 +1160,8 @@ app.post("/contact_form", async (req, res) => {
         })
 });
 
-app.post("/update_rad",  async (req, res) => {
-    const { fullname, email, address, salary,sex ,age, phone_no, start_shift, end_shift,password ,doctor_id } = req.body;
+app.post("/update_rad", async (req, res) => {
+    const { fullname, email, address, salary, sex, age, phone_no, start_shift, end_shift, password, doctor_id } = req.body;
     console.log(fullname, email, address)
     let newage = parseInt(age);
     let newsalary = parseInt(salary);
@@ -1169,20 +1169,20 @@ app.post("/update_rad",  async (req, res) => {
     const parts = fullname.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
-    
-  //  const picture = req.file ? req.file.path : null;
+
+    //  const picture = req.file ? req.file.path : null;
 
     try {
         // Update users table
         await pool.query(
             'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
-            [fname, lname, email,sex, address, newage,password, phoneNumbers,doctor_id]
+            [fname, lname, email, sex, address, newage, password, phoneNumbers, doctor_id]
         );
 
         // Update doctor table
         await pool.query(
             'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3  WHERE doctor_id=$4',
-            [ newsalary,  start_shift, end_shift,doctor_id]
+            [newsalary, start_shift, end_shift, doctor_id]
         );
 
         // Redirect to radiologists_admin after update
@@ -1195,9 +1195,9 @@ app.post("/update_rad",  async (req, res) => {
 
 app.get('/add_radiologist', (req, res) => {
     res.render("add_radiologist.ejs")
-}); 
-app.post("/edit_doctor",  async (req, res) => {
-    const { fullname, email, address, salary,sex ,age, phone_no, start_shift, end_shift,password ,doctor_id ,assistant_name,specialization,room_no } = req.body;
+});
+app.post("/edit_doctor", async (req, res) => {
+    const { fullname, email, address, salary, sex, age, phone_no, start_shift, end_shift, password, doctor_id, assistant_name, specialization, room_no } = req.body;
     console.log(fullname, email, address)
     let newage = parseInt(age);
     let newsalary = parseInt(salary);
@@ -1205,20 +1205,20 @@ app.post("/edit_doctor",  async (req, res) => {
     const parts = fullname.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
-    
-  //  const picture = req.file ? req.file.path : null;
+
+    //  const picture = req.file ? req.file.path : null;
 
     try {
         // Update users table
         await pool.query(
             'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
-            [fname, lname, email,sex, address, newage,password, phoneNumbers,doctor_id]
+            [fname, lname, email, sex, address, newage, password, phoneNumbers, doctor_id]
         );
 
         // Update doctor table
         await pool.query(
             'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3 , specialization=$4, room_no=$5, assistant_name=$6 WHERE doctor_id=$7',
-            [ newsalary,  start_shift, end_shift,specialization ,room_no,assistant_name,doctor_id]
+            [newsalary, start_shift, end_shift, specialization, room_no, assistant_name, doctor_id]
         );
 
         // Redirect to radiologists_admin after update
