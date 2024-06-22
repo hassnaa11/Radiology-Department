@@ -27,6 +27,7 @@ const storage = multer.diskStorage({
     }
 });
 
+
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
         cb(null, true);
@@ -402,48 +403,210 @@ app.get('/radiologist', checkAuthenticated, allowOnly('radiologist'), async (req
 });
 
 // admin home window route
-app.get('/admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
-    res.render("admin.ejs")
-});
+
 // engineers_admin window route
 app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
+app.get('/doctors_admin', async (req, res) => {
     try {
-        // SQL query to select all data from adminDoctors table joined with users table
-        let result = await pool.query(`
+        // Query to get doctors' information
+        const doctorsResult = await pool.query(`
             SELECT 
-                doctor.*, 
-                users.fname,
+                doctor.*,
+                users.fname, 
                 users.lname, 
                 users.email, 
                 users.address, 
                 users.phone_no,
                 users.age,
                 users.sex,
-                users.password,
+                users.type,
+                scans.scan_id,
+                scans.scan_folder,
+                scans.scan_pics
+            FROM 
+                doctor
+            JOIN 
+                users 
+            ON 
+                doctor.doctor_id = users.id
+            LEFT JOIN scans ON scans.dr_id = doctor.doctor_id
+        `);
+        
+
+        const doctors = doctorsResult.rows.reduce((acc, row) => {
+            const {
+                doctor_id,
+                fname,
+                lname,
+                email,
+                address,
+                phone_no,
+                salary,
+                assistant_name,
+                room_no,
+                specialization,
+                age,
+                sex,
+                type,
+                scan_id,
+                start_shift,
+                end_shift,
+                scan_folder,
+                scan_pics
+            } = row;
+
+            // Check if radiologist already exists in the accumulator
+            let doctor = acc.find(doctor => doctor.doctor_id === doctor_id);
+            if (!doctor) {
+                doctor = {
+                    doctor_id,
+                    fname,
+                    lname,
+                    email,
+                    address,
+                    phone_no,
+                    age,
+                    salary,
+                    assistant_name,
+                    room_no,
+                    specialization,
+                    start_shift,
+                    end_shift,
+                    scan_id,
+                    sex,
+                    type,
+                    scans: []
+                };
+                acc.push(doctor);
+            }
+
+            // Push scans to the radiologist's scans array
+            if (scan_id) {
+                doctor.scans.push({
+                    scan_id,
+                    scan_folder,
+                    scan_pics
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Query to get the statistics
+        const statsResult = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'female') AS total_women,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'male') AS total_men
+        `);
+
+        // Extract data from results
+        const { total_doctors, total_women, total_men } = statsResult.rows[0];
+
+        // Calculate percentages
+        const women_percentage = (total_women / total_doctors) * 100;
+        const men_percentage = (total_men / total_doctors) * 100;
+
+        // Render the template with the required data
+        res.render("doctors_admin.ejs", { doctors, women_percentage, men_percentage });
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get('/reports_dr_admin', async (req, res) => {
+    
+    
+
+    try {
+        const scanResult = await pool.query(`
+            SELECT 
+                scans.scan_id, 
+                scans.scan_folder, 
+                scans.scan_pics,
+                reports.case_description
+            FROM 
+                scans
+            JOIN 
+                reports 
+            ON 
+                scans.scan_id = reports.scan_id
+            JOIN 
+                doctor 
+            ON 
+                doctor.doctor_id = scans.dr_id
+        `);
+        
+        const scans =scanResult.rows
+
+        if (scans === 0) {
+            return res.status(404).send("Scan not found");
+        }
+
+        
+
+        res.render("reports_dr_admin.ejs", { scans});
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+
+
+app.get('/admin', async (req, res) => {
+    try {
+        // Query to get doctors' information
+        const doctorsResult = await pool.query(`
+            SELECT 
+                doctor.*,
+                users.fname, 
+                users.lname, 
+                users.email, 
+                users.address, 
+                users.phone_no,
+                users.age,
+                users.sex,
                 users.type
             FROM 
-                doctor 
+                doctor
             JOIN 
                 users 
             ON 
                 doctor.doctor_id = users.id
         `);
-        // Get the rows from the result
-        const doctors = result.rows;
-        // Render the doctors view with the fetched data
-        res.render("doctors_admin.ejs", { doctors });
-    } catch (err) {
-        // Log detailed error information to the console
-        console.error('Error retrieving doctors data:', err.message, err.stack);
-        // Send an error message to the client
-        res.send('Error retrieving doctors data');
-    }
+        const statsResult = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'orthopedist') AS orthopedist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'oncologist') AS oncologist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'neurologist') AS neurologist_count,
+                (SELECT COUNT(*) FROM users JOIN radiologist ON users.id=radiologist.radiologist_id) AS radiologistsno
+                
+        `);
+       
+        
 
+        const { total_doctors, orthopedist_count, oncologist_count, neurologist_count , radiologistsno} = statsResult.rows[0];
+        const doctors = doctorsResult.rows;
+
+        // Calculate percentages
+        const orthopedist_percentage = (orthopedist_count / total_doctors) * 100;
+        const oncologist_percentage = (oncologist_count / total_doctors) * 100;
+        const neurologist_percentage = (neurologist_count / total_doctors) * 100;
+
+        // Render the template with the required data
+        res.render("admin.ejs", { doctors,total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno});
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+    }
 });
+
 // radiologists_admin window route
 app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
@@ -461,7 +624,6 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
                 u.password,
                 u.picture,
                 s.scan_id,
-                s.scan_folder,
                 s.scan_pics
             FROM 
                 radiologist r
@@ -470,7 +632,19 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
             LEFT JOIN
                 scans s ON r.radiologist_id = s.radiologist_id
         `);
+        const statsResult = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM users JOIN radiologist ON users.id = radiologist.radiologist_id) AS total_doctors,
+                (SELECT COUNT(*) FROM users JOIN radiologist ON users.id = radiologist.radiologist_id WHERE users.sex = 'female') AS total_women,
+                (SELECT COUNT(*) FROM users JOIN radiologist ON users.id = radiologist.radiologist_id WHERE users.sex = 'male') AS total_men
+        `);
 
+        // Extract data from result
+        const { total_doctors, total_women, total_men } = statsResult.rows[0];
+
+        // Calculate percentages
+        const women_percentage = (total_women / total_doctors) * 100;
+        const men_percentage = (total_men / total_doctors) * 100;
         // Group scans by radiologist
         const radiologists = radiologistsResult.rows.reduce((acc, row) => {
             const {
@@ -488,7 +662,6 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
                 start_shift,
                 end_shift,
                 scan_id,
-                scan_folder,
                 scan_pics
             } = row;
 
@@ -518,7 +691,6 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
             if (scan_id) {
                 radiologist.scans.push({
                     scan_id,
-                    scan_folder,
                     scan_pics
                 });
             }
@@ -527,7 +699,7 @@ app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (re
         }, []);
 
         // Render the view with radiologists data
-        res.render('radiologists_admin.ejs', { radiologists });
+        res.render('radiologists_admin.ejs', { radiologists , women_percentage});
     } catch (err) {
         console.error('Error retrieving radiologist data:', err.message, err.stack);
         res.send('Error retrieving radiologist data');
@@ -547,12 +719,12 @@ app.get('/scan_img', async (req, res) => {
 
     try {
         const result = await pool.query(
-            'SELECT scan_folder, scan_pics FROM scans WHERE scan_id = $1',
+            'SELECT  scan_pics FROM scans WHERE scan_id = $1',
             [scan_id]
         );
 
         if (result.rows.length > 0) {
-            const { scan_folder, scan_pics } = result.rows[0];
+            const {  scan_pics } = result.rows[0];
 
             if (pic_index < 0 || pic_index >= scan_pics.length) {
                 return res.status(400).send('Invalid pic_index');
@@ -560,7 +732,7 @@ app.get('/scan_img', async (req, res) => {
 
             const selectedPic = scan_pics[pic_index];
             console.log(selectedPic);
-            res.render('scan_img', { scan_folder, selectedPic });
+            res.render('scan_img', {  selectedPic });
         } else {
             res.status(404).send('Scan not found');
         }
@@ -575,39 +747,195 @@ app.get('/add_radiologist', checkAuthenticated, allowOnly('admin'), (req, res) =
 });
 
 app.post('/add_radiologist', async (req, res) => {
-    let { name, password, address, email, start_shift, end_shift, sex, age, major, salary, phone_no, picture } = req.body;
-    let type = 'radiologist'
+    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no} = req.body;
+    let type = 'doctor'
+    const parts = name.trim().split(' ');
+    const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
+    const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
+    
+    const phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
     console.log({
-        name,
+        fname,
         email,
         type,
         start_shift,
         end_shift,
-        major,
         salary
-    });
-
-
-
-    const [fname, mname, lname] = name.split(' ');
+    }); // Set a default password or generate one
     let hashedPassword = await bcrypt.hash(password, 10);
 
     pool.query(
-        `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, phone_no, picture) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9)
         RETURNING id`,
-        [fname, mname, lname, email, hashedPassword, type, address, age, sex, phone_no, picture],
+        [ email, hashedPassword, type, fname,lname, address, age, sex,phoneNumbers],
         (err, results) => {
             if (err) {
                 throw err;
             }
-
             const userId = results.rows[0].id;
 
             pool.query(
-                `INSERT INTO radiologist (radiologist_id, salary, start_shift, end_shift)
+                `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary)
                 VALUES ($1, $2, $3, $4)`,
-                [userId, salary, start_shift, end_shift],
+                [userId,  start_shift, end_shift, salary],
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    req.flash('success_msg', 'Doctor added successfully.');
+                    res.redirect('/radiologists_admin');
+                }
+            );
+        }
+    );
+});
+
+// add_doctor window route
+app.get('/add_doctor', checkAuthenticated, allowOnly('admin'), (req, res) => {
+    res.render("add_doctor.ejs")
+});
+
+app.get('/doctors_admin', async (req, res) => {
+    try {
+        // Query to get doctors' information
+        const doctorsResult = await pool.query(`
+            SELECT 
+                doctor.*,
+                users.fname, 
+                users.lname, 
+                users.email, 
+                users.address, 
+                users.phone_no,
+                users.age,
+                users.sex,
+                users.type,
+                scans.scan_id,
+                scans.scan_folder,
+                scans.scan_pics
+            FROM 
+                doctor
+            JOIN 
+                users 
+            ON 
+                doctor.doctor_id = users.id
+            LEFT JOIN scans ON scans.dr_id = doctor.doctor_id
+        `);
+
+        const doctors = doctorsResult.rows.reduce((acc, row) => {
+            const {
+                doctor_id,
+                fname,
+                lname,
+                email,
+                address,
+                phone_no,
+                salary,
+                assistant_name,
+                room_no,
+                specialization,
+                age,
+                sex,
+                type,
+                scan_id,
+                start_shift,
+                end_shift,
+                scan_folder,
+                scan_pics
+            } = row;
+
+            // Check if radiologist already exists in the accumulator
+            let doctor = acc.find(doctor => doctor.doctor_id === doctor_id);
+            if (!doctor) {
+                doctor = {
+                    doctor_id,
+                    fname,
+                    lname,
+                    email,
+                    address,
+                    phone_no,
+                    age,
+                    salary,
+                    assistant_name,
+                    room_no,
+                    specialization,
+                    start_shift,
+                    end_shift,
+                    scan_id,
+                    sex,
+                    type,
+                    scans: []
+                };
+                acc.push(doctor);
+            }
+
+            // Push scans to the radiologist's scans array
+            if (scan_id) {
+                doctor.scans.push({
+                    scan_id,
+                    scan_folder,
+                    scan_pics
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Query to get the statistics
+        const statsResult = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'female') AS total_women,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'male') AS total_men
+        `);
+
+        // Extract data from results
+        const { total_doctors, total_women, total_men } = statsResult.rows[0];
+
+        // Calculate percentages
+        const women_percentage = (total_women / total_doctors) * 100;
+        const men_percentage = (total_men / total_doctors) * 100;
+
+        // Render the template with the required data
+        res.render("doctors_admin.ejs", { doctors, women_percentage, men_percentage });
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+app.post('/add_doctor', async (req, res) => {
+    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no, assistant_name,specialization,room_no } = req.body;
+    let type = 'doctor'
+    const parts = name.trim().split(' ');
+    const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
+    const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
+    
+    const phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
+    console.log({
+        fname,
+        email,
+        type,
+        start_shift,
+        end_shift,
+        salary
+    }); // Set a default password or generate one
+    let hashedPassword = await bcrypt.hash(password, 10);
+
+    pool.query(
+        `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9)
+        RETURNING id`,
+        [ email, hashedPassword, type, fname,lname, address, age, sex,phoneNumbers],
+        (err, results) => {
+            if (err) {
+                throw err;
+            }
+            const userId = results.rows[0].id;
+
+            pool.query(
+                `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary,assistant_name,room_no,specialization)
+                VALUES ($1, $2, $3, $4,$5,$6,$7)`,
+                [userId,  start_shift, end_shift, salary,assistant_name,room_no,specialization],
                 (err) => {
                     if (err) {
                         throw err;
@@ -620,71 +948,94 @@ app.post('/add_radiologist', async (req, res) => {
     );
 });
 
-// add_doctor window route
-app.get('/add_doctor', checkAuthenticated, allowOnly('admin'), (req, res) => {
-    res.render("add_doctor.ejs")
-});
 
-app.post('/add_doctor', async (req, res) => {
-    let { name, password, adress, email, asisName, start, end_shift, room, sex, age, salary, major, picture, phone_no } = req.body;
-    let type = 'doctor';
-
-    // Initialize an array to hold error messages
-    let errors = [];
-
-    // Split the name into parts and check if it contains at least three parts
-    const nameParts = name.split(' ');
-
-    if (nameParts.length < 3) {
-        errors.push({ message: 'Please enter your full name (first, middle, and last name).' });
-    }
-    const [fname, mname, lname] = nameParts;
+app.get('/reports_dr_admin', async (req, res) => {
+    
+    
 
     try {
-        // Check for existing email and phone number in the users table
-        const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        if (emailCheck.rows.length > 0) {
-            errors.push({ message: "This email is already in use." });
+        const scanResult = await pool.query(`
+            SELECT 
+                scans.scan_id, 
+                scans.scan_folder, 
+                scans.scan_pics,
+                reports.case_description
+            FROM 
+                scans
+            JOIN 
+                reports 
+            ON 
+                scans.scan_id = reports.scan_id
+            JOIN 
+                doctor 
+            ON 
+                doctor.doctor_id = scans.dr_id
+        `);
+        
+        const scans =scanResult.rows
+
+        if (scans === 0) {
+            return res.status(404).send("Scan not found");
         }
 
-        const phoneCheck = await pool.query('SELECT * FROM users WHERE phone_no = $1', [phone_no]);
-        if (phoneCheck.rows.length > 0) {
-            errors.push({ message: "This phone number is already in use." });
-        }
+        
 
-
-
-        if (errors.length > 0) {
-            res.render("add_doctor.ejs", { errors });
-        }
-        let hashedPassword = await bcrypt.hash(password, 10);
-        // Insert the new user
-        const result = await pool.query(
-            `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, picture, phone_no) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-            RETURNING id`,
-            [fname, mname, lname, email, hashedPassword, type, adress, age, sex, picture, phone_no]
-        );
-
-        const userId = result.rows[0].id;
-
-
-        // Insert into doctor table
-        await pool.query(
-            `INSERT INTO doctor (doctor_id, ass_name, start_shift, end_shift, dr_room, special, salary)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [userId, asisName, start, end_shift, room, major, salary]
-
-        );
-
-        req.flash("success_msg", "Doctor added successfully.");
-        res.redirect("");
-
+        res.render("reports_dr_admin.ejs", { scans});
     } catch (err) {
-        console.error('Error adding doctor:', err);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
     }
 });
+
+
+
+app.get('/admin', async (req, res) => {
+    try {
+        // Query to get doctors' information
+        const doctorsResult = await pool.query(`
+            SELECT 
+                doctor.*,
+                users.fname, 
+                users.lname, 
+                users.email, 
+                users.address, 
+                users.phone_no,
+                users.age,
+                users.sex,
+                users.type
+            FROM 
+                doctor
+            JOIN 
+                users 
+            ON 
+                doctor.doctor_id = users.id
+        `);
+        const statsResult = await pool.query(`
+            SELECT 
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'orthopedist') AS orthopedist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'oncologist') AS oncologist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'neurologist') AS neurologist_count
+        `);
+        
+        
+
+        const { total_doctors, orthopedist_count, oncologist_count, neurologist_count } = statsResult.rows[0];
+        const doctors = doctorsResult.rows;
+
+        // Calculate percentages
+        const orthopedist_percentage = (orthopedist_count / total_doctors) * 100;
+        const oncologist_percentage = (oncologist_count / total_doctors) * 100;
+        const neurologist_percentage = (neurologist_count / total_doctors) * 100;
+
+        // Render the template with the required data
+        res.render("admin.ejs", { doctors,total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage});
+    } catch (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 
 // form window route
 app.get('/forms', checkAuthenticated, allowOnly('admin'), async (req, res) => {
@@ -809,7 +1160,87 @@ app.post("/contact_form", async (req, res) => {
         })
 });
 
-app.post("/updateFormDoctor", async (req, res) => {
+app.post("/update_rad",  async (req, res) => {
+    const { fullname, email, address, salary,sex ,age, phone_no, start_shift, end_shift,password ,doctor_id } = req.body;
+    console.log(fullname, email, address)
+    let newage = parseInt(age);
+    let newsalary = parseInt(salary);
+    let phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
+    const parts = fullname.trim().split(' ');
+    const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
+    const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
+    
+  //  const picture = req.file ? req.file.path : null;
+
+    try {
+        // Update users table
+        await pool.query(
+            'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
+            [fname, lname, email,sex, address, newage,password, phoneNumbers,doctor_id]
+        );
+
+        // Update doctor table
+        await pool.query(
+            'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3  WHERE doctor_id=$4',
+            [ newsalary,  start_shift, end_shift,doctor_id]
+        );
+
+        // Redirect to radiologists_admin after update
+        res.redirect('/radiologists_admin');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get('/add_radiologist', (req, res) => {
+    res.render("add_radiologist.ejs")
+}); 
+app.post("/edit_doctor",  async (req, res) => {
+    const { fullname, email, address, salary,sex ,age, phone_no, start_shift, end_shift,password ,doctor_id ,assistant_name,specialization,room_no } = req.body;
+    console.log(fullname, email, address)
+    let newage = parseInt(age);
+    let newsalary = parseInt(salary);
+    let phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
+    const parts = fullname.trim().split(' ');
+    const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
+    const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
+    
+  //  const picture = req.file ? req.file.path : null;
+
+    try {
+        // Update users table
+        await pool.query(
+            'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
+            [fname, lname, email,sex, address, newage,password, phoneNumbers,doctor_id]
+        );
+
+        // Update doctor table
+        await pool.query(
+            'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3 , specialization=$4, room_no=$5, assistant_name=$6 WHERE doctor_id=$7',
+            [ newsalary,  start_shift, end_shift,specialization ,room_no,assistant_name,doctor_id]
+        );
+
+        // Redirect to radiologists_admin after update
+        res.redirect('/doctors_admin');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+app.post("/update", async (req, res) => {
+    // upload_profile_img(req, res, async (err) => {
+    //     let picture2 = req.file;
+    //     console.log(picture2)
+    //     console.log("hey ")
+
+    //     picture2 = picture2.path
+    //     console.log(picture2)
+    //     if (picture2 != null) {
+    //         picture2 = picture2.replace(/\\/g, '/');
+    //         picture2 = picture2.replace('public', '');
+    //         }
     const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     console.log(picture2)
     let newage = parseInt(age)
