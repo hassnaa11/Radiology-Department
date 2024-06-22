@@ -12,18 +12,18 @@
     <div class="top-side">
         <span>Scan Image</span>
     </div>
-    <div class="left"> 
+    <div class="left">
 
         <% if (selectedPic) { %>
-            <%selectedPic = selectedPic.replace(/\\/g, '/');%>
-            <%selectedPic = selectedPic.replace('public', '');%>
-            <div>
-                <img src="<%= scan_folder %>" class="scan-image" alt="Scan Image">
-            </div>
-            
-        <% } else { %>
-            <p>No image available</p>
-        <% } %>
+            <%selectedPic=selectedPic.replace(/\\/g, '/' );%>
+                <%selectedPic=selectedPic.replace('public', '' );%>
+                    <div>
+                        <img src="<%= selectedPic %>" class="scan-image" alt="Scan Image">
+                    </div>
+
+                    <% } else { %>
+                        <p>No image available</p>
+                        <% } %>
     </div>
 </body>
 
