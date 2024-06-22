@@ -100,13 +100,13 @@ var closeBtns = document.getElementsByClassName("close-btn");
 
 // When the user clicks on <span> (x), close the modal
 for (var i = 0; i < closeBtns.length; i++) {
-    closeBtns[i].onclick = function() {
+    closeBtns[i].onclick = function () {
         deleteModal.style.display = "none";
     }
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == deleteModal) {
         deleteModal.style.display = "none";
     }
@@ -115,11 +115,11 @@ window.onclick = function(event) {
 // Attach click event to each reservation-div
 var reservationDivs = document.getElementsByClassName("reservations-div");
 for (var i = 0; i < reservationDivs.length; i++) {
-    reservationDivs[i].onclick = function() {
+    reservationDivs[i].onclick = function () {
         deleteModal.style.display = "block";
         var scanId = this.getAttribute("data-id");
         var confirmDeleteBtn = document.getElementById("confirm-delete-btn");
-        confirmDeleteBtn.onclick = function() {
+        confirmDeleteBtn.onclick = function () {
             // Send a request to delete the appointment
             fetch('/delete_appointment', {
                 method: 'POST',
@@ -140,7 +140,7 @@ for (var i = 0; i < reservationDivs.length; i++) {
 
 // Cancel delete button
 var cancelDeleteBtn = document.getElementById("cancel-delete-btn");
-cancelDeleteBtn.onclick = function() {
+cancelDeleteBtn.onclick = function () {
     deleteModal.style.display = "none";
 }
 
@@ -409,7 +409,6 @@ function openPopup_contact_form() {
     document.getElementById("popupContainer_contact_form").classList.add("active");
     document.body.classList.add("blur-background");
 }
-
 function closePopup_contact_form() {
     document.getElementById("popupContainer_contact_form").style.display = "none";
     document.getElementById("popupContainer_contact_form").classList.remove("active");

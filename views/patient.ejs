@@ -46,6 +46,7 @@
 
             <div id="popupContainer3" class="popup-container2">
                 <div class="popup-content profile-input ">
+                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
                     <!-- Content for the popup window -->
                     <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="200"
                         height="200">
@@ -86,7 +87,6 @@
                             <input class="submit-profile-btn" type="submit" value="save">
                         </div>
                     </form>
-                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
                 </div>
             </div>
         </div>
@@ -254,7 +254,7 @@
 
         <button onclick="openPopup_contact_form()" class="contact-form-button"> Contact Us</button>
         <div id="popupContainer_contact_form" class="popup">
-            <div class="close-btn" onclick="closePopup_contact_form()">&times;</div>
+            <div class="close-btnn" onclick="closePopup_contact_form()">&times;</div>
             <form class="form" action="/rad_send_form" method="POST">
                 <div class="form-element">
                     <p>You make this form for:</p>
@@ -262,6 +262,10 @@
                 <div class="form-element">
                     <input type="radio" id="complaint" name="why" value="Complaint">
                     <label for="complaint">Complaint</label>
+                </div>
+                <div class="form-element">
+                    <input type="radio" id="report" name="why" value="Scan Report" required>
+                    <label for="report">Scan Report</label>
                 </div>
                 <div class="form-element">
                     <input type="radio" id="inquiry" name="why" value="Inquiry">
@@ -273,7 +277,6 @@
                 </div>
                 <div class="form-element">
                     <button id="send">Send</button>
-                    <!-- <input type="submit" value="send"> -->
                 </div>
             </form>
         </div>
