@@ -71,6 +71,54 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
+function allowOnly(role) {
+    return function (req, res, next) {
+        if (req.isAuthenticated() && req.user.type === role) {
+            return next();
+        }
+        if (req.user.type === 'admin') {
+            return res.redirect('/admin');
+        } else if (req.user.type === 'doctor') {
+            return res.redirect('/doctor');
+        }
+        else if (req.user.type === 'patient') {
+            return res.redirect('/patient');
+        }
+        else if (req.user.type === 'radiologist') {
+            return res.redirect('/radiologist');
+        }
+        else {
+            return res.redirect('/');
+        }
+    }
+}
+
+function checkAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
+
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        if (req.user.type === 'admin') {
+            return res.redirect('/admin');
+        } else if (req.user.type === 'doctor') {
+            return res.redirect('/doctor');
+        }
+        else if (req.user.type === 'patient') {
+            return res.redirect('/patient');
+        }
+        else if (req.user.type === 'radiologist') {
+            return res.redirect('/radiologist');
+        }
+        else {
+            return res.redirect('/');
+        }
+    }
+    next();
+}
 
 // routes
 // visitors page route
@@ -78,17 +126,33 @@ app.get('/', (req, res) => {
     res.render("visitors.ejs")
 });
 // sign in route
-app.get('/login', (req, res) => {
+app.get('/login', checkNotAuthenticated, (req, res) => {
     res.render("login.ejs")
 });
 // sign up route
 app.get('/signup', (req, res) => {
     res.render("signup.ejs")
 });
+// logout route
+app.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/login'); // Redirect to login page after logout
+    });
+});
 // patient window route
-
-
-app.get('/patient', async (req, res) => {
+let msg_p = '';
+let count_p = 0;
+app.get('/patient', checkAuthenticated, allowOnly('patient'), async (req, res) => {
+    if (count_p == 1) {
+        msg_p = '';
+        count_p--;
+    }
+    if (msg_p != '') {
+        count_p++;
+    }
     const patientScans = req.session.patient || [];
     let scans_type = await pool.query(
         'SELECT scan_type FROM take_appointment WHERE patient_id = $1 ',
@@ -135,16 +199,14 @@ app.get('/patient', async (req, res) => {
         age: req.user.age,
         sex: req.user.sex,
         phone_no: req.user.phone_no,
-        salary: req.user.salary,
-        start_shift: req.user.start_shift,
-        end_shift: req.user.end_shift,
         password: req.user.password,
         picture: req.user.picture,
         scans_type,
         scans_date,
         scans_id,
         //reports_no,
-        scans: patientScans
+        scans: patientScans,
+        msg_p
     })
 });
 
@@ -159,11 +221,14 @@ app.post("/take_appointment", async (req, res) => {
 
     // Validate the input
     if (!scanType || !date || !time) {
-        errors.push({ message: "Please fill in all fields" });
+        msg_p = 'error bro';
     }
 
     if (errors.length > 0) {
-        return res.render("patient.ejs", { errors });
+        msg_p = 'This slot has already been reserved';
+        //req.flash('errors', errors);
+        // return res.render("patient.ejs", { errors });
+        return res.redirect('back')
     }
 
     try {
@@ -177,8 +242,10 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         if (result.rows.length > 0) {
-            errors.push({ message: "This time slot is already reserved for the selected scan type" });
-            return res.render("patient.ejs", { errors });
+            msg_p = 'This slot has already been reserved';
+            // return res.render("patient.ejs", { errors });
+            //req.flash('errors', errors);
+            return res.redirect('back')
         }
 
         // Find an available radiologist
@@ -188,7 +255,7 @@ app.post("/take_appointment", async (req, res) => {
              JOIN users u ON r.radiologist_id = u.id
              WHERE $1::time >= r.start_shift AND $1::time < r.end_shift
              AND NOT EXISTS (
-                 SELECT 1 FROM take_appointment ta
+                 SELECT * FROM take_appointment ta
                  WHERE ta.radiologist_id = r.radiologist_id AND ta.scan_date = $2
              )
              LIMIT 1`,
@@ -196,8 +263,10 @@ app.post("/take_appointment", async (req, res) => {
         );
 
         if (radiologistResult.rows.length === 0) {
-            errors.push({ message: "No available radiologist found for the selected time" });
-            return res.render("patient.ejs", { errors });
+            msg_p = 'There will be no available radiologists at this date. Please choose another time.';
+            // return res.render("patient.ejs", { errors });
+            //req.flash('errors', errors);
+            return res.redirect('back')
         }
 
         const radiologistId = radiologistResult.rows[0].radiologist_id;
@@ -213,16 +282,33 @@ app.post("/take_appointment", async (req, res) => {
     } catch (err) {
         console.error(err);
         errors.push({ message: "Server error" });
-        res.render("patient.ejs", { errors });
+        // res.render("patient.ejs", { errors });
+        req.flash('errors', errors);
+        return res.redirect('back')
     }
 });
 
+app.post('/delete_appointment', async (req, res) => {
+    const { scanId } = req.body;
 
+    try {
+        await pool.query(
+            'DELETE FROM take_appointment WHERE scan_id = $1 AND patient_id = $2',
+            [scanId, req.user.id]
+        );
+        return res.redirect('back')
+        //res.status(200).send({ message: 'Appointment deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        //res.status(500).send({ message: 'Failed to delete appointment' });
+        return res.redirect('back')
+    }
+});
 
 // radiologist window route
 let msg = '';
 let count = 0;
-app.get('/radiologist', async (req, res) => {
+app.get('/radiologist', checkAuthenticated, allowOnly('radiologist'), async (req, res) => {
     if (count == 1) {
         msg = '';
         count--;
@@ -316,31 +402,292 @@ app.get('/radiologist', async (req, res) => {
 });
 
 // admin home window route
-app.get('/admin', (req, res) => {
+app.get('/admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("admin.ejs")
 });
 // engineers_admin window route
-app.get('/engineers_admin', (req, res) => {
+app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', (req, res) => {
-    res.render("doctors_admin.ejs")
+app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
+    try {
+        // SQL query to select all data from adminDoctors table joined with users table
+        let result = await pool.query(`
+            SELECT 
+                doctor.*, 
+                users.fname,
+                users.lname, 
+                users.email, 
+                users.address, 
+                users.phone_no,
+                users.age,
+                users.sex,
+                users.password,
+                users.type
+            FROM 
+                doctor 
+            JOIN 
+                users 
+            ON 
+                doctor.doctor_id = users.id
+        `);
+        // Get the rows from the result
+        const doctors = result.rows;
+        // Render the doctors view with the fetched data
+        res.render("doctors_admin.ejs", { doctors });
+    } catch (err) {
+        // Log detailed error information to the console
+        console.error('Error retrieving doctors data:', err.message, err.stack);
+        // Send an error message to the client
+        res.send('Error retrieving doctors data');
+    }
+
 });
 // radiologists_admin window route
-app.get('/radiologists_admin', (req, res) => {
-    res.render("radiologists_admin.ejs")
+app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
+    try {
+        const radiologistsResult = await pool.query(`
+            SELECT 
+                r.*, 
+                u.fname, 
+                u.lname,
+                u.email, 
+                u.address, 
+                u.phone_no,
+                u.age,
+                u.sex,
+                u.type,
+                u.password,
+                u.picture,
+                s.scan_id,
+                s.scan_folder,
+                s.scan_pics
+            FROM 
+                radiologist r
+            JOIN 
+                users u ON r.radiologist_id = u.id
+            LEFT JOIN
+                scans s ON r.radiologist_id = s.radiologist_id
+        `);
+
+        // Group scans by radiologist
+        const radiologists = radiologistsResult.rows.reduce((acc, row) => {
+            const {
+                radiologist_id,
+                fname,
+                lname,
+                email,
+                address,
+                phone_no,
+                age,
+                sex,
+                type,
+                password,
+                salary,
+                start_shift,
+                end_shift,
+                scan_id,
+                scan_folder,
+                scan_pics
+            } = row;
+
+            // Check if radiologist already exists in the accumulator
+            let radiologist = acc.find(r => r.radiologist_id === radiologist_id);
+            if (!radiologist) {
+                radiologist = {
+                    radiologist_id,
+                    fname,
+                    lname,
+                    email,
+                    address,
+                    phone_no,
+                    age,
+                    sex,
+                    type,
+                    password,
+                    salary,
+                    start_shift,
+                    end_shift,
+                    scans: []
+                };
+                acc.push(radiologist);
+            }
+
+            // Push scans to the radiologist's scans array
+            if (scan_id) {
+                radiologist.scans.push({
+                    scan_id,
+                    scan_folder,
+                    scan_pics
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Render the view with radiologists data
+        res.render('radiologists_admin.ejs', { radiologists });
+    } catch (err) {
+        console.error('Error retrieving radiologist data:', err.message, err.stack);
+        res.send('Error retrieving radiologist data');
+    }
+});
+app.get('/scan_img', async (req, res) => {
+    const { scan_id, pic_index } = req.query;
+
+    // Validate query parameters
+    if (!scan_id || !pic_index) {
+        return res.status(400).send('Missing scan_id or pic_index');
+    }
+
+    if (isNaN(scan_id) || isNaN(pic_index)) {
+        return res.status(400).send('Invalid scan_id or pic_index');
+    }
+
+    try {
+        const result = await pool.query(
+            'SELECT scan_folder, scan_pics FROM scans WHERE scan_id = $1',
+            [scan_id]
+        );
+
+        if (result.rows.length > 0) {
+            const { scan_folder, scan_pics } = result.rows[0];
+
+            if (pic_index < 0 || pic_index >= scan_pics.length) {
+                return res.status(400).send('Invalid pic_index');
+            }
+
+            const selectedPic = scan_pics[pic_index];
+            console.log(selectedPic);
+            res.render('scan_img', { scan_folder, selectedPic });
+        } else {
+            res.status(404).send('Scan not found');
+        }
+    } catch (error) {
+        console.error('Error retrieving scan details:', error.message);
+        res.status(500).send('Error retrieving scan details');
+    }
 });
 // add_radiologist window route
-app.get('/add_radiologist', (req, res) => {
+app.get('/add_radiologist', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("add_radiologist.ejs")
 });
+
+app.post('/add_radiologist', async (req, res) => {
+    let { name, password, address, email, start_shift, end_shift, sex, age, major, salary, phone_no, picture } = req.body;
+    let type = 'radiologist'
+    console.log({
+        name,
+        email,
+        type,
+        start_shift,
+        end_shift,
+        major,
+        salary
+    });
+
+
+
+    const [fname, mname, lname] = name.split(' ');
+    let hashedPassword = await bcrypt.hash(password, 10);
+
+    pool.query(
+        `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, phone_no, picture) 
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        RETURNING id`,
+        [fname, mname, lname, email, hashedPassword, type, address, age, sex, phone_no, picture],
+        (err, results) => {
+            if (err) {
+                throw err;
+            }
+
+            const userId = results.rows[0].id;
+
+            pool.query(
+                `INSERT INTO radiologist (radiologist_id, salary, start_shift, end_shift)
+                VALUES ($1, $2, $3, $4)`,
+                [userId, salary, start_shift, end_shift],
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    req.flash('success_msg', 'Doctor added successfully.');
+                    res.redirect('/doctors_admin');
+                }
+            );
+        }
+    );
+});
+
 // add_doctor window route
-app.get('/add_doctor', (req, res) => {
+app.get('/add_doctor', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("add_doctor.ejs")
 });
+
+app.post('/add_doctor', async (req, res) => {
+    let { name, password, adress, email, asisName, start, end_shift, room, sex, age, salary, major, picture, phone_no } = req.body;
+    let type = 'doctor';
+
+    // Initialize an array to hold error messages
+    let errors = [];
+
+    // Split the name into parts and check if it contains at least three parts
+    const nameParts = name.split(' ');
+
+    if (nameParts.length < 3) {
+        errors.push({ message: 'Please enter your full name (first, middle, and last name).' });
+    }
+    const [fname, mname, lname] = nameParts;
+
+    try {
+        // Check for existing email and phone number in the users table
+        const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        if (emailCheck.rows.length > 0) {
+            errors.push({ message: "This email is already in use." });
+        }
+
+        const phoneCheck = await pool.query('SELECT * FROM users WHERE phone_no = $1', [phone_no]);
+        if (phoneCheck.rows.length > 0) {
+            errors.push({ message: "This phone number is already in use." });
+        }
+
+
+
+        if (errors.length > 0) {
+            res.render("add_doctor.ejs", { errors });
+        }
+        let hashedPassword = await bcrypt.hash(password, 10);
+        // Insert the new user
+        const result = await pool.query(
+            `INSERT INTO users (fname, mname, lname, email, password, type, address, age, sex, picture, phone_no) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            RETURNING id`,
+            [fname, mname, lname, email, hashedPassword, type, adress, age, sex, picture, phone_no]
+        );
+
+        const userId = result.rows[0].id;
+
+
+        // Insert into doctor table
+        await pool.query(
+            `INSERT INTO doctor (doctor_id, ass_name, start_shift, end_shift, dr_room, special, salary)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [userId, asisName, start, end_shift, room, major, salary]
+
+        );
+
+        req.flash("success_msg", "Doctor added successfully.");
+        res.redirect("");
+
+    } catch (err) {
+        console.error('Error adding doctor:', err);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
 // form window route
-app.get('/forms', async (req, res) => {
+app.get('/forms', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms');
         const forms = result.rows;
@@ -349,7 +696,31 @@ app.get('/forms', async (req, res) => {
         throw (err)
     }
 });
-app.get('/replies', async (req, res) => {
+
+app.post('/forms', async (req, res) => {
+    const { formId, remail, write } = req.body;
+
+    try {
+        const result = await pool.query(
+            'UPDATE forms SET reply = $1 WHERE form_id = $2 AND user_email = $3 RETURNING *',
+            [write, formId, remail]
+        );
+
+        if (result.rowCount > 0) {
+            req.flash('success_msg', 'Reply added successfully');
+        } else {
+            req.flash('error_msg', 'No form found for the given email and form ID');
+        }
+
+        res.redirect('/forms');
+    } catch (err) {
+        console.error('Error adding reply:', err);
+        req.flash('error_msg', 'Failed to add reply. Please try again later.');
+        res.redirect('/forms');
+    }
+});
+
+app.get('/replies', checkAuthenticated, async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM forms where user_email=$1 and reply IS NOT NULL', [req.user.email]);
         const replies = result.rows;
@@ -358,7 +729,7 @@ app.get('/replies', async (req, res) => {
         throw (err)
     }
 });
-app.get('/patient_report', (req, res) => {
+app.get('/patient_report', checkAuthenticated, allowOnly('patient'), (req, res) => {
     const { scan_id, pic_index } = req.query;
     pool.query(
         'SELECT scans.scan_pics, reports.case_description FROM scans JOIN reports ON scans.scan_id = reports.scan_id WHERE scans.scan_id = $1',
@@ -376,7 +747,7 @@ app.get('/patient_report', (req, res) => {
             }
         })
 });
-app.get('/doctor_scan', async (req, res) => {
+app.get('/doctor_scan', checkAuthenticated, allowOnly('doctor'), async (req, res) => {
     const { scan_id, pic_index } = req.query;
     const result = await pool.query(
         'SELECT scan_pics FROM scans WHERE scan_id = $1',
@@ -391,7 +762,7 @@ app.get('/doctor_scan', async (req, res) => {
     }
 
 });
-app.get('/doctor', (req, res) => {
+app.get('/doctor', checkAuthenticated, allowOnly('doctor'), (req, res) => {
     const user = req.session.user;
     const scans = req.session.doctorScans;
     const scansNo = req.session.scansNo;
@@ -399,7 +770,7 @@ app.get('/doctor', (req, res) => {
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     const fname = capitalize(req.user.fname);
-   
+
     res.render("doctor.ejs", {
         password: user.password,
         email: user.email,
@@ -431,6 +802,9 @@ app.post("/contact_form", async (req, res) => {
             if (err) {
                 throw err;
             }
+            else {
+                res.redirect('back')
+            }
 
         })
 });
@@ -447,7 +821,7 @@ app.post("/update", async (req, res) => {
     //         picture2 = picture2.replace(/\\/g, '/');
     //         picture2 = picture2.replace('public', '');
     //         }
-    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2} = req.body;
+    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     console.log(picture2)
     let newage = parseInt(age)
     let newsalary = parseInt(salary)
@@ -456,23 +830,23 @@ app.post("/update", async (req, res) => {
     const userId = req.user.id;
     console.log(req.body);
     let hashedPassword = '';
-        if (password === '') {
-            const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [userId]);
-            hashedPassword = oldPasswordResult.rows[0].password;
-        } else {
-            hashedPassword = await bcrypt.hash(password, 10);
-        }
-        let picture = ''
-        if(picture2 === undefined){
-           const oldPicture = await pool.query(`SELECT picture FROM users WHERE users.id = $1`, [userId]);
-           picture = oldPicture.rows[0].picture;
-           console.log(picture)
-        } else{
-             picture = picture2
-        }
+    if (password === '') {
+        const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [userId]);
+        hashedPassword = oldPasswordResult.rows[0].password;
+    } else {
+        hashedPassword = await bcrypt.hash(password, 10);
+    }
+    let picture = ''
+    if (picture2 === undefined) {
+        const oldPicture = await pool.query(`SELECT picture FROM users WHERE users.id = $1`, [userId]);
+        picture = oldPicture.rows[0].picture;
+        console.log(picture)
+    } else {
+        picture = picture2
+    }
     pool.query(
         'update users set fname=$1 , email=$2 , adress=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
-        [fname, email, adress, picture, newage, newphone_no,hashedPassword, userId],
+        [fname, email, adress, picture, newage, newphone_no, hashedPassword, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -488,8 +862,8 @@ app.post("/update", async (req, res) => {
             }
         });
 
-        const user = req.session.user;
-        user.password = password,
+    const user = req.session.user;
+    user.password = password,
         user.email = email,
         user.fname = fname,
         user.adress = adress,
@@ -502,8 +876,8 @@ app.post("/update", async (req, res) => {
         user.special = special,
         user.start_time = start_time,
         user.end_time = end_time
-        res.redirect('/doctor');
-    });
+    res.redirect('/doctor');
+});
 // });
 
 app.post("/write_report", async (req, res) => {
@@ -558,6 +932,64 @@ app.post("/write_report", async (req, res) => {
 
 // POST request of radiologist profile
 app.post("/rad_profile", async (req, res) => {
+    upload_profile_img(req, res, async (err) => {
+        let picture = req.file;
+        console.log(picture)
+        picture = picture.path
+        console.log(picture)
+        if (picture != null) {
+            picture = picture.replace(/\\/g, '/');
+            picture = picture.replace('public', '');
+        }
+        console.log(picture)
+        let { email, fullName, address, age, sex, phone_no, password } = req.body;
+        // console.log({
+        //     fullName,
+        //     email,
+        //     age,
+        //     picture
+        // });
+
+        age = parseInt(age)
+        phone_no = parseInt(phone_no)
+        if (isNaN(age)) {
+            age = null;
+        }
+        if (isNaN(phone_no)) {
+            phone_no = null;
+        }
+
+        let nameParts = fullName.split(' ');
+        let fname = '';
+        let lname = '';
+        if (nameParts.length > 0) { fname = nameParts[0]; }
+        if (nameParts.length > 1) { lname = nameParts[1]; }
+        // console.log("pass: ", password);
+        let hashedPassword = '';
+
+        if (password === '') {
+            const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [req.user.id]);
+            hashedPassword = oldPasswordResult.rows[0].password;
+        } else {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+        pool.query(`UPDATE users SET fname=$1, lname=$2, email=$3, address=$4, age=$5, sex=$6, phone_no=$7, password=$8,  picture=$9 WHERE users.id = $10`,
+            [fname, lname, email, address, age, sex, phone_no, hashedPassword, picture, req.user.id],
+            (err) => {
+                if (err) {
+                    throw err;
+                }
+                else {
+                    res.redirect('back')
+                }
+            }
+        );
+
+    })
+});
+
+// POST request of patient profile
+app.post("/patient_profile", async (req, res) => {
     upload_profile_img(req, res, async (err) => {
         let picture = req.file;
         console.log(picture)
@@ -809,9 +1241,10 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-    failureRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
 }), (req, res) => {
+    console.log("blud");
     const userId = req.user.id;
     pool.query(
         'select users.* , doctor.* from users join doctor on users.id = doctor.doctor_id where users.id=$1',
@@ -822,6 +1255,7 @@ app.post('/login', passport.authenticate('local', {
             }
             const user = results.rows[0];
             req.session.user = user;
+            console.log(user);
 
             pool.query(
                 'SELECT * FROM scans WHERE dr_id = $1',
@@ -830,7 +1264,7 @@ app.post('/login', passport.authenticate('local', {
                     if (err) {
                         throw err;
                     }
-                    req.session.scansNo= scanResults.rows.length;
+                    req.session.scansNo = scanResults.rows.length;
                     req.session.doctorScans = scanResults.rows;
                     console.log(req.session.doctorScans)
                     pool.query(

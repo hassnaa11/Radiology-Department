@@ -24,38 +24,40 @@
 
 
         <div class="edit-box2">
-            <form class="txt-boxes">
+            <form class="txt-boxes" method="POST" action="/add_radiologist">
                 <label>Name:</label>
-                <input class="input-box" type="text" id="name" name="name">
-                <label>ID:</label>
-                <input class="input-box" type="number" id="ID" name="ID">
+                <input class="input-box" type="text" id="name" name="name" required>
+                <label>Password:</label>
+                <input class="input-box" type="text" id="password" name="password" required>
 
                 <label>Adress:</label>
-                <input type="text" class="input-box">
+                <input type="text" class="input-box" id="address" name="address" required>
 
                 <label>email:</label>
-                <input type="email" class="input-box">
+                <input type="email" class="input-box" name ="email" id ="email" required>
                 <label>Start-Shift:</label>
-                <input class="input-box" type="time" id="start" name="start">
+                <input class="input-box" type="time" id="start_shift" name="start_shift" required>
                 <label>End-Shift:</label>
-                <input class="input-box" type="time" id="end" name="end">
+                <input class="input-box" type="time" id="end_shift" name="end_shift" required>
                 <label>Sex:</label>
                 <div>
-                    <input type="radio" id="male" name="sex" value="male">
+                    <input type="radio" id="male" name="sex" value="male" required>
                     <label for="male"> <img src="/images/Dr icon.png  " alt="Logo 1" class="logo"></label>
-                    <input type="radio" id="female" name="sex" value="female">
+                    <input type="radio" id="female" name="sex" value="female" required>
                     <label for="female"> <img src="/images/drr.png  " alt="Logo 1" class="logo"></label>
                 </div>
                 <label for="text">Age:</label>
-                <input type="text" class="input-box">
+                <input type="text" class="input-box" id="age" name="age" required>
+                <label>Phone Number:</label>
+                <input type="text" class="input-box" id="phone_no" name="phone_no" required>
 
                 <label for=instagram">Specialaization:</label>
-                <input class="input-box">
+                <input class="input-box" id="major" name="major" required>
                 <label for=instagram">salary:</label>
-                <input class="input-box">
+                <input class="input-box" id="salary" name="salary" required>
                 <label> photo:</label>
-                <input type="file" id="image-input" accept="image/*">
-                <button class="ADD-btn2"> Add</button>
+                <input type="file" id="image-input" accept="image/*" name = "picture" id = "picture" required>
+                <button class="ADD-btn2" type="submit"> Add</button>
             </form>
 
 

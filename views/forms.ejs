@@ -11,36 +11,42 @@
 <body>
     <div class="top-side">
         <span>Forms & Complains</span>
-        <button id="form2" class="reply">Reply to</button>
+        
     </div>
     <div class="left">
         <% forms.forEach(form => { %>
-            <div>
-             <p class="left-item">From: <span class="left-item-span"><%= form.user_email %></span></p>
-             <p class="left-item">About: <span class="left-item-span"><%= form.about %></span></p>
-             <p class="left-item">Body: <span class="left-item-span"><%= form.body %></span></p>
-            </div>
-            <% }) %>
+            <% if (!(form.reply)) { %>
+                <div>
+                    <p class="left-item">From: <span class="left-item-span"><%= form.user_email %></span></p>
+                    <p class="left-item">About: <span class="left-item-span"><%= form.about %></span></p>
+                    <p class="left-item">Body: <span class="left-item-span"><%= form.body %></span></p>
+                    <button class="reply" onclick="openPopup('<%= form.form_id %>', '<%= form.user_email %>')">Reply</button>
+                </div>
+            <% }%> 
+        <% }) %> 
     </div>
 
     <div id="replypopup" class="reply-popup">
         <div class="rclose-btn" onclick="closePopup()">&times;</div>
         <div class="rform">
-            <div class="rform-element">
-                <label for="reply">Reply to</label>
-                <input type="text" id="remail" placeholder="write email you replying to">
-            </div>
-            <div class="rform-element">
-                <input type="text" class="rform-text" id="write" placeholder="Write your reply here">
-            </div>
-            <div class="rform-element">
-                <button id="send">Send</button>
-            </div>
+            <form id="replyForm" class="rform-element" method="POST" action="/forms">
+                <div class="rform-element">
+                    <input type="hidden" id="formId" name="formId">
+                    <label for="remail">Reply to:</label>
+                    <input type="text" id="remail" name="remail" placeholder="write email you replying to" required readonly>
+                </div>
+                <div class="rform-element">
+                    <textarea class="rform-text" id="write" name="write" placeholder="Write your reply here" required></textarea>
+                </div>
+                <div class="rform-element">
+                    <button type="submit" id="send">Send</button>
+                </div>
+            </form>
         </div>
     </div>
-
-
+    <textarea id="formsData" style="display:none;"><%= JSON.stringify(forms) %></textarea>
     <script src="/css/forms.js"></script>
+
 </body>
 
 </html>

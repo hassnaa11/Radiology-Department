@@ -271,8 +271,8 @@ a {
 
 .open-file {
     background-color: #F8F8F8;
-    width: 11%;
-    height: 65%;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -280,6 +280,13 @@ a {
     cursor: pointer;
     transition: all 0.3s;
     border-radius: 10px;
+}
+
+.logout-profile {
+    width: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .file-wrapper {
@@ -918,6 +925,7 @@ a {
     z-index: 9999;
     /* Ensure the popup appears on top of other elements */
     backdrop-filter: blur(4px);
+    overflow-y: auto;
 }
 
 /* Styles for the popup content */
