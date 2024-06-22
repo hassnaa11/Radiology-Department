@@ -609,7 +609,18 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
         const neurologist_percentage = (neurologist_count / total_doctors) * 100;
 
         // Render the template with the required data
-        res.render("admin.ejs", { scansno, doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno });
+        res.render("admin.ejs", {
+            email: req.user.email,
+            fname: req.user.fname,
+            lname: req.user.lname,
+            address: req.user.address,
+            age: req.user.age,
+            sex: req.user.sex,
+            phone_no: req.user.phone_no,
+            password: req.user.password,
+            picture: req.user.picture,
+            scansno, doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno
+        });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");

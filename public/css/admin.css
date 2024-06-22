@@ -569,3 +569,32 @@ svg {
     background-color: #c8d6de;
     transform: translateY(-5px);
 }
+
+.popup-content label {
+    text-shadow: 2px 4px 4px rgba(239, 252, 255, 0.5);
+}
+
+.profile-input input {
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 12px;
+    margin-left: 10px;
+    border: none;
+}
+
+.profile-input form {
+    margin-top: 20px;
+}
+
+.submit-profile-btn {
+    width: 100px;
+    height: 40px;
+    margin-left: 115px !important;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.submit-profile-btn:hover {
+    background-color: #b6c1c5;
+}

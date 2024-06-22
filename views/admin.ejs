@@ -34,42 +34,46 @@
             <img src="/images/profile.png">
         </a>
         <div id="popupContainer2" class="popup-container2">
-            <div class="popup-content">
+            <div class="popup-content profile-input ">
                 <!-- Content for the popup window -->
-                <img class="profile_photo" id="profile-photo" name="profile-photo" src="/images/malee.png" width="200"
-                    height="200">
-                <div class="name" id="Name" name="Name" id="displayText" class="name" onclick="editText(this)"> Eman
-                    Abdelazeem</div>
-
-                <div class="line"></div>
-                <div class="container_ifo">
-
-                    <div class="info"> Email: <span onclick="editText(this)" class="editable-text">
-                            Emanm@gmail.com</span> </div>
-                    <div class="info"> Adress:<span onclick="editText(this)" class="editable-text" "> Faisal Giza</span>    </div>
-                  <div class=" info-ii">
-                            <div class="info"> Salary: <span class="editable-text" onclick="editText(this)"
-                                    id="displayText"> 50,000</span> </div>
+                <img class="profile_photo" id="picture2" name="picture" src="<%=picture %>" width="200" height="200">
+                <form action="/rad_profile" method="POST" enctype="multipart/form-data">
+                    <div>
+                        <label for="fName">Name:</label>
+                        <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
                     </div>
-                    <div class="info-ii">
-                        <div class="info"> Age: <span class="editable-text" onclick="editText(this)"
-                                id="displayText"></span>
-                            25 </span> </div>
+                    <div>
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" placeholder="<%=email %>" required>
                     </div>
-                    <div class="info"> phone Number: <span class="editable-text" onclick="editText(this)"
-                            id="displayText">01090089066</span> </div>
-                    <div class="info-ii">
-                        <div class="info"> Start Shift:<span onclick="editText(this)" class="editable-text"
-                                id="displayText">7AM</span> </div>
-                        <div class="info"> End Shift:<span onclick="editText(this)" class="editable-text"
-                                id="displayText"> 4PM </span> </div>
+                    <div>
+                        <label for="fName">Address:</label>
+                        <input type="text" name="address" placeholder="<%=address%>" required>
                     </div>
-                    <div class="info"> photo: <input type="file"> </div>
-
-
-                    <button class="btn"> Save Info</button>
-                </div>
-
+                    <div>
+                        <label for="fName">Age:</label>
+                        <input type="number" name="age" placeholder="<%=age%>" required>
+                    </div>
+                    <div>
+                        <label for="fName">Sex:</label>
+                        <input type="text" name="sex" placeholder="<%=sex%>" required>
+                    </div>
+                    <div>
+                        <label for="fName">Phone:</label>
+                        <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
+                    </div>
+                    <div>
+                        <label>Change Password:</label>
+                        <input type="password" name="password" placeholder="new password" maxlength="12">
+                    </div>
+                    <div>
+                        <label>Picture:</label>
+                        <input type="file" id="fileInput" name="picture" accept="image/*" required>
+                    </div>
+                    <div>
+                        <input class="submit-profile-btn" type="submit" value="save">
+                    </div>
+                </form>
                 <div onclick="closePopup2()" class="close_btn"> &times; </div>
             </div>
         </div>
