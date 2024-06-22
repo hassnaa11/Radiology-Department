@@ -589,6 +589,7 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
         `);
         const statsResult = await pool.query(`
             SELECT 
+            (SELECT COUNT(*) FROM scans) AS scansno,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
@@ -599,7 +600,7 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
 
 
 
-        const { total_doctors, orthopedist_count, oncologist_count, neurologist_count, radiologistsno } = statsResult.rows[0];
+        const { scansno, total_doctors, orthopedist_count, oncologist_count, neurologist_count, radiologistsno } = statsResult.rows[0];
         const doctors = doctorsResult.rows;
 
         // Calculate percentages
@@ -608,7 +609,7 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
         const neurologist_percentage = (neurologist_count / total_doctors) * 100;
 
         // Render the template with the required data
-        res.render("admin.ejs", { doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno });
+        res.render("admin.ejs", { scansno, doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
