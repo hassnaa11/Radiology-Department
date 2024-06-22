@@ -417,7 +417,7 @@ app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) =
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', async (req, res) => {
+app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
         // Query to get doctors' information
         const doctorsResult = await pool.query(`
@@ -996,54 +996,6 @@ app.get('/reports_dr_admin', async (req, res) => {
     }
 });
 
-
-
-// app.get('/admin', async (req, res) => {
-//     try {
-//         // Query to get doctors' information
-//         const doctorsResult = await pool.query(`
-//             SELECT 
-//                 doctor.*,
-//                 users.fname, 
-//                 users.lname, 
-//                 users.email, 
-//                 users.address, 
-//                 users.phone_no,
-//                 users.age,
-//                 users.sex,
-//                 users.type
-//             FROM 
-//                 doctor
-//             JOIN 
-//                 users 
-//             ON 
-//                 doctor.doctor_id = users.id
-//         `);
-//         const statsResult = await pool.query(`
-//             SELECT 
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count
-//         `);
-
-
-
-// const { total_doctors, orthopedist_count, oncologist_count, neurologist_count } = statsResult.rows[0];
-// const doctors = doctorsResult.rows;
-
-// // Calculate percentages
-// const orthopedist_percentage = (orthopedist_count / total_doctors) * 100;
-// const oncologist_percentage = (oncologist_count / total_doctors) * 100;
-// const neurologist_percentage = (neurologist_count / total_doctors) * 100;
-
-// // Render the template with the required data
-// res.render("admin.ejs", { doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage });
-//     } catch (err) {
-//     console.error("Error executing query:", err);
-//     res.status(500).send("Internal Server Error");
-// }
-// });
 
 
 // form window route
