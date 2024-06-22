@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("contact-btn").addEventListener("click", openPopup2);
     const closeButton = document.querySelector(".close-button");
@@ -122,6 +123,7 @@ function openPopup2() {
     document.getElementById("popupContainer2").classList.add("active");
     document.body.classList.add("blur-background");
 }
+
 
 function closePopup2() {
     document.getElementById("popupContainer2").style.display = "none";
@@ -244,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // });
 
 document.getElementById('updateForm').addEventListener("submit", async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    // event.preventDefault(); // Prevent default form submission
     const form = document.getElementById('updateForm');
     const formData = new FormData(form);
 
@@ -277,9 +279,9 @@ document.getElementById('updateForm').addEventListener("submit", async (event) =
         });
 });
 
-// function closePopup3() {
-//     document.getElementById("popupContainer3").style.display = "none";
-// }
+function closePopup3() {
+    document.getElementById("popupContainer3").style.display = "none";
+}
 
 function openPopup4() {
     document.getElementById("popupContainer4").style.display = "block";
