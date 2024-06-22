@@ -24,7 +24,7 @@
         <div class="profile-head">
             <h2>My Profile</h2>
             <div class="logout-profile">
-                <button class="open-file" onclick="openPopup3()">
+                <button class="open-file" onclick="openPopup7()">
                     <span class="file-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 71 67">
                             <path stroke-width="5" stroke="black"
@@ -38,13 +38,13 @@
                     <img src="/images/logout.png">
                 </a>
             </div>
-            <div id="popupContainer3" class="popup-container2">
+            <div id="popupContainer7" class="popup-container2">
                 <div class="popup-content">
-                    <div onclick="closePopup3()" class="close_btn"> &times; </div>
+                    <div onclick="closePopup7()" class="close_btn"> &times; </div>
                     <!-- Content for the popup window -->
                     <img class="profile_photo" id="profile-photo" name="picture" src="/uploads/<%=picture%> "
                         width="150" height="150">
-                    <form id="updateForm">
+                    <form id="updateFormDoctor">
                         <div class="name" id="fname">
                             <input type="text" name="fname" value="<%= typeof fname !== 'undefined' ? fname : '' %>"
                                 placeholder="fname" class="editable-text2">
@@ -201,7 +201,7 @@
 
                         <div class="send-button">
                             <h3>
-                                <a href="#" class="show-login form1" data-scan-id="<%= scan.scan_id %>"
+                                <a href="#" class="write-report" data-scan-id="<%= scan.scan_id %>"
                                     data-dr-id="<%= scan.dr_id %>" data-pic-index="<%= picIndex %>">Write Report</a>
                             </h3>
                             <% console.log(scan.scan_id) %>
@@ -216,8 +216,8 @@
     </section>
 
 
-    <div id="popupContainer" class="popup">
-        <div class="close-btn" onclick="closePopup()">&times;</div>
+    <div id="popupContainer8" class="popup">
+        <div class="close-btn8" onclick="closePopup8()">&times;</div>
         <div class="form">
             <div class="form-element">
                 <form action="/write_report" method="POST" id="reportForm">
@@ -240,13 +240,13 @@
             Got any requests?
         </h2>
 
-        <button class="contact-form-button" id="contact-btn"> Contact Us</button>
+        <button onclick="openPopup9()" class="contact-form-button" id="contact-button"> Contact Us</button>
         <div class="contact-form-check">
             <a href="/replies">Check messages</a>
         </div>
     </section>
-    <div id="popupContainer2" class="popup">
-        <div class="close-btn" onclick="closePopup2()">&times;</div>
+    <div id="popupContainer9" class="popup">
+        <div class="close-btn" onclick="closePopup9()">&times;</div>
         <div class="form">
             <form id="contactForm" action="/contact_form" method="POST">
                 <div class="form-element">
@@ -271,7 +271,7 @@
     </div>
 
     </section>
-    <script src="/css/patient.js">
+    <script src="/css/doctor.js">
 
     </script>
 

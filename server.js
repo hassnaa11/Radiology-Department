@@ -809,18 +809,7 @@ app.post("/contact_form", async (req, res) => {
         })
 });
 
-app.post("/update", async (req, res) => {
-    // upload_profile_img(req, res, async (err) => {
-    //     let picture2 = req.file;
-    //     console.log(picture2)
-    //     console.log("hey ")
-
-    //     picture2 = picture2.path
-    //     console.log(picture2)
-    //     if (picture2 != null) {
-    //         picture2 = picture2.replace(/\\/g, '/');
-    //         picture2 = picture2.replace('public', '');
-    //         }
+app.post("/updateFormDoctor", async (req, res) => {
     const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     console.log(picture2)
     let newage = parseInt(age)
@@ -878,7 +867,7 @@ app.post("/update", async (req, res) => {
         user.end_time = end_time
     res.redirect('/doctor');
 });
-// });
+
 
 app.post("/write_report", async (req, res) => {
     const { scan_id, dr_id, picIndex, report } = req.body;
