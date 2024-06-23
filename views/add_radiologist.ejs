@@ -24,13 +24,13 @@
 
 
         <div class="edit-box2">
-            <form class="txt-boxes" method="POST" action="/add_radiologist">
+            <form class="txt-boxes" method="POST" enctype="multipart/form-data" action="/add_radiologist">
                 <label>Name:</label>
                 <input class="input-box" type="text" id="name" name="name" required>
                 <label>Password:</label>
                 <input class="input-box" type="text" id="password" name="password" required>
 
-                <label>Adress:</label>
+                <label>Address:</label>
                 <input type="text" class="input-box" id="address" name="address" required>
 
                 <label>email:</label>
@@ -51,8 +51,6 @@
                 <label>Phone Number:</label>
                 <input type="text" class="input-box" id="phone_no" name="phone_no" required>
 
-                <label for=instagram">Specialaization:</label>
-                <input class="input-box" id="major" name="major" required>
                 <label for=instagram">salary:</label>
                 <input class="input-box" id="salary" name="salary" required>
                 <label> photo:</label>
