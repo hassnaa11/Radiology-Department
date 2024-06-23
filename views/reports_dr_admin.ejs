@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Scan & Report</title>
     <link rel="stylesheet" href="/css/patient_report.css">
 </head>
+
 <body>
     <div class="top-side">
         <span>Scan & Report</span>
     </div>
     <div class="left">
         <div>
-            <p>Selected Pic:</p> 
-            <img src="/images/scans/scan1.jpg" class="scan-image" alt="Scan Image" id="scan-image1"> <!-- Ensure id="scan-image" -->
+            <p>Selected Pic:</p>
+            <img src="/images/scans/scan1.jpg" class="scan-image" alt="Scan Image" id="scan-image1">
+            <!-- Ensure id="scan-image" -->
             <img src="/images/scans/scan1.jpg" class="scan-image" alt="Scan Image" id="scan-image2">
         </div>
         <div>
@@ -21,79 +24,81 @@
     </div>
     <textarea id="scansData" style="display:none;"><%= JSON.stringify(scans) %></textarea>
     <script>
-     document.addEventListener("DOMContentLoaded", function() {
-    try {
-        const scansDataElement = document.getElementById('scansData');
-        if (scansDataElement) {
-            const scansData = scansDataElement.value;
-            const scans = JSON.parse(scansData);
-            console.log("Parsed scans data:", scans);
+        document.addEventListener("DOMContentLoaded", function () {
+            try {
+                const scansDataElement = document.getElementById('scansData');
+                if (scansDataElement) {
+                    const scansData = scansDataElement.value;
+                    const scans = JSON.parse(scansData);
+                    console.log("Parsed scans data:", scans);
 
-            let y = localStorage.getItem('scan_id');
+                    let y = localStorage.getItem('scan_id');
 
-            // Find the container where images will be inserted
-            const imageContainer = document.querySelector('.left > div:first-child');
-            if (!imageContainer) {
-                console.error('Image container not found.');
-                return;
+                    // Find the container where images will be inserted
+                    const imageContainer = document.querySelector('.left > div:first-child');
+                    if (!imageContainer) {
+                        console.error('Image container not found.');
+                        return;
+                    }
+
+                    // Clear existing images if any
+                    // Find the index of the scan data with the matching scan_id
+                    let selectedIndex = scans.findIndex(scan => scan.scan_id == y);
+
+                    if (selectedIndex !== -1) {
+                        const selectedScan = scans[selectedIndex];
+
+                        // Display report descriptions
+                        const reportText = document.getElementById('reportText');
+                        if (reportText) {
+                            // Clear previous report descriptions
+                            reportText.innerHTML = '';
+
+                            selectedScan.case_description.forEach((description, index) => {
+                                let p = document.createElement('p');
+                                p.textContent = description;
+                                reportText.appendChild(p);
+                            });
+
+                            console.log("Inserted report descriptions.");
+                        } else {
+                            console.error('Report text element not found.');
+                        }
+
+                        // Display scan images dynamically
+                        const imageContainer = document.querySelector('.left > div:first-child');
+                        if (imageContainer) {
+                            imageContainer.innerHTML = ''; // Clear previous images if any
+
+                            selectedScan.scan_pics.forEach((pic, index) => {
+                                let img = document.createElement('img');
+                                pic = pic.replace(/\\/g, '/');
+                                pic = pic.replace('public', '');
+                                img.src = `${pic}.`;
+                                img.classList.add('scan-image');
+                                img.alt = 'Scan Image';
+                                img.id = `scan-image${index + 1}`; // ID should be unique for each image
+
+                                imageContainer.appendChild(img);
+                            });
+
+                            console.log("Inserted scan images.");
+                        } else {
+                            console.error('Image container not found.');
+                        }
+                    } else {
+                        console.error('No scan data found with the specified scan_id.');
+                    }
+
+                } else {
+                    console.error('Element with id "scansData" not found.');
+                }
+            } catch (error) {
+                console.error("Error parsing JSON data or updating images:", error);
             }
-
-            // Clear existing images if any
-           // Find the index of the scan data with the matching scan_id
-let selectedIndex = scans.findIndex(scan => scan.scan_id == y);
-
-if (selectedIndex !== -1) {
-    const selectedScan = scans[selectedIndex];
-
-    // Display report descriptions
-    const reportText = document.getElementById('reportText');
-    if (reportText) {
-        // Clear previous report descriptions
-        reportText.innerHTML = ''; 
-
-        selectedScan.case_description.forEach((description, index) => {
-            let p = document.createElement('p');
-            p.textContent = description;
-            reportText.appendChild(p);
         });
-
-        console.log("Inserted report descriptions.");
-    } else {
-        console.error('Report text element not found.');
-    }
-
-    // Display scan images dynamically
-    const imageContainer = document.querySelector('.left > div:first-child');
-    if (imageContainer) {
-        imageContainer.innerHTML = ''; // Clear previous images if any
-
-        selectedScan.scan_pics.forEach((pic, index) => {
-            let img = document.createElement('img');
-            img.src = `/images/uploads/${pic}.jpg`;
-            img.classList.add('scan-image');
-            img.alt = 'Scan Image';
-            img.id = `scan-image${index + 1}`; // ID should be unique for each image
-
-            imageContainer.appendChild(img);
-        });
-
-        console.log("Inserted scan images.");
-    } else {
-        console.error('Image container not found.');
-    }
-} else {
-    console.error('No scan data found with the specified scan_id.');
-}
-
-        } else {
-            console.error('Element with id "scansData" not found.');
-        }
-    } catch (error) {
-        console.error("Error parsing JSON data or updating images:", error);
-    }
-});
 
     </script>
 </body>
-</html>
 
+</html>

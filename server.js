@@ -417,114 +417,6 @@ app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) =
     res.render("engineers_admin.ejs")
 });
 // doctors_admin window route
-app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
-    try {
-        // Query to get doctors' information
-        const doctorsResult = await pool.query(`
-            SELECT 
-                doctor.*,
-                users.fname, 
-                users.lname, 
-                users.email, 
-                users.address, 
-                users.phone_no,
-                users.age,
-                users.sex,
-                users.type,
-                scans.scan_id,
-                scans.scan_folder,
-                scans.scan_pics
-            FROM 
-                doctor
-            JOIN 
-                users 
-            ON 
-                doctor.doctor_id = users.id
-            LEFT JOIN scans ON scans.dr_id = doctor.doctor_id
-        `);
-
-
-        const doctors = doctorsResult.rows.reduce((acc, row) => {
-            const {
-                doctor_id,
-                fname,
-                lname,
-                email,
-                address,
-                phone_no,
-                salary,
-                assistant_name,
-                room_no,
-                specialization,
-                age,
-                sex,
-                type,
-                scan_id,
-                start_shift,
-                end_shift,
-                scan_folder,
-                scan_pics
-            } = row;
-
-            // Check if radiologist already exists in the accumulator
-            let doctor = acc.find(doctor => doctor.doctor_id === doctor_id);
-            if (!doctor) {
-                doctor = {
-                    doctor_id,
-                    fname,
-                    lname,
-                    email,
-                    address,
-                    phone_no,
-                    age,
-                    salary,
-                    assistant_name,
-                    room_no,
-                    specialization,
-                    start_shift,
-                    end_shift,
-                    scan_id,
-                    sex,
-                    type,
-                    scans: []
-                };
-                acc.push(doctor);
-            }
-
-            // Push scans to the radiologist's scans array
-            if (scan_id) {
-                doctor.scans.push({
-                    scan_id,
-                    scan_folder,
-                    scan_pics
-                });
-            }
-
-            return acc;
-        }, []);
-
-        // Query to get the statistics
-        const statsResult = await pool.query(`
-            SELECT 
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'female') AS total_women,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'male') AS total_men
-        `);
-
-        // Extract data from results
-        const { total_doctors, total_women, total_men } = statsResult.rows[0];
-
-        // Calculate percentages
-        const women_percentage = (total_women / total_doctors) * 100;
-        const men_percentage = (total_men / total_doctors) * 100;
-
-        // Render the template with the required data
-        res.render("doctors_admin.ejs", { doctors, women_percentage, men_percentage });
-    } catch (err) {
-        console.error("Error executing query:", err);
-        res.status(500).send("Internal Server Error");
-    }
-});
 
 app.get('/reports_dr_admin', async (req, res) => {
 
@@ -802,7 +694,7 @@ app.get('/add_doctor', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("add_doctor.ejs")
 });
 
-app.get('/doctors_admin', async (req, res) => {
+app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
     try {
         // Query to get doctors' information
         const doctorsResult = await pool.query(`
@@ -1223,11 +1115,10 @@ app.get('/add_radiologist', (req, res) => {
     res.render("add_radiologist.ejs")
 });
 app.post("/edit_doctor", async (req, res) => {
-    const { fullname, email, address, salary, sex, age, phone_no, start_shift, end_shift, password, doctor_id, assistant_name, specialization, room_no } = req.body;
+    const { fullname, email, address, salary, sex, age, phone_no, start_shift, end_shift, password, doctor_id, ass_name, special, dr_room } = req.body;
     console.log(fullname, email, address)
     let newage = parseInt(age);
     let newsalary = parseInt(salary);
-    let phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
     const parts = fullname.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
@@ -1238,13 +1129,13 @@ app.post("/edit_doctor", async (req, res) => {
         // Update users table
         await pool.query(
             'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
-            [fname, lname, email, sex, address, newage, password, phoneNumbers, doctor_id]
+            [fname, lname, email, sex, address, newage, password, phone_no, doctor_id]
         );
 
         // Update doctor table
         await pool.query(
-            'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3 , specialization=$4, room_no=$5, assistant_name=$6 WHERE doctor_id=$7',
-            [newsalary, start_shift, end_shift, specialization, room_no, assistant_name, doctor_id]
+            'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3 , special=$4, dr_room=$5, ass_name=$6 WHERE doctor_id=$7',
+            [newsalary, start_shift, end_shift, special, dr_room, ass_name, doctor_id]
         );
 
         // Redirect to radiologists_admin after update
