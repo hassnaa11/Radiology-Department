@@ -1,5 +1,3 @@
-
-
 document.addEventListener("DOMContentLoaded", function() {
     // Open a new window with specified URL, width, height, and other options for the first button
     document.getElementById("ADD_btn").addEventListener("click", function() {
@@ -36,14 +34,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('address').value  = doctors[x].address;
                 document.getElementById('age').value  = doctors[x].age;
                 document.getElementById('sex').value  = doctors[x].sex;
-                document.getElementById('address').value  = doctors[x].address;
                 document.getElementById('salary').value  = doctors[x].salary;
                 document.getElementById('phone_no').value  = doctors[x].phone_no;
                 document.getElementById('start_shift').value  =doctors[x].start_shift;
                 document.getElementById('end_shift').value  = doctors[x].end_shift;
-                document.getElementById('assistant_name').value  = doctors[x].assistant_name;
-                document.getElementById('specialization').value  = doctors[x].specialization;
-                document.getElementById('room_no').value  = doctors[x].room_no;
+                document.getElementById('ass_name').value  = doctors[x].ass_name;
+                document.getElementById('special').value  = doctors[x].special;
+                document.getElementById('picture2').src = doctors[x].picture;
+                document.getElementById('dr_room').value  = doctors[x].dr_room;
                 document.getElementById('doctor_id').value  = id;
 
     
@@ -199,3 +197,4 @@ document.getElementById('doctorForm').addEventListener("submit", async (event) =
 });
 
 // Assuming you are generating 'scan-block' elements dynamically with unique IDs like 'scan-block-1', 'scan-block-2', etc.
+
