@@ -225,6 +225,14 @@ app.post("/take_appointment", async (req, res) => {
         msg_p = 'error bro';
     }
 
+    const scanDateTime = new Date(`${date}T${time}:00`);
+
+    // Check if the chosen date and time are in the past
+    const now = new Date();
+    if (scanDateTime < now) {
+        msg_p = 'This date has passed. Please pick a valid date.';
+    }
+
     if (errors.length > 0) {
         msg_p = 'This slot has already been reserved';
         //req.flash('errors', errors);
