@@ -22,12 +22,12 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('address').value  = radiologists[x].address;
             document.getElementById('age').value  = radiologists[x].age;
             document.getElementById('sex').value  = radiologists[x].sex;
-            //document.getElementById('address').value  = radiologists[x].address;
             document.getElementById('salary').value  = radiologists[x].salary;
             document.getElementById('phone_no').value  = radiologists[x].phone_no;
             document.getElementById('start_shift').value  =radiologists[x].start_shift;
             document.getElementById('end_shift').value  = radiologists[x].end_shift;
             document.getElementById('password').value  = radiologists[x].end_shift;
+            document.getElementById('picture2').src = radiologists[x].picture;
             document.getElementById('radiologist_id').value  = id;
             if (event.target.tagName === 'BUTTON') return;
             document.getElementById('popupContainer').style.display = 'block';
@@ -115,4 +115,3 @@ function toggleScans(radiologistId) {
         }
     });
 }
-
