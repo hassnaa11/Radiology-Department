@@ -836,16 +836,16 @@ app.get('/doctors_admin', async (req, res) => {
                 address,
                 phone_no,
                 salary,
-                assistant_name,
-                room_no,
-                specialization,
+                ass_name,
+                dr_room,
+                special,
                 age,
                 sex,
                 type,
+                picture,
                 scan_id,
                 start_shift,
                 end_shift,
-                scan_folder,
                 scan_pics
             } = row;
 
@@ -861,14 +861,15 @@ app.get('/doctors_admin', async (req, res) => {
                     phone_no,
                     age,
                     salary,
-                    assistant_name,
-                    room_no,
-                    specialization,
+                    ass_name,
+                    dr_room,
+                    special,
                     start_shift,
                     end_shift,
                     scan_id,
                     sex,
                     type,
+                    picture,
                     scans: []
                 };
                 acc.push(doctor);
@@ -878,7 +879,6 @@ app.get('/doctors_admin', async (req, res) => {
             if (scan_id) {
                 doctor.scans.push({
                     scan_id,
-                    scan_folder,
                     scan_pics
                 });
             }
@@ -909,51 +909,58 @@ app.get('/doctors_admin', async (req, res) => {
     }
 });
 app.post('/add_doctor', async (req, res) => {
-    let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no, assistant_name, specialization, room_no } = req.body;
-    let type = 'doctor'
-    const parts = name.trim().split(' ');
-    const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
-    const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
-
-    const phoneNumbers = phone_no.split(',').map(num => parseInt(num.trim()));
-    console.log({
-        fname,
-        email,
-        type,
-        start_shift,
-        end_shift,
-        salary
-    }); // Set a default password or generate one
-    let hashedPassword = await bcrypt.hash(password, 10);
-
-    pool.query(
-        `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9)
-        RETURNING id`,
-        [email, hashedPassword, type, fname, lname, address, age, sex, phoneNumbers],
-        (err, results) => {
-            if (err) {
-                throw err;
-            }
-            const userId = results.rows[0].id;
-
-            pool.query(
-                `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary,assistant_name,room_no,specialization)
-                VALUES ($1, $2, $3, $4,$5,$6,$7)`,
-                [userId, start_shift, end_shift, salary, assistant_name, room_no, specialization],
-                (err) => {
-                    if (err) {
-                        throw err;
-                    }
-                    req.flash('success_msg', 'Doctor added successfully.');
-                    res.redirect('/doctors_admin');
-                }
-            );
+    upload_profile_img(req, res, async (err) => {
+        let picture = req.file;
+        console.log(picture)
+        picture = picture.path
+        console.log(picture)
+        if (picture != null) {
+            picture = picture.replace(/\\/g, '/');
+            picture = picture.replace('public', '');
         }
-    );
+        console.log(picture)
+        let { name, address, email, start_shift, end_shift, sex, age, salary, password, phone_no, ass_name, special, dr_room } = req.body;
+        let type = 'doctor'
+        const parts = name.trim().split(' ');
+        const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
+        const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined      
+        console.log({
+            fname,
+            email,
+            type,
+            start_shift,
+            end_shift,
+            salary
+        }); // Set a default password or generate one
+        let hashedPassword = await bcrypt.hash(password, 10);
+
+        pool.query(
+            `INSERT INTO users ( email, password, type, fname,lname,address, age, sex,phone_no, picture) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING id`,
+            [email, hashedPassword, type, fname, lname, address, age, sex, phone_no, picture],
+            (err, results) => {
+                if (err) {
+                    throw err;
+                }
+                const userId = results.rows[0].id;
+
+                pool.query(
+                    `INSERT INTO doctor (doctor_id,  start_shift, end_shift, salary, ass_name, dr_room, special)
+                    VALUES ($1, $2, $3, $4,$5,$6,$7)`,
+                    [userId, start_shift, end_shift, salary, ass_name, dr_room, special],
+                    (err) => {
+                        if (err) {
+                            throw err;
+                        }
+                        req.flash('success_msg', 'Doctor added successfully.');
+                        res.redirect('/doctors_admin');
+                    }
+                );
+            }
+        );
+    })
 });
-
-
 app.get('/reports_dr_admin', async (req, res) => {
 
 
