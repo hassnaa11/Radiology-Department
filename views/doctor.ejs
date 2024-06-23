@@ -57,8 +57,8 @@
                                     class="editable-text">
                             </div>
                             <div class="info" id="address">
-                                Address: <input type="text" name="adress"
-                                    value="<%= typeof adress !== 'undefined' ? adress : '' %>" placeholder="address"
+                                Address: <input type="text" name="address"
+                                    value="<%= typeof address !== 'undefined' ? address : '' %>" placeholder="address"
                                     class="editable-text">
                             </div>
                             <div class="info" id="password" style="white-space: nowrap;">
@@ -225,8 +225,7 @@
                     <input type="hidden" name="dr_id" id="drId" value="drId">
                     <input type="hidden" name="picIndex" id="picIndex" value="picIndex">
                     <div class="form-element">
-                        <input type="text" class="form-text" id="write" name="report"
-                            placeholder="Write your report here">
+                        <textarea class="form-text" id="write" name="report" placeholder="Write your report here"></textarea>
                     </div>
                     <div class="form-element">
                         <button type="submit" class="button" id="send">Send</button>

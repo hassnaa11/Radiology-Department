@@ -33,7 +33,7 @@
 
 
         <div class="edit-box2">
-            <form class="txt-boxes" method="POST" action="/add_doctor">
+            <form class="txt-boxes" method="POST" enctype="multipart/form-data" action="/add_doctor">
                 <label>Name:</label>
                 <input class="input-box" type="text" id="name" name="name" required>
                 <label>password:</label>
@@ -70,7 +70,7 @@
                 <label for="phone_no">Phone Number:</label>
                 <input class="input-box" id="phone_no" name="phone_no">
                 <label> photo:</label>
-                <input type="file" id="image-input" accept="image/*" name="picture">
+                <input type="file" id="image-input" accept="image/*" name="picture" id="picture">
                 <button class="edit-btn2"> Add</button>
             </form>
 
