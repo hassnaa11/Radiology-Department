@@ -37,7 +37,7 @@
                         <% } %>
                 
                         <p> Dr. <%= doctor.fname %> <%=doctor.lname %> </p>
-                        <p> <%= doctor.specialization%> </p>
+                        <p> <%= doctor.special%> </p>
                     </div>
                 <% }); %>
             </div>
@@ -92,7 +92,9 @@
             <!--<img class="profile_photo" id="picture2" name="picture" src="" width="200"
                         height="200">-->
             <!-- Form elements with value attributes -->
-            <form  action="/edit_doctor" method="POST"  id="doctorForm">
+            <img class="profile_photo" id="picture2" name="picture2" src="" width="170"
+            height="120">
+            <form  action="/edit_doctor" method="POST" enctype="multipart/form-data" id="doctorForm">
                 <input type="hidden" id="doctor_id" name="doctor_id" >
                 
                <div>
@@ -141,15 +143,15 @@
                 </div>
                 <div>
                     <label for="assistant_name">assistant_name:</label>
-                    <input type="text" id="assistant_name" name="assistant_name"" >
+                    <input type="text" id="ass_name" name="ass_name" >
                 </div>
                 <div>
                     <label for="specialization">specialization:</label>
-                    <input type="text" id="specialization" name="specialization" >
+                    <input type="text" id="special" name="special" >
                 </div>
                 <div>
                     <label for="room_no">room_no:</label>
-                    <input type="number" id="room_no" name="room_no" >
+                    <input type="number" id="dr_room" name="dr_room" >
                 </div>
                 
                 <div>
