@@ -210,6 +210,7 @@ a {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.25);
     width: 300px;
+    /* height: 300px; */
     padding: 20px 30px;
     background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
@@ -796,7 +797,7 @@ a {
     left: 50%;
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.25);
-    width: 300px;
+    /* width: 300px; */
     padding: 20px 30px;
     background: #fff;
     box-shadow: 2px 2px 5px 5px rgba(0, 0, 0, 0.15);
@@ -807,11 +808,42 @@ a {
 }
 
 .popup.active {
-    top: 50%;
+    /* top: 50%; */
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
+#popupContainer8 {
+    width: 600px;
+    height: 600px;
+}
 
+#popupContainer8 .form-element textarea {
+    height: 500px; /* Adjust the height for the text area */
+    resize: none; /* Disable resizing to keep consistent dimensions */
+}
+
+#popupContainer8 .close-btn8 {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-weight: 700;
+    font-size: xx-large;
+    color: #333;
+    cursor: pointer;
+}
+#popupContainer9 {
+    width: 300px;
+}
+
+#popupContainer9 .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-weight: 700;
+    font-size: xx-large;
+    color: #333;
+    cursor: pointer;
+}
 .popup .close-btn {
     position: absolute;
     top: 10px;

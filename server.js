@@ -582,9 +582,9 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
         const statsResult = await pool.query(`
             SELECT 
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'orthopedist') AS orthopedist_count,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'oncologist') AS oncologist_count,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'neurologist') AS neurologist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count,
                 (SELECT COUNT(*) FROM users JOIN radiologist ON users.id=radiologist.radiologist_id) AS radiologistsno
                 
         `);
@@ -1013,9 +1013,9 @@ app.get('/admin', async (req, res) => {
         const statsResult = await pool.query(`
             SELECT 
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'orthopedist') AS orthopedist_count,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'oncologist') AS oncologist_count,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.specialization = 'neurologist') AS neurologist_count
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count
         `);
 
 
@@ -1126,7 +1126,7 @@ app.get('/doctor', checkAuthenticated, allowOnly('doctor'), (req, res) => {
         password: user.password,
         email: user.email,
         fname: fname,
-        adress: user.adress,
+        address: user.address,
         picture: user.picture,
         salary: user.salary,
         age: user.age,
@@ -1230,7 +1230,7 @@ app.post("/edit_doctor", async (req, res) => {
 });
 
 app.post("/updateFormDoctor", async (req, res) => {
-    const { fname, email, adress, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
+    const { fname, email, address, password, salary, age, ass_name, phone_no, special, dr_room, start_time, end_time, picture2 } = req.body;
     console.log(picture2)
     let newage = parseInt(age)
     let newsalary = parseInt(salary)
@@ -1255,7 +1255,7 @@ app.post("/updateFormDoctor", async (req, res) => {
     }
     pool.query(
         'update users set fname=$1 , email=$2 , address=$3 , picture=$4 , age=$5 , phone_no=$6, password=$7 where id=$8',
-        [fname, email, adress, picture, newage, newphone_no, hashedPassword, userId],
+        [fname, email, address, picture, newage, newphone_no, hashedPassword, userId],
         (err) => {
             if (err) {
                 throw err;
@@ -1275,7 +1275,7 @@ app.post("/updateFormDoctor", async (req, res) => {
     user.password = password,
         user.email = email,
         user.fname = fname,
-        user.adress = adress,
+        user.address = address,
         user.picture = picture,
         user.salary = salary,
         user.age = age,

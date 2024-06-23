@@ -101,20 +101,25 @@ a {
 
 .scans-section {
   width: 85%;
-  height: 80%;
+  height: 15em;
   background-color: #FFFFFF;
   border-radius: 25px;
   grid-area: "scanslist";
-  margin-top: -12em;
+  margin-top: -10em;
 }
 
 .scans-section-header {
-  position: relative;
+  
   display: flex;
-  justify-content: center;
+  /* flex-direction: row; */
+    /* justify-content: space-between;
+    align-items: center;
+    gap: 50%; */
+  position: relative;
   height: 4em;
   width: 100%;
   padding: auto 1em;
+  margin-left: 360px;
 }
 
 .scans-button {
@@ -169,10 +174,10 @@ a {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20em;
-  width: 40em;
+  /* justify-content: space-between;
+  align-items: center; */
+  gap: 10em;
+  width: 50em;
   height: 2.8em;
   background: #FFFFFF;
   border: 2px solid #0C96C5;
