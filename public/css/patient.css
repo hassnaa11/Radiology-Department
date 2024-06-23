@@ -115,7 +115,7 @@ a {
   height: 4em;
   width: 100%;
   padding: auto 1em;
-  margin-left: 360px;
+  /* margin-left: 360px; */
 }
 
 .scans-button {
@@ -172,9 +172,9 @@ a {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 28em;
-  width: 45em;
-  height: 2.8em;
+  gap: 20em;
+  width: 50em;
+  height: 3.8em;
   background: #FFFFFF;
   border: 2px solid #0C96C5;
   border-radius: 25px;
