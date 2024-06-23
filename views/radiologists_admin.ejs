@@ -75,10 +75,10 @@
 
     <div id="popupContainer" class="popup-container">
         <div class="popup-content">
-            <img class="profile_photo" id="picture2" name="picture" src="" width="170"
+            <img class="profile_photo" id="picture2" name="picture2" src="" width="170"
                         height="170">
             <!-- Form elements with value attributes -->
-            <form action="/update_rad" method="POST"  id="radiologistForm">
+            <form action="/update_rad" method="POST" enctype="multipart/form-data"  id="radiologistForm">
             
                 <input type="hidden" id="radiologist_id" name="radiologist_id" >
                 
@@ -150,23 +150,22 @@
          <div class="cont">
             <h2 class="title-scans"> Radiologist’ Scans</h2>
           <!-- Content for the popup window -->
-          <div class="scans-section-scrollbar"> <!--SCANS SECTION WITH BLOCKS AND SCROLL BAR-->
-            
+          <div class="scans-section-scrollbar"> <!-- SCANS SECTION WITH BLOCKS AND SCROLL BAR -->
             <% radiologists.forEach(function(radiologist) { %>
                 <div id="scans_<%= radiologist.radiologist_id %>" class="scans-container">
                     <% if (radiologist.scans.length > 0) { %>
-                        <% radiologist.scans.forEach(function(scan, scanIndex) { %>
-                            <% scan.scan_pics.forEach((pic, picIndex) => { %>
-                                <div class="scan-block">
-                                    <div class="scan-code">
-                                        <%pic = pic.replace(/\\/g, '');%>
-                                        <%pic = pic.replace('public', '');%>
-                                        <%pic = pic.replace('upload', '');%>
-                                        <h3><a href="/scan_img?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Scan<%= pic %></a></h3>
-                                    </div>
+                        <% radiologist.scans.forEach(function(scan) { %>
+                            <div class="scan-block">
+                                <div class="scan-code">
+                                    <h3><a href="/scan_img?scan_id=<%= scan.scan_id %>">Scan <%= scan.scan_id %></a></h3>
+                                    <% scan.scan_pics.forEach((pic) => { %>
+                                        <% pic = pic.replace(/\\/g, '/'); %>
+                                        <% pic = pic.replace('public', ''); %>
+                                        
+                                    <% }); %>
                                 </div>
-                    <% }) %>
-                    <% }); %>
+                            </div>
+                        <% }); %>
                     <% } else { %>
                         <div class="scan-block">
                             <div class="scan-code">
@@ -177,12 +176,11 @@
                 </div>
             <% }); %>
         </div>
-         
      
              
-           </div>
+        </div>
           
-          <div  id="close-scans" class="close_btn"> &times; </div>
+        <div  id="close-scans" class="close_btn"> &times; </div>
         </div>
     </div>  
         
