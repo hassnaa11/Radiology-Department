@@ -1029,12 +1029,13 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
-                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count
+                (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count,
+                (SELECT COUNT(*) FROM users JOIN radiologist ON users.id=radiologist.radiologist_id) AS radiologistsno
         `);
 
 
 
-        const { scansno, total_doctors, orthopedist_count, oncologist_count, neurologist_count } = statsResult.rows[0];
+        const { scansno, total_doctors, orthopedist_count, oncologist_count, neurologist_count, radiologistsno } = statsResult.rows[0];
         const doctors = doctorsResult.rows;
 
         // Calculate percentages
@@ -1053,7 +1054,7 @@ app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
             phone_no: req.user.phone_no,
             password: req.user.password,
             picture: req.user.picture,
-            scansno, doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage
+            scansno, radiologistsno, doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage
         });
     } catch (err) {
         console.error("Error executing query:", err);
