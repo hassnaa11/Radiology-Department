@@ -2,11 +2,13 @@
 <p>We developed a comprehensive radiology department website to enhance the efficiency of online healthcare services, making it more accessible for patients, doctors, and radiologists. The backend is powered by Express and Node.js, while the frontend is built using JavaScript, HTML, and CSS. Here is a <a href="www.google.com">video link</a> showcasing the website.</p>
 
 # Pages:
-<a href="#visitors-page">1. Visitors Page</a>
-<a href="#admin-page">2. Admin Page </a>
-<a href="#patient-page">3. Patient Page </a>
-<a href="#radiologist-page">4. Radiologist Page </a>
-<a href="#doctor-page">5. Doctor Page</a>
+<ol>
+    <li><a href="#visitors-page">Visitors Page</a></li>
+    <li><a href="#admin-page">Admin Page</a></li>
+    <li><a href="#patient-page">Patient Page</a></li>
+    <li><a href="#radiologist-page">Radiologist Page</a></li>
+    <li><a href="#doctor-page">Doctor Page</a></li>
+</ol>
 
 <h1 id="visitors-page"> Visitors Page: </h1>
 <p>Explore all the advanced technologies available at our radiology center, along with the locations of our branches and contact numbers. You can easily sign up or log in from this page.</p>
@@ -14,8 +16,23 @@
 <img src="public\images\visitors-readme.png" >
 
 <h2>Login & Sign up: </h2>
-<img src="public\images\signup-readme.png" >
-<img src="public\images\login-readme.png" >
+<div class="inline-block-container">
+    <img width="400px" src="public\images\signup-readme.png" alt="Image 1" class="inline-image">
+    <img width="400px" src="public\images\login-readme.png" alt="Image 2" class="inline-image">
+</div>
+
+<style>
+.inline-block-container {
+    text-align: center; /* Optional: Center the images */
+}
+.inline-image {
+    display: inline-block;
+    margin-right: 10px; /* Optional: Add some space between the images */
+    max-width: 100%;
+    height: auto;
+}
+</style>
+
 
 <h1 id="admin-page"> Admin Page: </h1>
 <h2>Features:</h2>
@@ -29,7 +46,7 @@
 <img src="public\images\admin-readme1.png" >
 <h5>View & edit profile:</h5>
 <p>This feature exists in all users pages and information differs depends on the user.</p>
-<img src="public\images\profile-readme.png"> 
+<img width="300px" src="public\images\profile-readme.png"> 
 <h5>All doctors:</h5>
 <img src="public\images\readme-admin2.png" >
 <h5>All radiologists:</h5>
