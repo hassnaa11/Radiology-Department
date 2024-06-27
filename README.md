@@ -8,24 +8,24 @@
 <a href="#radiologist-page">4. Radiologist Page </a>
 <a href="#doctor-page">5. Doctor Page</a>
 
-<h3 id="visitors-page"> Visitors Page: </h3>
+<h1 id="visitors-page"> Visitors Page: </h1>
 <p>Explore all the advanced technologies available at our radiology center, along with the locations of our branches and contact numbers. You can easily sign up or log in from this page.</p>
 <p>Patients have the option to create a new account if they don't already have one, or log in if they do. Additionally, doctors, patients, and administrators can access their accounts through the login feature.</p>
-<img> ![alt text](image.png) </img>
-<img> src="image.png" </img>
+<img src="public\images\visitors-readme.png" >
 
-<h5> Login & Sign up: </h5>
+<h2>Login & Sign up: </h2>
+<img src="public\images\signup-readme.png" >
+<img src="public\images\login-readme.png" >
 
-<h3 id="admin-page"> Admin Page: </h3>
-<h4>Features:</h4>
-<p>
+<h1 id="admin-page"> Admin Page: </h1>
+<h2>Features:</h2>
+
 1. View & edit his profile information.
 2. Some statistical information.
 3. View & reply on forms (inquiries, complaints) from all users.
 4. View all doctors & radiologists profiles in the center.
 5. View all scans and reports assigned to them.
 6. Add new doctor or radiologist. 
-</p>
 <img src="public\images\admin-readme1.png" >
 <h5>View & edit profile:</h5>
 <p>This feature exists in all users pages and information differs depends on the user.</p>
@@ -35,34 +35,33 @@
 <h5>All radiologists:</h5>
 <img src="public\images\admin-readme3.png" >
 
-<h3 id="patient-page"> Patient Page: </h3>
-<h4>Features:</h4>
-<p>
+<h1 id="patient-page"> Patient Page: </h1>
+<h2>Features:</h2>
+
 1. View & edit his profile information.
 2. Make a new reservation and view all his upcoming reservations.
 3. View all his reports with scans.
 4. Send a form (inquiry or complaint) to the admin.
-</p>
 
-<h3 id="radiologist-page"> Radiologist Page: </h3>
-<h4>Features:</h4>
-<p>1.        View & edit his profile information.
-2.        View upcoming scans with patient id, date and scan type.
-3.        View done scans and upload its pictures.
-4.        Send scans to the doctor to make the report.
-5.        Send a form (inquiry or complaint) to the admin.
-6.        Admin replies appear in his messages.</p>
+<h1 id="radiologist-page"> Radiologist Page: </h1>
+<h2>Features:</h2>
 
-<h3 id="doctor-page"> Doctor Page: </h3>
-<h4>Features:</h4>
-<p>
+1. View & edit his profile information.
+2. View upcoming scans with patient id, date and scan type.
+3. View done scans and upload its pictures.
+4. Send scans to the doctor to make the report.
+5. Send a form (inquiry or complaint) to the admin.
+6. Admin replies appear in his messages.
+
+<h1 id="doctor-page"> Doctor Page: </h1>
+<h2>Features:</h2>
+
 1. View & edit his profile information.
 2. View all scans come from the radiologist.
 3. Write a report for a scan.
 4. Send a form (inquiry or complaint) to the admin.
-</p>
 
-<h3>Contributors: </h3>
+<h1>Contributors: </h1>
 <p>
 
 </p>
