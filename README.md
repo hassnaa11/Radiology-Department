@@ -26,14 +26,14 @@
 5. View all scans and reports assigned to them.
 6. Add new doctor or radiologist. 
 </p>
-<img src="/images/admin-readme.png" >
+<img src="public\images\admin-readme1.png" >
 <h5>View & edit profile:</h5>
 <p>This feature exists in all users pages and information differs depends on the user.</p>
-<img src="/images/profile-readme.png"> 
+<img src="public\images\profile-readme.png"> 
 <h5>All doctors:</h5>
-<img src="/images/readme-admin2.png" >
+<img src="public\images\readme-admin2.png" >
 <h5>All radiologists:</h5>
-<img src="/images/admin-readme3.png" >
+<img src="public\images\admin-readme3.png" >
 
 <h3 id="patient-page"> Patient Page: </h3>
 <h4>Features:</h4>
