@@ -231,9 +231,10 @@
                             <%pic=pic.replace( /\\/g, '' ); %>
                                 <%pic=pic.replace('public', '' ); %>
                                     <%pic=pic.replace('uploads', '' ); %>
-                                        <h3> Scan Number:
-                                            <%= pic %>
-                                        </h3>
+                                        <h3> Scan Number:<%= scanIndex + 1 %> 
+                                            <br>
+                                            <%= pic %> 
+                                        </a></h3>
                         </div> <!--E3MELEEHOM ANCHOR BOTH-->
                         <div class="send-button">
                             <h3><a href="/patient_report?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Open</a>
