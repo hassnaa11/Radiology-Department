@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('end_shift').value = doctors[x].end_shift;
                 document.getElementById('ass_name').value = doctors[x].ass_name;
                 document.getElementById('special').value = doctors[x].special;
-                // document.getElementById('picture2').src = doctors[x].picture;
+                document.getElementById('picture2').src = doctors[x].picture;
                 document.getElementById('dr_room').value = doctors[x].dr_room;
                 document.getElementById('doctor_id').value = id;
 
@@ -89,7 +89,6 @@ function openScanss() {
                         var h3Element = document.createElement('h3');
                         h3Element.className = 'scan-code';
                         const scanId = doctors[x].scans[z].scan_id;
-                        console.log(scanId);
                         h3Element.textContent = 'Scan ' + scanId;
 
                         // Append the h3 element to the inner div
@@ -103,7 +102,8 @@ function openScanss() {
                         scanBlockContainer.appendChild(outerDiv);
                         outerDiv.onclick = function () {
                             // Store the scan ID in localStorage
-                            localStorage.setItem('scan_id', scanId);
+                            localStorage.setItem('scan_id', doctors[x].scans[z].scan_id);
+                            console.log(doctors[x].scans[z].scan_id);
 
                             // Open the report in a new tab
                             window.open('/reports_dr_admin', "_blank");
