@@ -72,7 +72,7 @@
 </ol>
 <img src="public\images\doc-readme.png" >
 
-<h1>Contributors: </h1>
+## Contributors
 - [Ayat Tarek](https://github.com/Ayat-Tarek)
 - [Eman Abdelazeem](https://github.com/Emaaanabdelazeemm)
 - [Shahd Ahmed](https://github.com/shahdragab89)
