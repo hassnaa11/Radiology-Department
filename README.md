@@ -3,11 +3,11 @@
 
 # Pages:
 <ol>
-    <li><a href="#visitors-page">Visitors Page</a></li>
-    <li><a href="#admin-page">Admin Page</a></li>
-    <li><a href="#patient-page">Patient Page</a></li>
-    <li><a href="#radiologist-page">Radiologist Page</a></li>
-    <li><a href="#doctor-page">Doctor Page</a></li>
+    <li><h2><a href="#visitors-page">Visitors Page</a></h2></li>
+    <li><h2><a href="#admin-page">Admin Page</a></h2></li>
+    <li><h2><a href="#patient-page">Patient Page</a></h2></li>
+    <li><h2><a href="#radiologist-page">Radiologist Page</a></h2></li>
+    <li><h2><a href="#doctor-page">Doctor Page</a></h2></li>
 </ol>
 
 <h1 id="visitors-page"> Visitors Page: </h1>
@@ -21,7 +21,7 @@
     <img width="400px" src="public\images\login-readme.png" alt="Image 2" class="inline-image">
 </div>
 
-<style>
+<!-- <style>
 .inline-block-container {
     text-align: center; /* Optional: Center the images */
 }
@@ -31,18 +31,19 @@
     max-width: 100%;
     height: auto;
 }
-</style>
+</style> -->
 
 
 <h1 id="admin-page"> Admin Page: </h1>
 <h2>Features:</h2>
-
-1. View & edit his profile information.
-2. Some statistical information.
-3. View & reply on forms (inquiries, complaints) from all users.
-4. View all doctors & radiologists profiles in the center.
-5. View all scans and reports assigned to them.
-6. Add new doctor or radiologist. 
+<ol>
+<li><h2>1. View & edit his profile information.</h2></li>
+<li><h2>2. Some statistical information.</h2></li>
+<li><h2>3. View & reply on forms (inquiries, complaints) from all users.</h2></li>
+<li><h2>4. View all doctors & radiologists profiles in the center.</h2></li>
+<li><h2>5. View all scans and reports assigned to them.</h2></li>
+<li><h2>6. Add new doctor or radiologist. </h2></li>
+</ol>
 <img src="public\images\admin-readme1.png" >
 <h5>View & edit profile:</h5>
 <p>This feature exists in all users pages and information differs depends on the user.</p>
@@ -54,30 +55,30 @@
 
 <h1 id="patient-page"> Patient Page: </h1>
 <h2>Features:</h2>
-
-1. View & edit his profile information.
-2. Make a new reservation and view all his upcoming reservations.
-3. View all his reports with scans.
-4. Send a form (inquiry or complaint) to the admin.
-
+<ol>
+<li><h2>1. View & edit his profile information.</h2></li>
+<li><h2>2. Make a new reservation and view all his upcoming reservations.</h2></li>
+<li><h2>3. View all his reports with scans.</h2></li>
+<li><h2>4. Send a form (inquiry or complaint) to the admin.</h2></li>
+</ol>
 <h1 id="radiologist-page"> Radiologist Page: </h1>
 <h2>Features:</h2>
-
-1. View & edit his profile information.
-2. View upcoming scans with patient id, date and scan type.
-3. View done scans and upload its pictures.
-4. Send scans to the doctor to make the report.
-5. Send a form (inquiry or complaint) to the admin.
-6. Admin replies appear in his messages.
-
+<ol>
+<li><h2>1. View & edit his profile information.</h2></li>
+<li><h2>2. View upcoming scans with patient id, date and scan type.</h2></li>
+<li><h2>3. View done scans and upload its pictures.</h2></li>
+<li><h2>4. Send scans to the doctor to make the report.</h2></li>
+<li><h2>5. Send a form (inquiry or complaint) to the admin.</h2></li>
+<li><h2>6. Admin replies appear in his messages.</h2></li>
+</ol>
 <h1 id="doctor-page"> Doctor Page: </h1>
 <h2>Features:</h2>
-
-1. View & edit his profile information.
-2. View all scans come from the radiologist.
-3. Write a report for a scan.
-4. Send a form (inquiry or complaint) to the admin.
-
+<ol>
+<li><h2>1. View & edit his profile information.</h2></li>
+<li><h2>2. View all scans come from the radiologist.</h2></li>
+<li><h2>3. Write a report for a scan.</h2></li>
+<li><h2>4. Send a form (inquiry or complaint) to the admin.</h2></li>
+</ol>
 <h1>Contributors: </h1>
 <p>
 
