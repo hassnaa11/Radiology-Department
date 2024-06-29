@@ -1,13 +1,13 @@
 # Radiology Department Website
-<p>We developed a comprehensive radiology department website to enhance the efficiency of online healthcare services, making it more accessible for patients, doctors, and radiologists. The backend is powered by Express and Node.js, while the frontend is built using JavaScript, HTML, and CSS. Here is a <a href="www.google.com">video link</a> showcasing the website.</p>
+<p>We developed a comprehensive radiology department website to enhance the efficiency of online healthcare services, making it more accessible for patients, doctors, and radiologists. The backend is powered by Express and Node.js, while the frontend is built using JavaScript, HTML, and CSS. Here is a <a href="">video link</a> showcasing the website.</p>
 
 # Pages:
 <ol>
-    <li><h3><a href="#visitors-page">Visitors Page</a></h3></li>
-    <li><h3><a href="#admin-page">Admin Page</a></h3></li>
-    <li><h3><a href="#patient-page">Patient Page</a></h3></li>
-    <li><h3><a href="#radiologist-page">Radiologist Page</a></h3></li>
-    <li><a href="#doctor-page">Doctor Page</a></li>
+    <li><a href="#visitors-page">Visitors Page</a></li>
+    <li><a href="#admin-page">Admin Page</a></li>
+    <li><a href="#patient-page">Patient Page</a></li>
+    <li><a href="#radiologist-page">Radiologist Page</a></li>
+    <li><a font-size=”20px” href="#doctor-page">Doctor Page</a></li>
 </ol>
 
 <h1 id="visitors-page"> Visitors Page: </h1>
