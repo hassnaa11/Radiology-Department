@@ -7,7 +7,7 @@
     <li><a href="#admin-page">Admin Page</a></li>
     <li><a href="#patient-page">Patient Page</a></li>
     <li><a href="#radiologist-page">Radiologist Page</a></li>
-    <li><a font-size=”20px” href="#doctor-page">Doctor Page</a></li>
+    <li><a style{font-size=”20px”} href="#doctor-page">Doctor Page</a></li>
 </ol>
 
 <h1 id="visitors-page"> Visitors Page: </h1>
