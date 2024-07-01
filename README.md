@@ -7,7 +7,7 @@
     <li><a href="#admin-page">Admin Page</a></li>
     <li><a href="#patient-page">Patient Page</a></li>
     <li><a href="#radiologist-page">Radiologist Page</a></li>
-    <li><a style{font-size=”20px”} href="#doctor-page">Doctor Page</a></li>
+    <li><a style={font-size:"20px";} href="#doctor-page">Doctor Page</a></li>
 </ol>
 
 <h1 id="visitors-page"> Visitors Page: </h1>
@@ -17,8 +17,8 @@
 
 <h2>Login & Sign up: </h2>
 <div class="inline-block-container">
+    <img width="400px" src="public\images\signin-readme.png" alt="Image 2" class="inline-image">
     <img width="400px" src="public\images\signup-readme.png" alt="Image 1" class="inline-image">
-    <img width="400px" src="public\images\login-readme.png" alt="Image 2" class="inline-image">
 </div>
 
 <h1 id="admin-page"> Admin Page: </h1>
