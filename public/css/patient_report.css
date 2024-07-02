@@ -69,12 +69,16 @@ body {
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
 }
+.scan-image{
+    width: 300px;
+    height: 300px;
+}
 
 .left div:hover {
     box-shadow: 0 0 8px 1px #077da66e;
     transform: perspective(200px) translateZ(9px);
 }
 .scan-image{
-    width: 90%;
-    height: 90%;
+    width: 300px;;
+    height: 300px;
 }

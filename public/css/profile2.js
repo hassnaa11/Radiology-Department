@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     // Open a new window with specified URL, width, height, and other options for the first button
     document.getElementById("ADD_btn").addEventListener("click", function() {
@@ -29,20 +30,20 @@ document.addEventListener("DOMContentLoaded", function() {
             if (id ==doctors[x].doctor_id) {
             
         
-                document.getElementById('fullname').value  = doctors[x].fname + ' ' +doctors[x].lname;
-                document.getElementById('email').value  = doctors[x].email;
-                document.getElementById('address').value  = doctors[x].address;
-                document.getElementById('age').value  = doctors[x].age;
-                document.getElementById('sex').value  = doctors[x].sex;
-                document.getElementById('salary').value  = doctors[x].salary;
-                document.getElementById('phone_no').value  = doctors[x].phone_no;
-                document.getElementById('start_shift').value  =doctors[x].start_shift;
-                document.getElementById('end_shift').value  = doctors[x].end_shift;
-                document.getElementById('ass_name').value  = doctors[x].ass_name;
-                document.getElementById('special').value  = doctors[x].special;
+                document.getElementById('fullname').value = doctors[x].fname + ' ' + doctors[x].lname;
+                document.getElementById('email').value = doctors[x].email;
+                document.getElementById('address').value = doctors[x].address;
+                document.getElementById('age').value = doctors[x].age;
+                document.getElementById('sex').value = doctors[x].sex;
+                document.getElementById('salary').value = doctors[x].salary;
+                document.getElementById('phone_no').value = doctors[x].phone_no;
+                document.getElementById('start_shift').value = doctors[x].start_time;
+                document.getElementById('end_shift').value = doctors[x].end_time;
+                document.getElementById('ass_name').value = doctors[x].ass_name;
+                document.getElementById('special').value = doctors[x].special;
                 document.getElementById('picture2').src = doctors[x].picture;
-                document.getElementById('dr_room').value  = doctors[x].dr_room;
-                document.getElementById('doctor_id').value  = id;
+                document.getElementById('dr_room').value = doctors[x].dr_room;
+                document.getElementById('doctor_id').value = id;
 
     
                 document.getElementById('popupContainer').style.display = 'block';

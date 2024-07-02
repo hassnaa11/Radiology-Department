@@ -69,7 +69,9 @@ if (selectedIndex !== -1) {
 
         selectedScan.scan_pics.forEach((pic, index) => {
             let img = document.createElement('img');
-            img.src = `/images/uploads/${pic}.jpg`;
+            pic=pic.replace(/\\/g,'/');
+            pic=pic.replace('public','');
+            img.src = `${pic}`;
             img.classList.add('scan-image');
             img.alt = 'Scan Image';
             img.id = `scan-image${index + 1}`; // ID should be unique for each image
