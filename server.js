@@ -815,6 +815,7 @@ app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, re
                 users.age,
                 users.sex,
                 users.type,
+                users.picture,
                 scans.scan_id,
                 scans.scan_folder,
                 users.picture,
