@@ -48,39 +48,40 @@
                     <form action="/rad_profile" method="POST" enctype="multipart/form-data">
                         <div>
                             <label for="fName">Name:</label>
-                            <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                            <input type="text" name="fullName" placeholder="full name" value="<%=fname +' '+ lname %>"
+                                required>
                         </div>
                         <div>
                             <label for="email">Email:</label>
-                            <input type="email" name="email" placeholder="<%=email %>" required>
+                            <input type="email" name="email" placeholder="email" value="<%=email %>" required>
                         </div>
                         <div>
                             <label for="fName">Address:</label>
-                            <input type="text" name="address" placeholder="<%=address%>" required>
+                            <input type="text" name="address" placeholder="address" value="<%=address%>" required>
                         </div>
                         <div>
                             <label for="fName">Age:</label>
-                            <input type="number" name="age" placeholder="<%=age%>" required>
+                            <input type="number" name="age" placeholder="age" value="<%=age%>" required>
                         </div>
                         <div>
                             <label for="fName">Sex:</label>
-                            <input type="text" name="sex" placeholder="<%=sex%>" required>
+                            <input type="text" name="sex" placeholder="sex" value="<%=sex%>" required>
                         </div>
                         <div>
                             <label for="fName">Phone:</label>
-                            <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
+                            <input type="tel" name="phone_no" placeholder="phone number" value="<%=phone_no%>" required>
                         </div>
-                        <div>
+                        <!-- <div>
                             <label for="fName">Salary:</label>
-                            <input type="number" placeholder="<%=salary%>" readonly>
-                        </div>
+                            <input type="number" value="<%=salary%>" readonly>
+                        </div> -->
                         <div>
                             <label for="fName">Start Shift:</label>
-                            <input type="number" placeholder="<%=start_shift%>" readonly>
+                            <input type="time" placeholder="start shift" value="<%=start_shift%>" readonly>
                         </div>
                         <div>
                             <label>End Shift:</label>
-                            <input type="number" placeholder="<%=end_shift%>" readonly>
+                            <input type="time" placeholder="end shift" value="<%=end_shift%>" readonly>
                         </div>
                         <div>
                             <label>Change Password:</label>

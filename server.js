@@ -1,11 +1,3 @@
-//We utilized Node.js and Express to handle the backend functionalities,
-//while HTML, CSS, and JavaScript were employed for the frontend development.
-//Additionally, we integrated a PostgreSQL database to store user details such as:
-//email, name, address, picture, and social media accounts.
-//Users have the capability to modify all their information,
-// and any changes made are reflected in the database.
-
-
 // importing libraries
 const express = require("express");
 const app = express();
@@ -26,7 +18,6 @@ const storage = multer.diskStorage({
         cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
     }
 });
-
 
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
@@ -55,7 +46,6 @@ const ROOT_DIR = path.resolve(__dirname);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(ROOT_DIR, 'views'));
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -215,18 +205,13 @@ app.get('/patient', checkAuthenticated, allowOnly('patient'), async (req, res) =
 app.post("/take_appointment", async (req, res) => {
     const patientId = req.user.id; // Assuming `req.user.id` contains the patient's ID
     const { scanType, date, time } = req.body;
-
     console.log(scanType, date, time);
-
     let errors = [];
-
     // Validate the input
     if (!scanType || !date || !time) {
         msg_p = 'error bro';
     }
-
     const scanDateTime = new Date(`${date}T${time}:00`);
-
     // Check if the chosen date and time are in the past
     const now = new Date();
     if (scanDateTime < now) {
@@ -416,120 +401,8 @@ app.get('/radiologist', checkAuthenticated, allowOnly('radiologist'), async (req
 app.get('/engineers_admin', checkAuthenticated, allowOnly('admin'), (req, res) => {
     res.render("engineers_admin.ejs")
 });
-// doctors_admin window route
-// app.get('/doctors_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
-//     try {
-//         // Query to get doctors' information
-//         const doctorsResult = await pool.query(`
-//             SELECT 
-//                 doctor.*,
-//                 users.fname, 
-//                 users.lname, 
-//                 users.email, 
-//                 users.address, 
-//                 users.phone_no,
-//                 users.age,
-//                 users.sex,
-//                 users.type,
-//                 scans.scan_id,
-//                 scans.scan_folder,
-//                 scans.scan_pics
-//             FROM 
-//                 doctor
-//             JOIN 
-//                 users 
-//             ON 
-//                 doctor.doctor_id = users.id
-//             LEFT JOIN scans ON scans.dr_id = doctor.doctor_id
-//         `);
-
-
-//         const doctors = doctorsResult.rows.reduce((acc, row) => {
-//             const {
-//                 doctor_id,
-//                 fname,
-//                 lname,
-//                 email,
-//                 address,
-//                 phone_no,
-//                 salary,
-//                 assistant_name,
-//                 room_no,
-//                 specialization,
-//                 age,
-//                 sex,
-//                 type,
-//                 scan_id,
-//                 start_shift,
-//                 end_shift,
-//                 scan_folder,
-//                 scan_pics
-//             } = row;
-
-//             // Check if radiologist already exists in the accumulator
-//             let doctor = acc.find(doctor => doctor.doctor_id === doctor_id);
-//             if (!doctor) {
-//                 doctor = {
-//                     doctor_id,
-//                     fname,
-//                     lname,
-//                     email,
-//                     address,
-//                     phone_no,
-//                     age,
-//                     salary,
-//                     assistant_name,
-//                     room_no,
-//                     specialization,
-//                     start_shift,
-//                     end_shift,
-//                     scan_id,
-//                     sex,
-//                     type,
-//                     scans: []
-//                 };
-//                 acc.push(doctor);
-//             }
-
-//             // Push scans to the radiologist's scans array
-//             if (scan_id) {
-//                 doctor.scans.push({
-//                     scan_id,
-//                     scan_folder,
-//                     scan_pics
-//                 });
-//             }
-
-//             return acc;
-//         }, []);
-
-//         // Query to get the statistics
-//         const statsResult = await pool.query(`
-//             SELECT 
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'female') AS total_women,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE users.sex = 'male') AS total_men
-//         `);
-
-//         // Extract data from results
-//         const { total_doctors, total_women, total_men } = statsResult.rows[0];
-
-//         // Calculate percentages
-//         const women_percentage = (total_women / total_doctors) * 100;
-//         const men_percentage = (total_men / total_doctors) * 100;
-
-//         // Render the template with the required data
-//         res.render("doctors_admin.ejs", { doctors, women_percentage, men_percentage });
-//     } catch (err) {
-//         console.error("Error executing query:", err);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
 
 app.get('/reports_dr_admin', async (req, res) => {
-
-
-
     try {
         const scanResult = await pool.query(`
             SELECT 
@@ -548,72 +421,16 @@ app.get('/reports_dr_admin', async (req, res) => {
             ON 
                 doctor.doctor_id = scans.dr_id
         `);
-
         const scans = scanResult.rows
-
         if (scans === 0) {
             return res.status(404).send("Scan not found");
         }
-
-
-
         res.render("reports_dr_admin.ejs", { scans });
     } catch (err) {
         console.error("Error executing query:", err);
         res.status(500).send("Internal Server Error");
     }
 });
-
-
-
-// app.get('/admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {
-//     try {
-//         // Query to get doctors' information
-//         const doctorsResult = await pool.query(`
-//             SELECT 
-//                 doctor.*,
-//                 users.fname, 
-//                 users.lname, 
-//                 users.email, 
-//                 users.address, 
-//                 users.phone_no,
-//                 users.age,
-//                 users.sex,
-//                 users.type
-//             FROM 
-//                 doctor
-//             JOIN 
-//                 users 
-//             ON 
-//                 doctor.doctor_id = users.id
-//         `);
-//         const statsResult = await pool.query(`
-//             SELECT 
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id) AS total_doctors,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'orthopedist') AS orthopedist_count,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'oncologist') AS oncologist_count,
-//                 (SELECT COUNT(*) FROM users JOIN doctor ON users.id = doctor.doctor_id WHERE doctor.special = 'neurologist') AS neurologist_count,
-//                 (SELECT COUNT(*) FROM users JOIN radiologist ON users.id=radiologist.radiologist_id) AS radiologistsno
-
-//         `);
-
-
-
-//         const { total_doctors, orthopedist_count, oncologist_count, neurologist_count, radiologistsno } = statsResult.rows[0];
-//         const doctors = doctorsResult.rows;
-
-// //         // Calculate percentages
-// //         const orthopedist_percentage = (orthopedist_count / total_doctors) * 100;
-// //         const oncologist_percentage = (oncologist_count / total_doctors) * 100;
-// //         const neurologist_percentage = (neurologist_count / total_doctors) * 100;
-
-//         // Render the template with the required data
-//         res.render("admin.ejs", { doctors, total_doctors, orthopedist_percentage, oncologist_percentage, neurologist_percentage, radiologistsno });
-//     } catch (err) {
-//         console.error("Error executing query:", err);
-//         res.status(500).send("Internal Server Error");
-//     }
-// });
 
 // radiologists_admin window route
 app.get('/radiologists_admin', checkAuthenticated, allowOnly('admin'), async (req, res) => {

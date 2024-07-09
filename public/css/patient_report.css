@@ -56,11 +56,12 @@ body {
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
 }
-.selectedReport{
+
+.selectedReport {
     /* margin-left: 300px; */
     white-space: pre-wrap;
     background-color: var(--light-color);
-    height:800px;
+    height: 800px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -69,16 +70,13 @@ body {
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
 }
-.scan-image{
+
+/* .scan-image {
     width: 300px;
     height: 300px;
-}
+} */
 
 .left div:hover {
     box-shadow: 0 0 8px 1px #077da66e;
     transform: perspective(200px) translateZ(9px);
-}
-.scan-image{
-    width: 300px;;
-    height: 300px;
 }

@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-
-document.addEventListener("DOMContentLoaded", function() {
-=======
 document.addEventListener("DOMContentLoaded", function () {
->>>>>>> 01b70ec05f078f5f3515b424c1dc90f86ec30aae
     // Open a new window with specified URL, width, height, and other options for the first button
     document.getElementById("ADD_btn").addEventListener("click", function () {
         console.log("ADD clicked");
@@ -12,28 +7,29 @@ document.addEventListener("DOMContentLoaded", function () {
         var left = (screen.width - width) / 2;
         var top = (screen.height - height) / 2;
         window.open("add_doctor", "Pop-up Window", `width=${width},height=${height},top=${top},left=${left}`);
-    });});
-    document.addEventListener("DOMContentLoaded", function() {
-        try {
-            const doctorsData = document.getElementById('doctorsData').value;
-            console.log("Raw JSON data:", doctorsData); // Log the raw JSON data
-            const doctors = JSON.parse(doctorsData);
-            console.log("Parsed doctors data:", doctors); // Log the parsed doctors data
-        } catch (error) {
-            console.error("Error parsing JSON data:", error);
-        }
-    
-        window.openPopup = function(id) {
-            console.log("openPopup called with id:", id); // Log when function is called
-            const doctors= JSON.parse(document.getElementById('doctorsData').value);
-            console.log("Parsed doctors data:", doctors); // Log parsed doctors data
-            
-            console.log("Looking for doctor with id:", id); // Log the id being looked for
-            console.log("Found doctor:",doctors); // Log found doctor
-            for (let x = 0; x < doctors.length; x++) {
-            if (id ==doctors[x].doctor_id) {
-            
-        
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    try {
+        const doctorsData = document.getElementById('doctorsData').value;
+        console.log("Raw JSON data:", doctorsData); // Log the raw JSON data
+        const doctors = JSON.parse(doctorsData);
+        console.log("Parsed doctors data:", doctors); // Log the parsed doctors data
+    } catch (error) {
+        console.error("Error parsing JSON data:", error);
+    }
+
+    window.openPopup = function (id) {
+        console.log("openPopup called with id:", id); // Log when function is called
+        const doctors = JSON.parse(document.getElementById('doctorsData').value);
+        console.log("Parsed doctors data:", doctors); // Log parsed doctors data
+
+        console.log("Looking for doctor with id:", id); // Log the id being looked for
+        console.log("Found doctor:", doctors); // Log found doctor
+        for (let x = 0; x < doctors.length; x++) {
+            if (id == doctors[x].doctor_id) {
+
+
                 document.getElementById('fullname').value = doctors[x].fname + ' ' + doctors[x].lname;
                 document.getElementById('email').value = doctors[x].email;
                 document.getElementById('address').value = doctors[x].address;

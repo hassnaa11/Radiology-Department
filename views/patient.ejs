@@ -53,27 +53,28 @@
                     <form action="/patient_profile" method="POST" enctype="multipart/form-data">
                         <div>
                             <label for="fName">Name:</label>
-                            <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                            <input type="text" name="fullName" placeholder="full name" value="<%=fname +' '+ lname %>"
+                                required>
                         </div>
                         <div>
                             <label for="email">Email:</label>
-                            <input type="email" name="email" placeholder="<%=email %>" required>
+                            <input type="email" name="email" placeholder="email" value="<%=email %>" required>
                         </div>
                         <div>
                             <label for="fName">Address:</label>
-                            <input type="text" name="address" placeholder="<%=address%>" required>
+                            <input type="text" name="address" placeholder="address" value="<%=address%>" required>
                         </div>
                         <div>
                             <label for="fName">Age:</label>
-                            <input type="number" name="age" placeholder="<%=age%>" required>
+                            <input type="number" name="age" placeholder="age" value="<%=age%>" required>
                         </div>
                         <div>
                             <label for="fName">Sex:</label>
-                            <input type="text" name="sex" placeholder="<%=sex%>" required>
+                            <input type="text" name="sex" placeholder="sex" value="<%=sex%>" required>
                         </div>
                         <div>
                             <label for="fName">Phone:</label>
-                            <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
+                            <input type="tel" name="phone_no" placeholder="phone number" value="<%=phone_no%>" required>
                         </div>
                         <div>
                             <label>Change Password:</label>
@@ -93,7 +94,8 @@
         <div class="profile-body">
             <img id="profile-photo" name="picture" src="<%=picture %>" class="profile-pic" width="230" height="230">
             <div class="profile-details">
-                <h2><%= fname + " " + lname %>
+                <h2>
+                    <%= fname + " " + lname %>
                 </h2>
                 <p>Patient</p>
             </div>
@@ -177,6 +179,12 @@
                 </select>
                 <label for="date">Date:</label>
                 <input type="date" id="date" name="date" required>
+                <script>
+                    document.addEventListener('DOMContentLoaded', (event) => {
+                        const today = new Date().toISOString().split('T')[0];
+                        document.getElementById('date').setAttribute('min', today);
+                    });
+                </script>
                 <label for="time">Time:</label>
                 <select id="time" name="time" required>
                     <option value="08:00">08:00 AM</option>
@@ -231,10 +239,10 @@
                             <%pic=pic.replace( /\\/g, '' ); %>
                                 <%pic=pic.replace('public', '' ); %>
                                     <%pic=pic.replace('uploads', '' ); %>
-                                        <h3> Scan Number:<%= scanIndex + 1 %> 
-                                            <br>
-                                            <%= pic %> 
-                                        </a></h3>
+                                        <h3> Scan Number:<%= scanIndex + 1 %>
+                                                <br>
+                                                <%= pic %>
+                                                    </a></h3>
                         </div> <!--E3MELEEHOM ANCHOR BOTH-->
                         <div class="send-button">
                             <h3><a href="/patient_report?scan_id=<%= scan.scan_id %>&pic_index=<%= picIndex %>">Open</a>

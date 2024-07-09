@@ -40,27 +40,28 @@
                 <form action="/rad_profile" method="POST" enctype="multipart/form-data">
                     <div>
                         <label for="fName">Name:</label>
-                        <input type="text" name="fullName" placeholder="<%=fname +' '+ lname %>" required>
+                        <input type="text" name="fullName" placeholder="full name" value="<%=fname +' '+ lname %>"
+                            required>
                     </div>
                     <div>
                         <label for="email">Email:</label>
-                        <input type="email" name="email" placeholder="<%=email %>" required>
+                        <input type="email" name="email" placeholder="email" value="<%=email %>" required>
                     </div>
                     <div>
                         <label for="fName">Address:</label>
-                        <input type="text" name="address" placeholder="<%=address%>" required>
+                        <input type="text" name="address" placeholder="address" value="<%=address%>" required>
                     </div>
                     <div>
                         <label for="fName">Age:</label>
-                        <input type="number" name="age" placeholder="<%=age%>" required>
+                        <input type="number" name="age" placeholder="age" value="<%=age%>" required>
                     </div>
                     <div>
                         <label for="fName">Sex:</label>
-                        <input type="text" name="sex" placeholder="<%=sex%>" required>
+                        <input type="text" name="sex" placeholder="sex" value="<%=sex%>" required>
                     </div>
                     <div>
                         <label for="fName">Phone:</label>
-                        <input type="tel" name="phone_no" placeholder="<%=phone_no%>" required>
+                        <input type="tel" name="phone_no" placeholder="phone number" value="<%=phone_no%>" required>
                     </div>
                     <div>
                         <label>Change Password:</label>
@@ -113,7 +114,7 @@
                 <div class="outer">
                     <div class="inner">
                         <div id="number">
-                            <%=Math.round(neurologist_percentage)%>%
+                            <%=Math.round(orthopedist_percentage)%>%
                         </div>
                     </div>
                 </div>
@@ -128,7 +129,7 @@
                     <circle class="circle1" cx="54.5" cy="54.5" r="44" stroke-linecap="round" />
 
                 </svg>
-                <p>neurologist</p>
+                <p>orthopedist</p>
             </div>
             <div class="skill">
                 <div class="outer">
@@ -155,7 +156,7 @@
                 <div class="outer">
                     <div class="inner">
                         <div id="number">
-                            <%=Math.round(orthopedist_percentage)%>%
+                            <%=Math.round(neurologist_percentage)%>%
                         </div>
                     </div>
                 </div>
@@ -169,7 +170,7 @@
                     </defs>
                     <circle class="circle3" cx="54.5" cy="54.5" r="44" stroke-linecap="round" />
                 </svg>
-                <p>orthopedist</p>
+                <p>neurologist</p>
             </div>
         </div>
 

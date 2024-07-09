@@ -20,7 +20,7 @@
 <body>
 
     <div class="container">
-        <img src="/images/radiologist.jpg" width="550px" height="400px" class="radiologist_img">
+        <img src="/images/radiologist.jpg" width="500px" height="400px" class="radiologist_img">
         <div class="radiologist_table">
             <div class="navbar">
                 <div class="title">Our Radiologists</div>
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="submit-profile-btn">
-                    <input type="submit" value="Update">
+                    <input type="submit" class="submit_btn" value="Update">
                 </div>
             </form>
             <div onclick="closePopup()" class="close_btn">&times;</div>
@@ -151,37 +151,38 @@
     <div id="scanspopup" class="popup-scans">
         <div class="scans-content">
             <div class="cont">
-                <h2 class="title-scans"> Radiologist’ Scans</h2>
+                <h2 class="title-scans"> Radiologist’s Scans</h2>
                 <!-- Content for the popup window -->
                 <div class="scans-section-scrollbar"> <!-- SCANS SECTION WITH BLOCKS AND SCROLL BAR -->
                     <% radiologists.forEach(function(radiologist) { %>
                         <div id="scans_<%= radiologist.radiologist_id %>" class="scans-container">
                             <% if (radiologist.scans.length> 0) { %>
                                 <% radiologist.scans.forEach(function(scan) { %>
-                                    <% if (scan.scan_pics && scan.scan_pics.length > 0) { %>
-                                    <div class="scan-block">
-                                        <div class="scan-code">
-                                            <h3><a href="/scan_img?scan_id=<%= scan.scan_id %>">Scan <%= scan.scan_id %>
-                                                        </a></h3>
-                                                
-                                            <% scan.scan_pics.forEach((pic)=> { %>
-                                                <% pic=pic.replace(/\\/g, '/' ); %>
-                                                <% pic=pic.replace('public', '' ); %>
+                                    <% if (scan.scan_pics && scan.scan_pics.length> 0) { %>
+                                        <div class="scan-block">
+                                            <div class="scan-code">
+                                                <h3><a href="/scan_img?scan_id=<%= scan.scan_id %>">Scan <%=
+                                                            scan.scan_id %>
+                                                    </a></h3>
 
-                                    <% }); %>
-                                        </div>
-                                    </div>
-                                    <% } %>
-                                    <% }); %>
-                                   
-                                
-                                        <% } else { %>
-                                            <div class="scan-block">
-                                                <div class="scan-code">
-                                                    <p>No scans available for this radiologist.</p>
-                                                </div>
+                                                <% scan.scan_pics.forEach((pic)=> { %>
+                                                    <% pic=pic.replace(/\\/g, '/' ); %>
+                                                        <% pic=pic.replace('public', '' ); %>
+
+                                                            <% }); %>
                                             </div>
-                                            <% } %>
+                                        </div>
+                                        <% } %>
+                                            <% }); %>
+
+
+                                                <% } else { %>
+                                                    <div class="scan-block">
+                                                        <div class="scan-code">
+                                                            <p>No scans available for this radiologist.</p>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
                         </div>
                         <% }); %>
                 </div>
