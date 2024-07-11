@@ -942,7 +942,7 @@ app.get('/patient_report', checkAuthenticated, allowOnly('patient'), (req, res) 
             }
         })
 });
-app.get('/doctor_scan', checkAuthenticated, allowOnly('doctor'), async (req, res) => {
+app.get('/doctor_scan', checkAuthenticated, async (req, res) => {
     const { scan_id, pic_index } = req.query;
     const result = await pool.query(
         'SELECT scan_pics FROM scans WHERE scan_id = $1',
@@ -1048,19 +1048,26 @@ app.post("/edit_doctor", async (req, res) => {
     const parts = fullname.trim().split(' ');
     const fname = parts.shift() || ''; // First element as first name, default to empty string if undefined
     const lname = parts.pop() || ''; // Last element as last name, default to empty string if undefined
+    let hashedPassword = '';
 
+    if (password === '') {
+        const oldPasswordResult = await pool.query(`SELECT password FROM users WHERE users.id = $1`, [doctor_id]);
+        hashedPassword = oldPasswordResult.rows[0].password;
+    } else {
+        hashedPassword = await bcrypt.hash(password, 10);
+    }
     //  const picture = req.file ? req.file.path : null;
 
     try {
         // Update users table
         await pool.query(
             'UPDATE users SET fname=$1, lname=$2 ,email=$3,sex=$4,address=$5, age=$6, password=$7, phone_no=$8 WHERE id=$9',
-            [fname, lname, email, sex, address, newage, password, phone_no, doctor_id]
+            [fname, lname, email, sex, address, newage, hashedPassword, phone_no, doctor_id]
         );
 
         // Update doctor table
         await pool.query(
-            'UPDATE doctor SET  salary=$1,  start_shift=$2, end_shift=$3 , special=$4, dr_room=$5, ass_name=$6 WHERE doctor_id=$7',
+            'UPDATE doctor SET  salary=$1,  start_time=$2, end_time=$3 , special=$4, dr_room=$5, ass_name=$6 WHERE doctor_id=$7',
             [newsalary, start_shift, end_shift, special, dr_room, ass_name, doctor_id]
         );
 

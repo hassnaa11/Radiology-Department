@@ -17,8 +17,6 @@ body {
     height: 100vh;
     color: var(--color-dark);
     display: grid;
-    /* grid-template-columns: repeat(2, 50%);
-    gap: 140px; */
 }
 
 .top-side {
@@ -37,8 +35,6 @@ body {
 
 .left {
     display: grid;
-    /* grid-template-columns: repeat(2, 50%); */
-    /* gap: 50px; */
     padding: 100px;
     padding-top: 60px;
     width: 100%;
@@ -47,7 +43,7 @@ body {
 
 .selectedPic {
     background-color: var(--light-color);
-    height: 90%;
+    height: 600px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -55,13 +51,17 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
+}
+
+img {
+    width: 90%;
+    height: 90%;
 }
 
 .selectedReport {
-    /* margin-left: 300px; */
     white-space: pre-wrap;
     background-color: var(--light-color);
-    height: 800px;
+    height: 100px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -69,14 +69,4 @@ body {
     border-radius: 15px;
     box-shadow: 0 0 4px 0px #077da66e;
     transition: 0.4s;
-}
-
-/* .scan-image {
-    width: 300px;
-    height: 300px;
-} */
-
-.left div:hover {
-    box-shadow: 0 0 8px 1px #077da66e;
-    transform: perspective(200px) translateZ(9px);
 }

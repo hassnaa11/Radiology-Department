@@ -2,19 +2,10 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-
     <link href="/css/doctors_admin.css" rel="stylesheet">
-
-
     <title> radiologists </title>
-
-
-
 </head>
 
 <body>
@@ -140,9 +131,7 @@
                     <input type="file" id="picture" name="picture" accept="image/*">
                 </div>
 
-                <div class="submit-profile-btn">
-                    <input type="submit" class="submit_btn" value="Update">
-                </div>
+                <input type="submit" class="submit_btn" value="Update">
             </form>
             <div onclick="closePopup()" class="close_btn">&times;</div>
         </div>
@@ -193,16 +182,8 @@
             <div id="close-scans" class="close_btn"> &times; </div>
         </div>
     </div>
-
-
-
     <textarea id="radiologistsData" style="display:none;"><%= JSON.stringify(radiologists) %></textarea>
-
-
     <script src="/css/admin.js" defer></script>
-
-
-
 
 </body>
 
